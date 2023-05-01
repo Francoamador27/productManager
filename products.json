@@ -1,0 +1,119 @@
+[
+  {
+    "title": "franco",
+    "description": "Remera Mangas Cortas",
+    "thumbnail": "imagen",
+    "price": 0,
+    "code": "sku123",
+    "id": 1,
+    "stock": 200
+  },
+  {
+    "title": "Corto",
+    "description": "Corto",
+    "thumbnail": "imagenPantalon",
+    "price": 900,
+    "code": "sku1224",
+    "id": 2,
+    "stock": 500
+  },
+  {
+    "title": "Remera",
+    "description": "Remera Mangas Cortas",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "sku125",
+    "id": 3,
+    "stock": 200
+  },
+  {
+    "title": "Remera",
+    "description": "Remera Mangas Cortas",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "sku126",
+    "id": 4,
+    "stock": 200
+  },
+  {
+    "title": "Notebook",
+    "description": "Corto",
+    "thumbnail": "imagenPantalon",
+    "price": 900,
+    "code": "sku14324",
+    "id": 5,
+    "stock": 500
+  },
+  {
+    "title": "Corto",
+    "description": "Corto",
+    "thumbnail": "imagenPantalon",
+    "price": 900,
+    "code": "q12314324",
+    "id": 6,
+    "stock": 500
+  },
+  {
+    "title": "Remera",
+    "description": "Remera Mangas Cortas",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "sku14331226",
+    "id": 7,
+    "stock": 200
+  },
+  {
+    "title": "Corto",
+    "description": "Corto",
+    "thumbnail": "imagenPantalon",
+    "price": 900,
+    "code": "21312312324",
+    "id": 8,
+    "stock": 500
+  },
+  {
+    "title": "Computadora",
+    "description": "Core I5",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "nuevo-item",
+    "stock": "200",
+    "id": 9
+  },
+  {
+    "id": 10,
+    "title": "Computadora Nueva",
+    "description": "Core I5",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "nuesdvo-item2",
+    "stock": "200"
+  },
+  {
+    "id": 11,
+    "title": "Computadorasd Nueva",
+    "description": "Core I5",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "nuesdvo-item3",
+    "stock": "200"
+  },
+  {
+    "id": 12,
+    "title": "CompASdorasd Nueva",
+    "description": "Core I5",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "nuesdvo-item5",
+    "stock": "200"
+  },
+  {
+    "id": 13,
+    "title": "CompASdorasd Nueva",
+    "description": "Core I5",
+    "thumbnail": "imagen",
+    "price": 800,
+    "code": "nueqweao-item5",
+    "stock": "200"
+  }
+]
