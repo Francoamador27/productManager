@@ -30,8 +30,11 @@ app.get('/products', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
     const idSearch = req.params.id;
     const product = await productManager.getProductsById(idSearch);
-    return res.json(product)
-    });
+    if(product){
+        return res.status(201).json(product);
+    }
+    return res.status(400).json({message:"error No tenemos ese id"});
+});
 
 //POST = CREAR
 app.post('/products', async (req, res) => {
@@ -55,5 +58,11 @@ return res.status(200).json({message: "producto actualizado"})
 
 
 //ELIMINAR
-app.delete('/products', async (req, res) => {
+app.delete('/products/:id', async (req, res) => {
+    const idDelet = req.params.id;
+    let productDelet = await productManager.deleteProduct(idDelet);
+    if(productDelet){
+            return res.status(200).json({message: "producto eliminado"})
+    }
+    res.status(409).json({ error: "id inexistente"})
 });

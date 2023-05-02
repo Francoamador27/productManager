@@ -13,42 +13,6 @@
     "description": "Corto",
     "thumbnail": "imagenPantalon",
     "price": 900,
-    "code": "sku1224",
-    "id": 2,
-    "stock": 500
-  },
-  {
-    "title": "Remera",
-    "description": "Remera Mangas Cortas",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "sku125",
-    "id": 3,
-    "stock": 200
-  },
-  {
-    "title": "Remera",
-    "description": "Remera Mangas Cortas",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "sku126",
-    "id": 4,
-    "stock": 200
-  },
-  {
-    "title": "Notebook",
-    "description": "Corto",
-    "thumbnail": "imagenPantalon",
-    "price": 900,
-    "code": "sku14324",
-    "id": 5,
-    "stock": 500
-  },
-  {
-    "title": "Corto",
-    "description": "Corto",
-    "thumbnail": "imagenPantalon",
-    "price": 900,
     "code": "q12314324",
     "id": 6,
     "stock": 500

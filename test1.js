@@ -86,15 +86,19 @@ class ProductManager{
     }
 
     async deleteProduct(deletId){
-        await this.getProducts();
-        const productIndex = this.products.findIndex(element => element.id ===deletId);
+        try{
+            let id = parseInt(deletId);
+        let  products = await this.getProducts();
+        const productIndex = products.findIndex(element => element.id ===id);
         if(productIndex >= 0){
-            this.products= this.products.filter((item) => item.id !== deletId)
-            const productsString = JSON.stringify(this.products,null, 2);
+            products= products.filter((item) => item.id !== id)
+            const productsString = JSON.stringify(products,null, 2);
             await fs.promises.writeFile(this.path,productsString);        
             return "Producto eliminado"
-            }else{
-                return "Producto con Id no existente NO SE PUEDE ELIMINAR PORQUE NO ESTA"
+            }  
+        }
+      catch(e){
+                return ;
                 }        
     }
 
