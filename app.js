@@ -14,12 +14,22 @@ app.listen(port, () => {
 //CON QUERY  ?ID=
 
 app.get('/products', async (req, res) => {
+    try{
     const limit = req.query.limit;
     const products = await productManager.getProducts();
+    let quantity = products.length; 
     if(limit){
-        return res.json(products.slice(0,limit))
+                if(limit <= quantity ){
+                return res.json(products.slice(0,limit))
+                }else{
+                    throw res.status(409).json({message:"error No tenemos esa cantidad"});
+                }
+            }
+         return res.json(products)
+    }catch(e){
+
     }
-    return res.json(products)
+
     });
 
 app.get('/products/:id', async (req, res) => {

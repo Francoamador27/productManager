@@ -60,7 +60,6 @@ class ProductManager{
             let data = await this.getProducts();
             let id = parseInt(idSearch);
             const productByid = data.find(element => element.id ===id);
-            console.log(productByid);   
              return productByid
              
         }catch(error){
