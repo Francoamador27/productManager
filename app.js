@@ -24,9 +24,7 @@ app.get('/products', async (req, res) => {
                     return res.status(400).json({message:"error No tenemos esa cantidad"});
                 }
             }
-         return res.status(200).json(products)
-   
-
+         return res.status(201).json(products);
     });
 
 app.get('/products/:id', async (req, res) => {
