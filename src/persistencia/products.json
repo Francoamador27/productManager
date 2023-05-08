@@ -79,5 +79,65 @@
     "price": 800,
     "code": "nueqweao-item5",
     "stock": "200"
+  },
+  {
+    "id": 15,
+    "title": "botellaNueva",
+    "description": "Core I5",
+    "thumbnail": "qweqwewqeqweq",
+    "price": "800",
+    "code": "12314",
+    "stock": "200",
+    "image": "http://localhost:8080/Galeria en backend.PNG"
+  },
+  {
+    "id": 16,
+    "title": "botellaNueva",
+    "description": "Core I5",
+    "thumbnail": "qweqwewqeqweq",
+    "price": "800",
+    "code": "21321343214321421345243",
+    "stock": "200",
+    "image": "http://localhost:8080/Galeria en backend.PNG"
+  },
+  {
+    "id": 17,
+    "title": "botellaNueva",
+    "description": "Core I5",
+    "thumbnail": "qweqwewqeqweq",
+    "price": "800",
+    "code": "1321123",
+    "stock": "200",
+    "image": "http://localhost:8080/c3e12928-bef7-4347-a757-34d13715995a.webp"
+  },
+  {
+    "id": 18,
+    "title": "botellaNueva",
+    "description": "Core I5",
+    "thumbnail": "qweqwewqeqweq",
+    "price": "800",
+    "code": "213123123124324534262345",
+    "stock": "200",
+    "image": "public\\c3e12928-bef7-4347-a757-34d13715995a.webp"
+  },
+  {
+    "id": 19,
+    "title": "botellaNueva",
+    "description": "Core I5",
+    "thumbnail": "qweqwewqeqweq",
+    "price": "800",
+    "code": "323213",
+    "stock": "200",
+    "image": "/Lyca.PNG"
+  },
+  {
+    "id": 20,
+    "title": "botellaNueva",
+    "description": "Core I5",
+    "thumbnail": "qweqwewqeqweq",
+    "price": "800",
+    "code": "32423421341235346432",
+    "stock": "200",
+    "image": "/Lyca.PNG"
   }
 ]
