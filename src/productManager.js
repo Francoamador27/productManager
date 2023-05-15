@@ -1,4 +1,6 @@
 import fs from 'fs'
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 class ProductManager {
@@ -22,10 +24,13 @@ class ProductManager {
     }
 
     async addProduct(newProduct) {
+        let id = uuidv4(); 
+
         try {
             let products = await this.getProducts();
             if (!newProduct.title || !newProduct.description || !newProduct.price || !newProduct.thumbnail ||
                 !newProduct.code ||
+                !newProduct.category ||
                 !newProduct.stock
             ) {
                 return "Completar todos los datos"
@@ -34,21 +39,15 @@ class ProductManager {
 
                     return { error: `el producto  con Sku: ",${newProduct.code}, existe` };
                 } else {
-                    let maxID = 0;
-                    products.forEach((product) => {
-                        if (product.id > maxID) {
-                            maxID = product.id;
-                        }
-                    });
-                    maxID++;
-                    const id = maxID;
-                    const productCompleto = { ...newProduct, id }
-                    products.push(productCompleto);
+                    newProduct.stock = parseInt(newProduct.stock)
+                    newProduct.price = parseInt(newProduct.price)
+                    newProduct.id = id;
+                    products.push(newProduct);
                     const productsString = JSON.stringify(products, null, 2);
                     await fs.promises.writeFile(this.path, productsString);
+                    return newProduct;
                 }
             }
-            return "Producto Agregado";
         } catch (e) {
             return new Error(e)
 
@@ -79,7 +78,7 @@ class ProductManager {
                 products[productIndex] = { ...products[productIndex], ...dataUpdate, id: products[productIndex].id };
                 const productsString = JSON.stringify(products, null, 2);
                 await fs.promises.writeFile(this.path, productsString);
-                return "Producto actualizado"
+                return products[productIndex];
             } else {
                 return { error: "Debes enviar un objeto" }
             }
@@ -88,7 +87,7 @@ class ProductManager {
 
     async deleteProduct(deletId) {
         try {
-            let id = parseInt(deletId);
+            let id = deletId;
             let products = await this.getProducts();
             const productIndex = products.findIndex(element => element.id === id);
             if (productIndex >= 0) {

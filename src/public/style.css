@@ -1,0 +1,95 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.main-cont{
+    display: flex;
+}
+.contenedor{
+    margin-left:30px;
+    margin-right: 30px;
+    margin-top: 20px;
+}
+li{
+    list-style: none;
+}
+.list-product h2{
+    font-size: 30px;
+    font-weight: 900;
+}
+.list-product ul{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.list-product ul li{
+    width: 20%;
+    height: 200px;
+    padding: 10px;
+}
+img.img-card {
+    width: 100%;
+    height: auto;
+}
+.card{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+
+}
+h3.title-card {
+    font-size: 22px;
+    
+}
+p.description-card {
+    font-size: 15px;
+}
+*{box-sizing:border-box;}
+/** FORMULARIO **/
+form {
+    width: 500px;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  label {
+    width: 50%;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  
+  button#button {
+    width: 100%;
+    padding: 20px;
+}
+ul#products-life {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    justify-content: space-between;
+
+}
+li.card {
+    width: 33%;
+}
+.card-id{
+    font-size: 10px;
+}

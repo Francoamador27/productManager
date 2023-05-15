@@ -2,6 +2,8 @@ import  express  from "express";
  export const prodructsRouter = express.Router();
 import productManager from "../productManager.js"
 import { uploader } from "../utils.js";
+import { v4 as uuidv4 } from 'uuid';
+
 
 // define the home page route
 prodructsRouter.get('/', async (req, res) => {
@@ -28,16 +30,20 @@ prodructsRouter.get('/:id', async (req, res) => {
 });
 
 //POST = CREAR
-prodructsRouter.post('/', uploader.single('image') ,  async (req, res) => {
+prodructsRouter.post('/', uploader.single('thumbnail') ,  async (req, res) => {
+    try{
      let newProduct = req.body;
-     newProduct.image = "/"+ req.file.filename;
-   const product = await productManager.addProduct({id: (Math.random()* 1000000).toFixed(0),...newProduct})
-   console.log(product);
-   if (product) {
-    res.status(200).json({ message: "Producto agregado con éxito"});
-} else {
-    res.status(409).json({ error: "no se pudo crear"})
-}
+     if(req.file.filename){
+            newProduct.thumbnail = "/"+ req.file.filename;
+     } 
+        const product = await productManager.addProduct({newProduct})
+
+        res.status(200).json({ product});
+   
+    }catch(e){
+       res.status(409).json({ error: "no se pudo crear"})
+    }
+    
    
     });
 
@@ -45,8 +51,8 @@ prodructsRouter.post('/', uploader.single('image') ,  async (req, res) => {
 prodructsRouter.put('/:id', async (req, res) => {
 const datosNuevosUsuario = req.body;
 const idSearch = req.params.id;
-await productManager.updateProduct(idSearch,datosNuevosUsuario);
-return res.status(200).json({message: "producto actualizado"})
+let product = await productManager.updateProduct(idSearch,datosNuevosUsuario);
+return res.status(200).json({product})
 });
 
 
@@ -59,3 +65,5 @@ prodructsRouter.delete('/:id', async (req, res) => {
     }
     res.status(409).json({ error: "id inexistente"})
 });
+
+

@@ -107,14 +107,7 @@ class CartManager {
 
 //const cart = new CartManager("./src/persistencia/carts.json");
 
-async function async(){
- //await product.addProduct(product1)
- //await cart.getCarts();
- //await  cart.addCart("abcd");
- //await cart.getCartById(1213)
- //await cart.addPrdoductToCart("abcd",20)
-}
-async();
+
 
 export default new CartManager("./src/persistencia/carts.json");
 

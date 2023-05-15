@@ -2,49 +2,25 @@
   {
     "id": "abcd",
     "products": [
-      {
-        "idProduct": "20",
-        "quantity": 1
-      }
+  
     ]
   },
   {
     "id": "742a0303-7c33-4502-9034-bf2d131a0085",
     "products": [
-      {
-        "idProduct": "20",
-        "quantity": 1
-      }
+    
     ]
   },
   {
     "id": "40e2d517-47a9-4616-b71e-987cf470ab0b",
     "products": [
-      {
-        "idProduct": "20",
-        "quantity": 7
-      },
-      {
-        "idProduct": "7",
-        "quantity": 2
-      }
+  
     ]
   },
   {
     "id": "e28d1fce-3467-4103-ad91-86440aca14d5",
     "products": [
-      {
-        "idProduct": "7",
-        "quantity": 2
-      },
-      {
-        "idProduct": "20",
-        "quantity": 10
-      },
-      {
-        "idProduct": "1",
-        "quantity": 3
-      }
+
     ]
   },
   {

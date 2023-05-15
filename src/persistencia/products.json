@@ -1,143 +1,101 @@
 [
   {
+    "id": "e49425da-b2af-43c5-9150-ea6e9a91e6a2",
+    "title": "bicicleta",
+    "description": "Mountaine bike r19",
+    "price": 12500,
+    "code": "bici-mountaink-1",
+    "stock": 10,
+    "category": "bicicletas",
+    "thumbnail": "/bici.jpg"
+  },
+  {
+    "id": "67df9888-9027-4cb3-88ad-31cbd8ef0d55",
+    "title": "Computadora completa",
+    "description": "Micro core I5",
+    "price": 25000,
+    "code": "core-i5-comp",
+    "stock": 5,
+    "category": "tecnologia",
+    "thumbnail": "/computadora.jpg"
+  },
+  {
+    "id": "0d516225-4822-49ee-915f-163c3bde126d",
+    "title": "Computadora completa 2",
+    "description": "Micro core I7",
+    "price": 25000,
+    "code": "core-i7-comp",
+    "stock": 5,
+    "category": "tecnologia",
+    "thumbnail": "/computadora.jpg"
+  },
+  {
+    "title": "PRUEBA ULTIMA",
+    "description": "12321312",
+    "price": 12,
+    "code": "PRUEBA",
+    "stock": 1213,
+    "category": "PRUEBA",
+    "thumbnail": "C:\\fakepath\\dorso dni.PNG"
+  },
+  {
+    "id": "366f46be-a23b-4c82-8efe-23162360db9d",
+    "title": "Computadora completa 2",
+    "description": "Micro core I7",
+    "price": 25000,
+    "code": "core-9-comp",
+    "stock": 5,
+    "category": "tecnologia",
+    "thumbnail": "/305207056_517102707082847_5887289852154428188_n.jpg"
+  },
+  {
+    "id": "86833ef2-dd5c-428e-b862-1856cc42aaf6",
+    "title": "Computadora completa 2",
+    "description": "Micro core I7",
+    "price": 25000,
+    "code": "core-923424-comp",
+    "stock": 5,
+    "category": "tecnologia",
+    "thumbnail": "/305207056_517102707082847_5887289852154428188_n.jpg"
+  },
+  {
     "title": "franco",
-    "description": "Remera Mangas Cortas",
-    "thumbnail": "imagen",
-    "price": 0,
-    "code": "sku123",
-    "id": 1,
-    "stock": 200
+    "description": "inteligente",
+    "price": 123,
+    "code": "12314FRAJC0231",
+    "stock": 1312,
+    "category": "franco",
+    "thumbnail": "C:\\fakepath\\305207056_517102707082847_5887289852154428188_n.jpg",
+    "id": "8d7f1c09-300d-49f3-9587-9474dd55df8b"
   },
   {
-    "title": "Corto",
-    "description": "Corto",
-    "thumbnail": "imagenPantalon",
-    "price": 900,
-    "code": "q12314324",
-    "id": 6,
-    "stock": 500
+    "title": "franco",
+    "description": "inteligente",
+    "price": 123,
+    "code": "ROCIORAJC0231",
+    "stock": 1312,
+    "category": "franco",
+    "thumbnail": "C:\\fakepath\\foto rocio.jpg",
+    "id": "5983e604-020b-4efa-abd2-b124a5e73e92"
   },
   {
-    "title": "Remera",
-    "description": "Remera Mangas Cortas",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "sku14331226",
-    "id": 7,
-    "stock": 200
+    "title": "Nuevo",
+    "description": "Producto",
+    "price": 23,
+    "code": "2134",
+    "stock": 21,
+    "category": "computadora",
+    "thumbnail": "C:\\fakepath\\foto carnet rocio.png",
+    "id": "b88263a4-9b44-4053-871e-0dcce05096f3"
   },
   {
-    "title": "Corto",
-    "description": "Corto",
-    "thumbnail": "imagenPantalon",
-    "price": 900,
-    "code": "21312312324",
-    "id": 8,
-    "stock": 500
-  },
-  {
-    "title": "Computadora",
-    "description": "Core I5",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "nuevo-item",
-    "stock": "200",
-    "id": 9
-  },
-  {
-    "id": 10,
-    "title": "Computadora Nueva",
-    "description": "Core I5",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "nuesdvo-item2",
-    "stock": "200"
-  },
-  {
-    "id": 11,
-    "title": "Computadorasd Nueva",
-    "description": "Core I5",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "nuesdvo-item3",
-    "stock": "200"
-  },
-  {
-    "id": 12,
-    "title": "CompASdorasd Nueva",
-    "description": "Core I5",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "nuesdvo-item5",
-    "stock": "200"
-  },
-  {
-    "id": 13,
-    "title": "CompASdorasd Nueva",
-    "description": "Core I5",
-    "thumbnail": "imagen",
-    "price": 800,
-    "code": "nueqweao-item5",
-    "stock": "200"
-  },
-  {
-    "id": 15,
-    "title": "botellaNueva",
-    "description": "Core I5",
-    "thumbnail": "qweqwewqeqweq",
-    "price": "800",
-    "code": "12314",
-    "stock": "200",
-    "image": "http://localhost:8080/Galeria en backend.PNG"
-  },
-  {
-    "id": 16,
-    "title": "botellaNueva",
-    "description": "Core I5",
-    "thumbnail": "qweqwewqeqweq",
-    "price": "800",
-    "code": "21321343214321421345243",
-    "stock": "200",
-    "image": "http://localhost:8080/Galeria en backend.PNG"
-  },
-  {
-    "id": 17,
-    "title": "botellaNueva",
-    "description": "Core I5",
-    "thumbnail": "qweqwewqeqweq",
-    "price": "800",
-    "code": "1321123",
-    "stock": "200",
-    "image": "http://localhost:8080/c3e12928-bef7-4347-a757-34d13715995a.webp"
-  },
-  {
-    "id": 18,
-    "title": "botellaNueva",
-    "description": "Core I5",
-    "thumbnail": "qweqwewqeqweq",
-    "price": "800",
-    "code": "213123123124324534262345",
-    "stock": "200",
-    "image": "public\\c3e12928-bef7-4347-a757-34d13715995a.webp"
-  },
-  {
-    "id": 19,
-    "title": "botellaNueva",
-    "description": "Core I5",
-    "thumbnail": "qweqwewqeqweq",
-    "price": "800",
-    "code": "323213",
-    "stock": "200",
-    "image": "/Lyca.PNG"
-  },
-  {
-    "id": 20,
-    "title": "botellaNueva",
-    "description": "Core I5",
-    "thumbnail": "qweqwewqeqweq",
-    "price": "800",
-    "code": "32423421341235346432",
-    "stock": "200",
-    "image": "/Lyca.PNG"
+    "title": "franco",
+    "description": "asdf",
+    "price": 2,
+    "code": "aser",
+    "stock": 123,
+    "category": "afsfw",
+    "thumbnail": "C:\\fakepath\\foto rocio.jpg",
+    "id": "cba61d80-520c-49fa-8df1-9d3e4565a191"
   }
 ]
