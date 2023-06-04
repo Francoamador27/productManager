@@ -59,26 +59,6 @@
     "thumbnail": "/305207056_517102707082847_5887289852154428188_n.jpg"
   },
   {
-    "title": "franco",
-    "description": "inteligente",
-    "price": 123,
-    "code": "12314FRAJC0231",
-    "stock": 1312,
-    "category": "franco",
-    "thumbnail": "C:\\fakepath\\305207056_517102707082847_5887289852154428188_n.jpg",
-    "id": "8d7f1c09-300d-49f3-9587-9474dd55df8b"
-  },
-  {
-    "title": "franco",
-    "description": "inteligente",
-    "price": 123,
-    "code": "ROCIORAJC0231",
-    "stock": 1312,
-    "category": "franco",
-    "thumbnail": "C:\\fakepath\\foto rocio.jpg",
-    "id": "5983e604-020b-4efa-abd2-b124a5e73e92"
-  },
-  {
     "title": "Nuevo",
     "description": "Producto",
     "price": 23,
@@ -89,13 +69,23 @@
     "id": "b88263a4-9b44-4053-871e-0dcce05096f3"
   },
   {
-    "title": "franco",
-    "description": "asdf",
-    "price": 2,
-    "code": "aser",
-    "stock": 123,
-    "category": "afsfw",
+    "title": "ejemplo)",
+    "description": "franco23",
+    "price": 2322,
+    "code": "1",
+    "stock": 111,
+    "category": "12",
     "thumbnail": "C:\\fakepath\\foto rocio.jpg",
-    "id": "cba61d80-520c-49fa-8df1-9d3e4565a191"
+    "id": "039637bb-a3c9-4734-9ded-eb4581dce3f6"
+  },
+  {
+    "title": "1+12",
+    "description": "franco23",
+    "price": 2322,
+    "code": "12",
+    "stock": 2,
+    "category": "12",
+    "thumbnail": "C:\\fakepath\\frente dni.PNG",
+    "id": "9e2080fb-2abc-49df-9f4d-bc274fdedfb8"
   }
 ]

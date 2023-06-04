@@ -1,55 +1,79 @@
 import  express  from "express";
  export const prodructsRouter = express.Router();
-import productManager from "../productManager.js"
+import productManager from "../DAO/productManager.js"
 import { uploader } from "../utils.js";
-import { v4 as uuidv4 } from 'uuid';
+import { ProductsModel } from "../DAO/models/products.models.js";
+import { ProductsService } from "../services/products.services.js";
 
+const Products = new ProductsService()
+
+
+prodructsRouter.get("/", async (req, res) => {
+    try {
+        const limit = req.query.limit;
+        const data = await Products.getAll(limit);
+        return res.status(200).json({
+        status: "success",
+        msg: "listado de productos",
+        data: data,
+      });
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({
+        status: "error",
+        msg: "something went wrong :(",
+        data: {},
+      });
+    }
+  });
 
 // define the home page route
-prodructsRouter.get('/', async (req, res) => {
-    const limit = req.query.limit;
-    const products = await productManager.getProducts();
-    let quantity = products.length; 
-    if(limit){
-                if(limit <= quantity ){
-                    return res.status(200).json(products.slice(0,limit));
-                }else{
-                    return res.status(400).json({message:"error No tenemos esa cantidad"});
-                }
-            }
-         return res.status(201).json(products);
-    });
+
 
 prodructsRouter.get('/:id', async (req, res) => {
-    const idSearch = req.params.id;
-    const product = await productManager.getProductsById(idSearch);
-    if(product){
-        return res.status(201).json(product);
-    }
-    return res.status(400).json({message:"error No tenemos ese id"});
+  try{
+    const _id = req.params.id;
+    const data = await Products.getById(_id);
+    return res.status(200).json({
+      status: "success",
+      msg: "product",
+      data: data,
+    });
+  }catch(e){
+    return res.status(400).json({
+      status: "error",
+      msg: "producto no encontrado",
+      data: {},
+    }); 
+  }
 });
 
 //POST = CREAR
 prodructsRouter.post('/', uploader.single('thumbnail') ,  async (req, res) => {
     try{
      let newProduct = req.body;
-     if(req.file.filename){
-            newProduct.thumbnail = "/"+ req.file.filename;
-     } 
-        const product = await productManager.addProduct({newProduct})
-
-        res.status(200).json({ product});
-   
-    }catch(e){
-       res.status(409).json({ error: "no se pudo crear"})
-    }
-    
-   
+     newProduct.thumbnail = "/"+ req.file.filename;
+     const productCreated = await Products.createOne(newProduct);
+       return  res.status(200).json({
+                status: "success",
+                msg: "product created",
+                data: productCreated,
+              });;
+     } catch(e) {
+        return res.status(500).json({
+          status: "error",
+          msg: "something went wrong :(",
+          data: {},
+        });
+      }
     });
+
+
 
 //PUT = MODIFICAR
 prodructsRouter.put('/:id', async (req, res) => {
 const datosNuevosUsuario = req.body;
+
 const idSearch = req.params.id;
 let product = await productManager.updateProduct(idSearch,datosNuevosUsuario);
 return res.status(200).json({product})
@@ -58,12 +82,22 @@ return res.status(200).json({product})
 
 //ELIMINAR
 prodructsRouter.delete('/:id', async (req, res) => {
-    const idDelet = req.params.id;
-    let productDelet = await productManager.deleteProduct(idDelet);
-    if(productDelet){
-            return res.status(200).json({message: "producto eliminado"})
-    }
-    res.status(409).json({ error: "id inexistente"})
+  try{
+  const _id = req.params.id;
+  const productDelet= await Products.deletOne(_id);
+  return res.status(200).json({
+    status: "success",
+    msg: "product deleted",
+    data: productDelet,
+  });
+  }catch(e){
+    res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+  }
+    
 });
 
 

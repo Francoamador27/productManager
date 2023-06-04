@@ -93,3 +93,22 @@ li.card {
 .card-id{
     font-size: 10px;
 }
+/* CHAT */
+.msgs{
+    width: 100%;
+    height: 300px;
+    border: 1px solid black;
+}
+#btn-enviar{
+    background-color: blue;
+    color: white;
+    margin: 0px;
+    cursor: pointer;
+}
+p.txt-msg {
+    margin-top: 20px;
+}
+input#msg {
+    margin-bottom: 0px;
+    border: 1px solid blue;
+}

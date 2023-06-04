@@ -1,6 +1,6 @@
 import  express  from "express";
 export const viewsRouter = express.Router();
-import productManager from "../productManager.js";
+import productManager from "../DAO/productManager.js";
 
 
 // define the home page route
