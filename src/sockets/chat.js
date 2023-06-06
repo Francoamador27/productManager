@@ -1,3 +1,4 @@
+import { ChatsModel } from "../DAO/models/chats.models.js";
 import productManager from "../DAO/productManager.js";
 import { Server } from "socket.io";
 
@@ -18,9 +19,19 @@ export async  function  connectSocket(httpServer){
     })
  socketServer.emit("products",products)
 //CHAT 
- let chat = []
+
+async function iniciar(){
+  let chat = await ChatsModel.find({}).lean().exec();
+  socketServer.emit("all-msg",chat)
+}
+iniciar();
+
  socket.on('send-msg', async data=>{
-  chat.push(data)
+  let message = data.msg;
+  let user = data.user;
+  let email = data.email;
+  await ChatsModel.create({message,user,email})
+  let chat = await ChatsModel.find({}).lean().exec();
   socketServer.emit("all-msg",chat)
   })
   socket.emit("evento_socket_individual","este mensaje lo debe recibir el socket")

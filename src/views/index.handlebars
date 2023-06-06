@@ -39,10 +39,27 @@
     </form>
     
     <div class="chat">
+    <div class="data" id="data-user">
+        <h2>Ingresar sus datos</h2>
+        <label for="user">Name
+        <input type="text" name="user" id="user" required>
+        </label>
+        <label for="email">Email
+        <input type="email" name="email" id="email" required>
+        </label>
+        <input type="button" value="Guardar" id="btn-guardar">
+        
+        </div>
+<section class="div_hide" id="chat-soc">
     <h3>Chat</h3>
-   <div class="msgs" id="div-msgs"></div>
-   <p class="txt-msg">Escribe tu mensaje</p>
-    <div><input type="text" name="msg" id="msg"><input type="button" value="Enviar" id="btn-enviar"></div>
+    <div class="msgs" id="div-msgs"></div>
+    <p class="txt-msg">Escribe tu mensaje</p>
+    <div>
+        <input type="text" name="msg" id="msg">
+        <input type="button" value="Enviar" id="btn-enviar">
+    </div>
+</section>
+   
     
     </div>
         </div> 

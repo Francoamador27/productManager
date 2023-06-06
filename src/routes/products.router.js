@@ -2,7 +2,6 @@ import  express  from "express";
  export const prodructsRouter = express.Router();
 import productManager from "../DAO/productManager.js"
 import { uploader } from "../utils.js";
-import { ProductsModel } from "../DAO/models/products.models.js";
 import { ProductsService } from "../services/products.services.js";
 
 const Products = new ProductsService()
@@ -73,7 +72,6 @@ prodructsRouter.post('/', uploader.single('thumbnail') ,  async (req, res) => {
 //PUT = MODIFICAR
 prodructsRouter.put('/:id', async (req, res) => {
 const datosNuevosUsuario = req.body;
-
 const idSearch = req.params.id;
 let product = await productManager.updateProduct(idSearch,datosNuevosUsuario);
 return res.status(200).json({product})

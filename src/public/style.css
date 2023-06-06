@@ -112,3 +112,62 @@ input#msg {
     margin-bottom: 0px;
     border: 1px solid blue;
 }
+.div_hide{
+    display: none;
+}
+.div_show{
+    display: block !important;
+}
+#btn-guardar{
+    cursor: pointer;
+}
+div#div-msgs {
+    overflow: scroll;
+}
+
+
+
+p.user {
+    font-size: 13px;
+    font-family: monospace;
+    color: #fefefe;
+}
+p.email {
+    font-size: 12px;
+    color: #f7f7f7;
+    font-family: monospace;
+}
+h3.mensaje {
+    font-family: monospace;
+    color: darkslategray;
+}
+.my-msg.msgChat {
+    display: flex;
+    justify-content: end;
+    width: 97%;
+    margin: 5px;
+    
+}
+.otros-msg.msgChat {
+    display: flex;
+    justify-content: flex-start;
+    width: 97%;
+    margin: 5px;
+}
+.my-msg.msgChat div {
+   background-color: #01ff01;
+   padding: 5px;
+   -webkit-box-shadow: 10px 10px 5px 0px rgba(156,202,214,1);
+-moz-box-shadow: 10px 10px 5px 0px rgba(156,202,214,1);
+box-shadow: 10px 10px 5px 0px rgba(156,202,214,1);
+border-radius: 10px;
+
+}
+.otros-msg.msgChat div {
+    background-color: #018dff;
+    padding: 5px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(156,202,214,1);
+-moz-box-shadow: 10px 10px 5px 0px rgba(156,202,214,1);
+box-shadow: 10px 10px 5px 0px rgba(156,202,214,1);
+border-radius: 10px;
+ }
