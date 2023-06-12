@@ -1,10 +1,66 @@
+import { Console } from "console";
 import { ProductsModel } from "../DAO/models/products.models.js";
-
+import url from "url"
 export class ProductsService{
+    async getProducts(limit,page,category,filter,currentUrl,orderAsc,orderDesc){
+       let order= "asc";
+        if(orderAsc){
+            order= orderAsc;
+        }else{
+            order= orderDesc;
+        }
+         const dataProducts = await ProductsModel.paginate({category:{ $regex: category, $options:'i' } },{limit:limit || 4 ,page: page || 1, sort:([['price', order]])});;
+         const {docs, ...rest} = dataProducts;
+         let products =  docs.map((doc)=>{
+             return {id: doc.id,
+                  title: doc.title, 
+                  price:doc.price,
+                  description: doc.description,
+                  thumbnail: doc.thumbnail,
+                  stock:doc.stock,
+                 category: doc.category}
+  
+         })
+         let pagination = rest;
+         if(pagination.hasNextPage){
+             let parsedUrl = url.parse(currentUrl,true)
+             parsedUrl.query.page= pagination.nextPage;
+             let nextLink = url.format({
+                 pathname: parsedUrl.pathname,
+                 query : parsedUrl.query,
+             })
+             pagination.nextLink = nextLink;
+         }
+         if(pagination.hasPrevPage){
+             let parsedUrl = url.parse(currentUrl,true)
+             parsedUrl.query.page= pagination.prevPage;
+             let prevLink = url.format({
+                 pathname: parsedUrl.pathname,
+                 query : parsedUrl.query,
+             })
+             pagination.prevLink = prevLink;
+         }
+       
+         let parsedUrl = url.parse(currentUrl,true)
+         parsedUrl.query.orderAsc= "asc";
+         let queryObejctAsc = parsedUrl.query
+         delete queryObejctAsc.orderDesc
+                  let orderAscLink = url.format({
+             pathname: parsedUrl.pathname,
+             query : queryObejctAsc,
+         })
+         
+         pagination.orderAscLink = orderAscLink;
 
-    async getAll(limit){
-         const products = await ProductsModel.find({}).limit(limit);
-        return products;
+         parsedUrl.query.orderDesc= "desc";
+         let queryObejct = parsedUrl.query
+         delete queryObejct.orderAsc
+         let orderDescLink = url.format({
+            pathname: parsedUrl.pathname,
+            query : queryObejct,
+        })
+        pagination.orderDescLink = orderDescLink;
+        return {products,pagination};
     }
 
     async getById(_id){

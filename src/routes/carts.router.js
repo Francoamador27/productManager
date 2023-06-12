@@ -17,6 +17,7 @@ import { CartsService } from "../services/carts.services.js";
          const idCart = req.params.cid;
          const idProduct = req.params.pid;
          let  addProduct = await  Carts.addProdductCart(idCart,idProduct)
+      
          return res.status(200).json({
             status: "success",
             msg: "Product add",
@@ -55,7 +56,7 @@ import { CartsService } from "../services/carts.services.js";
          try{
             const idCart = req.params.cid;
             let  cartById = await  Carts.getById(idCart);
-            return res.status(200).json({
+          return res.status(200).json({
                status: "success",
                msg: "Cart found",
                data: cartById,

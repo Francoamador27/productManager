@@ -8,8 +8,19 @@ export class CartsService{
     }
     async getById(idCart){
         let cart = await CartsModel.findOne({_id:idCart}).populate("products.product");
-        console.log(cart)
-        return cart;
+        let products =  cart.products.map((doc)=>{
+            return {id: doc.product.id,
+                 title: doc.product.title, 
+                 price:doc.product.price,
+                 description: doc.product.description,
+                 thumbnail: doc.product.thumbnail,
+                 stock:doc.product.stock,
+                 quantity: doc.quantity,
+                 subtotal: doc.quantity*doc.product.price,
+                category: doc.product.category}
+        })
+        console.log(products)
+        return products;
       }
     async createOne(){
         const cartCreated = await CartsModel.create({});

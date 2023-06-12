@@ -9,6 +9,8 @@ import { viewsRouter } from "./routes/views.router.js";
 import cors from "cors";
 import { connectSocket } from "./sockets/chat.js";
 import { usersRouter } from "./routes/users.router.js";
+import cookieParser from 'cookie-parser';
+
 const app = express()
 const port = 8080;
 
@@ -22,7 +24,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
-
+app.use(cookieParser());
 
 app.engine("handlebars",handlebars.engine());
 app.set("views",path.join(__dirname, "views"))

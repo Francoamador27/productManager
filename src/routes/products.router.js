@@ -9,8 +9,11 @@ const Products = new ProductsService()
 
 prodructsRouter.get("/", async (req, res) => {
     try {
-        const limit = req.query.limit;
-        const data = await Products.getAll(limit);
+      var currentUrl = req.url
+        const {page} = req.query;
+        const {limit}= req.query;
+        const category = req.query.category || "";
+        const data = await Products.getProducts(limit,page,category,"",currentUrl);
         return res.status(200).json({
         status: "success",
         msg: "listado de productos",

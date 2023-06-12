@@ -87,5 +87,15 @@
     "category": "12",
     "thumbnail": "C:\\fakepath\\frente dni.PNG",
     "id": "9e2080fb-2abc-49df-9f4d-bc274fdedfb8"
+  },
+  {
+    "title": "franco",
+    "description": "hugo",
+    "price": 221,
+    "code": "sdafwqer",
+    "stock": 2,
+    "category": "computadora",
+    "thumbnail": "C:\\fakepath\\Galeria en backend.PNG",
+    "id": "bb8d4fef-8432-4e78-a848-5556e87f109a"
   }
 ]
