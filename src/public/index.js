@@ -106,7 +106,30 @@ let cartId = null;
       } 
   
   
+      const inputPrice = document.getElementById('pricefilter');
 
+      inputPrice.
+      
+      input
+      
+      
+      addEventListener('keyup', function(event) {
+        
+       
+      if (event.keyCode === 13) {
+          const value = event.target.value; // Obtener el valor del input
+          const urlParams = new URLSearchParams(window.location.search); // Obtener los parámetros de la URL actual
+          urlParams.set('maxPrice', value); // Añadir el nuevo parámetro con su valor
+      
+          
+      
+      const newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString(); // Construir la nueva URL
+      
+          
+      
+      window.location.href = newUrl; // Redirigir a la nueva URL con el parámetro añadido
+        }
+      });
   
 
 

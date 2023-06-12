@@ -172,6 +172,7 @@ box-shadow: 10px 10px 5px 0px rgba(156,202,214,1);
 border-radius: 10px;
  }
  ul {
+    margin-top: 22px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -309,4 +310,22 @@ li.card-cart {
     padding: 10px;
     border-radius: 10px;
     text-decoration: none;
+}
+input#price {
+    width: 179px;
+    height: 32px;
+    margin: 0px;
+
+}
+.checks a {
+    text-decoration: none;
+    background: blue;
+    color: white;
+    padding: 7px;
+    margin-left: 2px;
+    border-radius: 10px;
+}
+label.price {
+    width: 26%;
+    margin: 0px;
 }

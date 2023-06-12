@@ -1,15 +1,24 @@
-import { Console } from "console";
 import { ProductsModel } from "../DAO/models/products.models.js";
 import url from "url"
 export class ProductsService{
-    async getProducts(limit,page,category,filter,currentUrl,orderAsc,orderDesc){
+    async getProducts(limit,page,category,filter,currentUrl,orderAsc,orderDesc,maxPrice){
        let order= "asc";
+       let filters = {};
+       if (maxPrice) {
+        filters.price = { $lte: maxPrice };
+        }
+        if (category) {
+            filters.
+           
+        category = { $regex: category, $options:'i' };
+          }
         if(orderAsc){
             order= orderAsc;
         }else{
             order= orderDesc;
-        }
-         const dataProducts = await ProductsModel.paginate({category:{ $regex: category, $options:'i' } },{limit:limit || 4 ,page: page || 1, sort:([['price', order]])});;
+        }  
+       
+         const dataProducts = await ProductsModel.paginate(filters,{limit:limit || 4 ,page: page || 1, sort:([['price', order]])});;
          const {docs, ...rest} = dataProducts;
          let products =  docs.map((doc)=>{
              return {id: doc.id,
