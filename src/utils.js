@@ -21,7 +21,7 @@ import { connect } from "mongoose";
 export async function connectMongo() {
   try {
     await connect(
-      "mongodb+srv://francohugoamador25:5n0UFpBjSqF7loFG@cluster0.ad24vck.mongodb.net/ecommerce?retryWrites=true&w=majority"
+      "mongodb+srv://francohugoamador25:<password>@cluster0.ad24vck.mongodb.net/ecommerce?retryWrites=true&w=majority"
     );
     console.log("plug to mongo!");
   } catch (e) {
