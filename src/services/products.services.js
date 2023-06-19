@@ -9,7 +9,6 @@ export class ProductsService{
         }
         if (category) {
             filters.
-           
         category = { $regex: category, $options:'i' };
           }
         if(orderAsc){
@@ -28,7 +27,6 @@ export class ProductsService{
                   thumbnail: doc.thumbnail,
                   stock:doc.stock,
                  category: doc.category}
-  
          })
          let pagination = rest;
          if(pagination.hasNextPage){

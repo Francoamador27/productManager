@@ -31,6 +31,7 @@ usersRouter.post("/", async (req, res) => {
         data: userCreated,
       });
     } catch (e) {
+      console.log(e)
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",

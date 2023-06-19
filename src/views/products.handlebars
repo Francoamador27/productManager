@@ -1,3 +1,11 @@
+ {{#if firstNameUser}}
+<p class="btnPerfil"  ><a class="btn" href="/auth/perfil"> Hola {{firstNameUser}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
+{{else}}
+<p class="btnPerfil"  ><a class="btn" href="/auth/login"> Iniciar Sesion </a> </p>
+
+{{/if}}
+
+
 <h1>Products</h1>
 
 <h3 class="title-filter">Filtros por Categoria </h3>

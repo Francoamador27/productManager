@@ -329,3 +329,22 @@ label.price {
     width: 26%;
     margin: 0px;
 }
+.btnPerfil{
+    background-color: #018dff;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+
+}
+.btnPerfil a {
+    text-align: center;
+    font-family:monospace;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+a.logout {
+    color: red;
+    font-size: 13px;
+    text-decoration: underline;
+}

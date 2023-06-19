@@ -3,7 +3,40 @@
 
 <section class="main-cont">
      <div>
-  
+        <form  id="add-product" >
+      
+        <label for="title">Title
+            <input type="text" name="title" id="title" required />
+        </label>
+        <label for="description">Description
+            <textarea  type="text" name="description" id="description" required ></textarea>
+        </label>
+        <label for="price">Price
+            <input type="number" name="price" id="price" required />
+        </label>
+        <label for="code">Code
+            <input type="text" name="code" id="code" required />
+        </label>
+        <label for="stock">Stock
+            <input type="number" name="stock" id="stock" required />
+        </label>
+        <label for="category">Category
+            <input type="text" name="category" id="category" required />
+        </label>
+        <label for="thumbnail">Thumbnail
+            <input type="file" name="thumbnail" id="thumbnail" required />
+        </label>
+        <button type="submit" id="button">Enviar</button>
+    </form>
+    <h3>Eliminar Producto por id</h3>
+      <form  id="delet-product" >
+      
+        <label for="id">Id
+            <input type="text" name="id" id="id" required />
+        </label>
+        
+        <button type="submit" id="button">Enviar</button>
+    </form>
     
     <div class="chat">
     <div class="data" id="data-user">
