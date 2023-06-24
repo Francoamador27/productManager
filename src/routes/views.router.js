@@ -19,8 +19,8 @@ let products = await productManager.getProducts();
 viewsRouter.get('/products', async (req, res) => {
   let email ="";
   let firstNameUser ="";
-  if(req?.session?.email){
-    email = req.session.email
+  if(req?.session?.user.email){
+    email = req.session.user.email
     var usuarioEncontrado = await UserModel.findOne({email:email})
     firstNameUser = usuarioEncontrado.firstName
       }
@@ -40,60 +40,47 @@ viewsRouter.get('/products', async (req, res) => {
         return res.status(201).render('products',{products, pagination,firstNameUser});
     
     });
-    viewsRouter.get("/cart/:cid" ,  async (req, res) => {
-        console.log(req?.session?.user, req?.session?.admin)
-        try{
-           const idCart = req.params.cid;
-           let  products = await  Carts.getById(idCart);
-           let cartString = JSON.stringify(idCart)
-            console.log(cartString)
-            return res.status(201).render('cart',{products,cartString});
-        }catch(e){
-           return res.status(500).json({
-              status: "error",
-              msg: "something went wrong :(",
-              data: {},
-            });
+viewsRouter.get("/cart/:cid" ,  async (req, res) => {
+    console.log(req?.session?.user, req?.session?.admin)
+    try{
+      const idCart = req.params.cid;
+      let  products = await  Carts.getById(idCart);
+      let cartString = JSON.stringify(idCart)
+      console.log(cartString)
+      return res.status(201).render('cart',{products,cartString});
+      }catch(e){
+        return res.status(500).json({
+        status: "error",
+        msg: "something went wrong :(",
+        data: {},
+          });
         }})
 
         //Login
-        viewsRouter.get("/show-session" ,  async (req, res) => {
-            try{
-               const dataSession = req.session;
-                return res.status(201).send(JSON.stringify(dataSession));
-            }catch(e){
-               return res.status(500).json({
-                 
+viewsRouter.get("/show-session" ,  async (req, res) => {
+  try{
+   const dataSession = req.session;
+   return res.status(201).send(JSON.stringify(dataSession));
+    }catch(e){
+      return res.status(500).json({ 
                 });
             }})
 
 
-            viewsRouter.get('/logout', (req, res) => {
-                // console.log(req?.session?.user, req?.session?.admin)
-                console.log(req.session.user,req.session.admin)
-
-                req.session.destroy(err => {
-                  if (err) {
-                    return res.json({ status: 'Logout ERROR', body: err })
-                  }
-                  res.send('Logout ok!')
-                })
-                // console.log(req?.session?.user,req?.session?.admin)
-
-               })
-
-               viewsRouter.get('/login', (req, res) => {
-                const { username, password } = req.query
-
-                if (username !== 'pepe' || password !== 'pepepass') {
-                  return res.send('login failed')
-                }
-                req.session.user = username;
-                req.session.admin = true;
-                res.send('login success!')
-                console.log(req.session.user,req.session.admin)
-
-               })
-               
+viewsRouter.get('/logout', (req, res) => {
+// console.log(req?.session?.user, req?.session?.admin)
+  console.log(req.session.user,req.session.admin)
+  req.session.destroy(err => {
+  if (err) {
+    return res.json({ status: 'Logout ERROR', body: err })
+      }
+    res.send('Logout ok!')
+      })
+    // console.log(req?.session?.user,req?.session?.admin
+    })
 
                
+viewsRouter.get('/login-github', async (req, res) => {
+  res.render('login-github');
+  });
+              

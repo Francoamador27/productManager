@@ -13,6 +13,9 @@ import { authRouter } from "./routes/auth.router.js";
 import cookieParser from 'cookie-parser';
 import session from "express-session";
 import MongoStore from 'connect-mongo'
+import { iniPassport } from "./config/passport.config.js";
+import passport from "passport";
+import {  sessionsRouter } from "./routes/session.router.js";
 const app = express()
 const port = 8080;
 
@@ -29,7 +32,7 @@ app.use(cors());
 app.use(cookieParser());
 // "mongodb+srv://francohugoamador25:5n0UFpBjSqF7loFG@cluster0.ad24vck.mongodb.net/ecommerce?retryWrites=true&w=majority"
 
-
+//SESSION
 app.use(
   session({
     store: MongoStore.create({
@@ -39,6 +42,10 @@ app.use(
     saveUninitialized: true,
   })
 );
+//PASSPORT
+iniPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine("handlebars",handlebars.engine());
 app.set("views",path.join(__dirname, "views"))
@@ -46,12 +53,14 @@ app.set('view engine','handlebars');
 
 app.use("/api/products",prodructsRouter)
 app.use("/api/users",usersRouter)
+app.use("/api/sessions",sessionsRouter)
+app.use("/",viewsRouter)
+
 
 app.use("/api/carts",cartsRouter)
 app.use("/home",testRouter)
 app.use("/auth",authRouter)
 
-app.use("/",viewsRouter)
 
 
 
