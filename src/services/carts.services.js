@@ -19,11 +19,12 @@ export class CartsService{
                  subtotal: doc.quantity*doc.product.price,
                 category: doc.product.category}
         })
-        console.log(products)
         return products;
       }
     async createOne(){
         const cartCreated = await CartsModel.create({});
+        
+          console.log(cartCreated)
         return cartCreated;
     }
     async addProdductCart(idCart,idProduct){

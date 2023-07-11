@@ -1,6 +1,6 @@
 // Medialware Admin
 export function isUser(req,res,next){
-    if(req?.session?.email){
+    if(req?.session?.user.email){
   return next()
     }
     return res.status(500).render("error",{error:"no esta registrado"})

@@ -13,14 +13,15 @@ authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/au
     if (!req.user) {
       return res.json({ error: 'invalid credentials' });
     }
-    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
+    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
   
-    return res.json({ msg: 'ok', payload: req.user });
+    return res.redirect("/products")
   });
   
 
     authRouter.get("/perfil",isUser, async (req, res) => {
-        const user = {email: req.session.email,isAdmin: req.session.isAdmin}
+        const user = {email: req.session.user.email,isAdmin: req.session.user.role}
+        console.log(req.session.user)
         return res.render("perfil",{user})
         });
     
@@ -34,13 +35,14 @@ authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/au
             // console.log(req?.session?.user,req?.session?.admin)
            })
 
-           authRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }), (req, res) => {
+           authRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }),async (req, res) => {
             if (!req.user) {
               return res.json({ error: 'something went wrong' });
             }
-            req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, isAdmin: req.user.isAdmin };
-          
-            return res.json({ msg: 'ok', payload: req.user });
+
+            req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
+
+            return res.redirect("/products")
           });
           
           authRouter.get('/failregister', async (req, res) => {

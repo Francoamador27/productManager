@@ -1,10 +1,17 @@
+ <div class="btnPerfil">
+
+
  {{#if firstNameUser}}
-<p class="btnPerfil"  ><a class="btn" href="/auth/perfil"> Hola {{firstNameUser}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
+<p class=""  ><a class="btn" href="/auth/perfil"> Hola {{firstNameUser}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
 {{else}}
-<p class="btnPerfil"  ><a class="btn" href="/auth/login"> Iniciar Sesion </a> </p>
+<p class=""  ><a class="btn" href="/auth/login"> Iniciar Sesion </a> </p>
 
 {{/if}}
+    <a href="" id="view-cart"><i class="bi bi-cart"></i>
+<span id="carritoCantidad">0</span>
+</a>
 
+ </div>
 
 <h1>Products</h1>
 

@@ -11,8 +11,8 @@ export function iniPassport() {
         'github',
         new GitHubStrategy(
           {
-            clientID: 'Id',
-            clientSecret: '<secret>',
+            clientID: '',
+            clientSecret: '',
             callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
           },
           async (accesToken, _, profile, done) => {
@@ -38,7 +38,7 @@ export function iniPassport() {
                   email: profile.email,
                   firstName: profile._json.name || profile._json.login || 'noname',
                   lastName: 'nolast',
-                  isAdmin: false,
+                  role: "user",
                   password: 'nopass',
                 };
                 let userCreated = await UserModel.create(newUser);
@@ -89,8 +89,7 @@ export function iniPassport() {
       },
       async (req, username, password, done) => {
         try {
-            console.log(password)
-          const { email, firstName, lastName } = req.body;
+          const { email, firstName, lastName, age } = req.body;
           let user = await UserModel.findOne({ email: username });
           if (user) {
             console.log('User already exists');
@@ -101,11 +100,11 @@ export function iniPassport() {
             email,
             firstName,
             lastName,
-            isAdmin: false,
+            age,
+            role: "user",
             password: createHash(password),
           };
           let userCreated = await UserModel.create(newUser);
-          console.log(userCreated);
           console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (e) {

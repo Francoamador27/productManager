@@ -1,12 +1,22 @@
    import  express  from "express";
  export const cartsRouter = express.Router();
 import { CartsService } from "../services/carts.services.js";
+import { UserModel } from "../DAO/models/user.models.js";
 
  const Carts = new CartsService()
 
 
  cartsRouter.post('/' ,  async (req, res) => {
    let cartCreate = await  Carts.createOne()
+   if(req?.session?.user){
+      let userSession = req.session.user
+      let email = userSession.email
+       let userMongo = await UserModel.findOne({ email});
+      req.session.user.cart= cartCreate._id;
+      await  UserModel.updateOne(
+    { email },
+     { $set: { cart: cartCreate._id } })
+        }
    return res.status(201).json({
       message:"carrito creado ",
       data: cartCreate});

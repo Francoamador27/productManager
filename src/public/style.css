@@ -330,6 +330,9 @@ label.price {
     margin: 0px;
 }
 .btnPerfil{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     background-color: #018dff;
     color: white;
     font-size: 25px;
@@ -347,4 +350,100 @@ a.logout {
     color: red;
     font-size: 13px;
     text-decoration: underline;
+}
+ /* LOGIN */
+
+ .user_card {
+    height: auto;
+    width: 350px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: #f39c12;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    padding-top: 100px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+
+}
+.container.h-100 {
+    margin-top: 82px;
+    margin-bottom: 80px;
+}
+.brand_logo_container {
+    position: absolute;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 50%;
+    background: #60a3bc;
+    padding: 10px;
+    text-align: center;
+}
+.brand_logo {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.login_btn {
+    width: 100%;
+    background: #c0392b !important;
+    color: white !important;
+}
+.login_btn:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.login_container {
+    padding: 0 ;
+}
+.input-group-text {
+    background: #c0392b !important;
+    color: white !important;
+    border: 0 !important;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+.input_user,
+.input_pass:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #c0392b !important;
+}
+h4.log {
+    font-size: 18px;
+}
+a.log-git {
+    color: black;
+    font-size: 30px;
+    text-decoration: none;
+    background: white;
+    border-radius: 115%;
+    padding-left: 6px;
+    padding-right: 5px;
+}
+a.log-git:hover {
+    color: white;
+    background: black;
+   
+}
+.hogar{
+    display: block;
+    text-align: center;
+}
+span#carritoCantidad {
+    font-size: 16px;
+    background-color: red;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 50%;
+    margin-left: -15px;
 }

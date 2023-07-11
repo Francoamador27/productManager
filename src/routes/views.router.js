@@ -9,8 +9,6 @@ const Carts = new CartsService()
 
 // define the home page route
 viewsRouter.get('/realtimeproducts', async (req, res) => {
-    console.log(req.session.user, req.session.admin)
-
 let products = await productManager.getProducts();
 
     return res.status(201).render('index',{products});
@@ -19,12 +17,20 @@ let products = await productManager.getProducts();
 viewsRouter.get('/products', async (req, res) => {
   let email ="";
   let firstNameUser ="";
-  if(req?.session?.user.email){
+  let cartId = false;
+  if(req?.session?.user?.email){
     email = req.session.user.email
     var usuarioEncontrado = await UserModel.findOne({email:email})
     firstNameUser = usuarioEncontrado.firstName
-      }
+    cartId = req.session.user.cart;
+    console.log("ID CART FALSE",cartId)
+    if(cartId != undefined){
+      console.log("id Cart",cartId)
+      let cartProduct = await Carts.getById(cartId);
 
+    }
+  }
+        
         var currentUrl = req.url;
         var orderAsc = req.query.orderAsc;
         var orderDesc = req.query.orderDesc;
@@ -37,16 +43,14 @@ viewsRouter.get('/products', async (req, res) => {
         let dataProducts = await Products.getProducts(limit,page,category,filter,currentUrl,orderAsc,orderDesc,maxPrice);
         let products = dataProducts.products;
         let pagination = dataProducts.pagination;
-        return res.status(201).render('products',{products, pagination,firstNameUser});
+        return res.status(201).render('products',{products, pagination,firstNameUser,});
     
     });
 viewsRouter.get("/cart/:cid" ,  async (req, res) => {
-    console.log(req?.session?.user, req?.session?.admin)
     try{
       const idCart = req.params.cid;
       let  products = await  Carts.getById(idCart);
       let cartString = JSON.stringify(idCart)
-      console.log(cartString)
       return res.status(201).render('cart',{products,cartString});
       }catch(e){
         return res.status(500).json({
@@ -68,15 +72,12 @@ viewsRouter.get("/show-session" ,  async (req, res) => {
 
 
 viewsRouter.get('/logout', (req, res) => {
-// console.log(req?.session?.user, req?.session?.admin)
-  console.log(req.session.user,req.session.admin)
   req.session.destroy(err => {
   if (err) {
     return res.json({ status: 'Logout ERROR', body: err })
       }
     res.send('Logout ok!')
       })
-    // console.log(req?.session?.user,req?.session?.admin
     })
 
                

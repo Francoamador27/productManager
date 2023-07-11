@@ -1,7 +1,6 @@
 
 
   // Código a ejecutar en la página 1
-  console.log("pagina 1")
   const socket = io();
   let chatBtn = document.getElementById('btn-enviar')
   let saveBtn = document.getElementById('btn-guardar')
@@ -42,6 +41,8 @@ socket.on('all-msg',chats=>{
   //CHAT
  
 let cartId = null;
+let cart = null;
+
 
   async function addProducttoCart(id){
     try{
@@ -53,10 +54,12 @@ let cartId = null;
         let response = await fetch("http://localhost:8080/api/carts/", requestOptions)
         let respJson = await response.json()
         cartId = respJson.data._id
-        addProduct(id,cartId)
+        await addProduct(id,cartId)
+        await  getCart();
         alert("Producto Agregado con exito")
       }else{
-        addProduct(id,cartId)
+        await addProduct(id,cartId)        
+await  getCart();
         alert("Producto Agregado con exito")
 
       }
@@ -79,8 +82,23 @@ let cartId = null;
       alert("No tiene productos agregados al carrito")
     }
   })
+async function getCart(){
+  console.log(cartId)
+  let requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  
+  let response = await fetch('http://localhost:8080/api/carts/'+ cartId, requestOptions)
+  let respJson = await response.json()
+  let cart = respJson.data
+    var cantidad = cart.length;
+    console.log(cantidad);
+    var carritoCantidadElemento = document.getElementById("carritoCantidad"); // Obtén el elemento HTML del número de carrito
+    carritoCantidadElemento.textContent = cantidad;
+}
 
-   function addProduct(idProduct,idCart){
+  async function addProduct(idProduct,idCart){
     var raw = "";
     let requestOptions = {
     method: 'POST',
@@ -89,8 +107,10 @@ let cartId = null;
   };
   fetch('http://localhost:8080/api/carts/'+idCart+'/product/'+idProduct, requestOptions)
   .then(response => response.text())
-  .then(result => console.log(result))
+  .then(result => cart = result)
   .catch(error => console.log('error', error));
+
+  await getCart();
   } 
     // Código a ejecutar en la página 2
     
