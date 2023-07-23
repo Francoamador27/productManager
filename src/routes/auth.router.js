@@ -1,57 +1,21 @@
 import  express  from "express";
  export const authRouter = express.Router();
-import { UserModel } from "../DAO/models/user.models.js";
 import { isUser } from "../middleware/auth.js";
-import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
+import { authController } from "../controller/auth.controller.js";
 
-authRouter.get("/login", async (req, res) => {
-return res.render("login",{})
-});
+authRouter.get("/login", authController.renderLogin);
 
-authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/auth/faillogin' }), async (req, res) => {
-    if (!req.user) {
-      return res.json({ error: 'invalid credentials' });
-    }
-    req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
-  
-    return res.redirect("/products")
-  });
-  
-
-    authRouter.get("/perfil",isUser, async (req, res) => {
-        const user = {email: req.session.user.email,isAdmin: req.session.user.role}
-        console.log(req.session.user)
-        return res.render("perfil",{user})
-        });
+authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/auth/faillogin' }),authController.login);
+ 
+authRouter.get("/perfil",isUser, authController.perfil);
     
-    authRouter.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            return res.status(500).render("error",{error:"error"})
-        }
-        return res.redirect("/auth/login")
-            })
-            // console.log(req?.session?.user,req?.session?.admin)
-           })
+authRouter.get('/logout', authController.logut)
 
-           authRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }),async (req, res) => {
-            if (!req.user) {
-              return res.json({ error: 'something went wrong' });
-            }
-
-            req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
-
-            return res.redirect("/products")
-          });
+authRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }), authController.register);
           
-          authRouter.get('/failregister', async (req, res) => {
-            return res.json({ error: 'fail to register' });
-          });
-          authRouter.get('/faillogin', async (req, res) => {
-            return res.json({ error: 'fail to login' });
-          });
+authRouter.get('/failregister', authController.failRegister);
+
+authRouter.get('/faillogin', authController.failLogin);
           
-          authRouter.get("/register", async (req, res) => {
-                return res.render("register",{})
-                });
+authRouter.get("/register", authController.renderRegister);

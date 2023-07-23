@@ -3,6 +3,7 @@ import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils.js';
 import { UserModel } from '../DAO/models/user.models.js';
 import GitHubStrategy from 'passport-github2';
+import config from './config.js';
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -11,8 +12,8 @@ export function iniPassport() {
         'github',
         new GitHubStrategy(
           {
-            clientID: '',
-            clientSecret: '',
+            clientID: config.clientId,
+            clientSecret: config.clientSecret,
             callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
           },
           async (accesToken, _, profile, done) => {

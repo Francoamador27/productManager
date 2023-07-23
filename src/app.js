@@ -1,7 +1,6 @@
 import  express  from "express";
 import { prodructsRouter } from "./routes/products.router.js";
 import { cartsRouter } from "./routes/carts.router.js";
-import { testRouter } from "./routes/test.router.js";
 import { __dirname, connectMongo } from "./utils.js";
 import path from "path";
 import handlebars from "express-handlebars"
@@ -16,8 +15,10 @@ import MongoStore from 'connect-mongo'
 import { iniPassport } from "./config/passport.config.js";
 import passport from "passport";
 import {  sessionsRouter } from "./routes/session.router.js";
+import config from "./config/config.js";
+
 const app = express()
-const port = 8080;
+const port = config.port;
 
 const httpServer = app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
@@ -58,7 +59,6 @@ app.use("/",viewsRouter)
 
 
 app.use("/api/carts",cartsRouter)
-app.use("/home",testRouter)
 app.use("/auth",authRouter)
 
 

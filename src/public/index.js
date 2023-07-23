@@ -39,8 +39,46 @@ socket.on('all-msg',chats=>{
   divMsgs.innerHTML = msgFormateados;
   })
   //CHAT
- 
-let cartId = null;
+ //LOCAL STORAGE
+ if (typeof(Storage) !== "undefined") {
+  // Obtener el carrito guardado en localStorage, si existe
+  var cartId = localStorage.getItem("cartId");
+
+  // Verificar si el carrito existe en localStorage
+  if (cartId) {
+    // Convertir el carrito de texto JSON a objeto JavaScript
+    cartId = JSON.parse(cartId);
+  } else {
+    // Si no hay carrito en localStorage, crear uno vacío
+    cartId = null;
+  }
+
+  // Agregar un producto al carrito
+  function agregarAlCarrito(id) {
+    cartId= id;
+    // Guardar el carrito actualizado en localStorage
+    localStorage.setItem("cartId", JSON.stringify(cartId));
+  }
+
+  // Obtener el carrito guardado en localStorage
+  async function obtenerCarrito() {
+    return cartId;
+  }
+
+  // Limpiar el carrito
+  function limpiarCarrito() {
+    cartId = null;
+    // Eliminar el carrito de localStorage
+    localStorage.removeItem("cartId");
+  }
+}  else {
+  // El navegador no admite localStorage
+  console.log("LocalStorage no es compatible en este navegador.");
+}
+
+
+
+
 let cart = null;
 
 
@@ -54,6 +92,8 @@ let cart = null;
         let response = await fetch("http://localhost:8080/api/carts/", requestOptions)
         let respJson = await response.json()
         cartId = respJson.data._id
+        localStorage.setItem("cartId", JSON.stringify(cartId));
+
         await addProduct(id,cartId)
         await  getCart();
         alert("Producto Agregado con exito")
@@ -93,7 +133,7 @@ async function getCart(){
   let respJson = await response.json()
   let cart = respJson.data
     var cantidad = cart.length;
-    console.log(cantidad);
+    console.log(cart);
     var carritoCantidadElemento = document.getElementById("carritoCantidad"); // Obtén el elemento HTML del número de carrito
     carritoCantidadElemento.textContent = cantidad;
 }

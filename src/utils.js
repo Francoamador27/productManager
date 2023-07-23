@@ -16,12 +16,14 @@ export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
 import { connect } from "mongoose";
+import config from "./config/config.js";
 
 // CONECTAR MONGO
 export async function connectMongo() {
+  
   try {
     await connect(
-      "mongodb+srv://francohugoamador25:5n0UFpBjSqF7loFG@cluster0.ad24vck.mongodb.net/ecommerce?retryWrites=true&w=majority"
+      config.mongoUrl
     );
     console.log("plug to mongo!");
   } catch (e) {

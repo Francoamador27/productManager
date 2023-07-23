@@ -15,6 +15,11 @@ export class UserService{
         }
        return ({firstName, lastName ,email})
     }
+    
+    async findOnebyEmail(email){
+      let user = await UserModel.findOne({email:email})
+      return user;
+    }
 
     async createOne(firstName, lastName, email){
         this.validate(firstName, lastName, email);
@@ -32,6 +37,11 @@ export class UserService{
       catch(e){
         throw  new Error("Nuevo error")     
       }
+    }
+  
+    async addCart(email,id){
+      let data = await  UserModel.updateOne({ email },{ $set: { cart: id } })
+      return data;
     }
 
     async updateOne(_id,firstName, lastName, email){

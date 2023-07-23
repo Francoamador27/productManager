@@ -1,104 +1,17 @@
 import  express  from "express";
  export const prodructsRouter = express.Router();
-import productManager from "../DAO/productManager.js"
 import { uploader } from "../utils.js";
-import { ProductsService } from "../services/products.services.js";
+import { productsController } from "../controller/products.controller.js";
 
-const Products = new ProductsService()
-
-
-prodructsRouter.get("/", async (req, res) => {
-    try {
-      var currentUrl = req.url
-        const {page} = req.query;
-        const {limit}= req.query;
-        const category = req.query.category || "";
-        const data = await Products.getProducts(limit,page,category,"",currentUrl);
-        return res.status(200).json({
-        status: "success",
-        msg: "listado de productos",
-        data: data,
-      });
-    } catch (e) {
-      console.log(e);
-      return res.status(500).json({
-        status: "error",
-        msg: "something went wrong :(",
-        data: {},
-      });
-    }
-  });
-
-// define the home page route
-
-
-prodructsRouter.get('/:id', async (req, res) => {
-  try{
-    const _id = req.params.id;
-    const data = await Products.getById(_id);
-    return res.status(200).json({
-      status: "success",
-      msg: "product",
-      data: data,
-    });
-  }catch(e){
-    return res.status(400).json({
-      status: "error",
-      msg: "producto no encontrado",
-      data: {},
-    }); 
-  }
-});
-
+//GET = OBTENER TODOS
+prodructsRouter.get("/", productsController.getAll);
+//GET = OBTENER POR ID
+prodructsRouter.get('/:id', productsController.getbyId);
 //POST = CREAR
-prodructsRouter.post('/', uploader.single('thumbnail') ,  async (req, res) => {
-    try{
-     let newProduct = req.body;
-     newProduct.thumbnail = "/"+ req.file.filename;
-     const productCreated = await Products.createOne(newProduct);
-       return  res.status(200).json({
-                status: "success",
-                msg: "product created",
-                data: productCreated,
-              });;
-     } catch(e) {
-        return res.status(500).json({
-          status: "error",
-          msg: "something went wrong :(",
-          data: {},
-        });
-      }
-    });
-
-
-
+prodructsRouter.post('/', uploader.single('thumbnail') ,  productsController.createOne);
 //PUT = MODIFICAR
-prodructsRouter.put('/:id', async (req, res) => {
-const datosNuevosUsuario = req.body;
-const idSearch = req.params.id;
-let product = await productManager.updateProduct(idSearch,datosNuevosUsuario);
-return res.status(200).json({product})
-});
-
-
+prodructsRouter.put('/:id', productsController.updateOne);
 //ELIMINAR
-prodructsRouter.delete('/:id', async (req, res) => {
-  try{
-  const _id = req.params.id;
-  const productDelet= await Products.deletOne(_id);
-  return res.status(200).json({
-    status: "success",
-    msg: "product deleted",
-    data: productDelet,
-  });
-  }catch(e){
-    res.status(500).json({
-      status: "error",
-      msg: "something went wrong :(",
-      data: {},
-    });
-  }
-    
-});
+prodructsRouter.delete('/:id', productsController.deletOne);
 
 
