@@ -1,8 +1,16 @@
+import { UserDTO } from "../DAO/DTO/user.dto.js";
 import { CartsService } from "../services/carts.services.js";
+import { ProductsService } from "../services/products.services.js";
+import { ticketsService } from "../services/tickets.services.js";
 import { UserService } from "../services/users.services.js";
+import { sessionController } from "./session.controller.js";
 
 const Carts = new CartsService()
 const Users = new UserService()
+const Products = new ProductsService()
+const Tickets = new ticketsService()
+
+
 class CartController{
  async creatCart (req, res)  {
     try{
@@ -81,8 +89,10 @@ class CartController{
                 }
             async getCarts   (req, res)  {
                 try{
-                   let  carts = await  Carts.getAll();
-                   return res.status(200).json({
+                  const idCart = req.params.cid;
+                  let  cartById = await  Carts.getById(idCart);
+
+                  return res.status(200).json({
                       status: "success",
                       msg: "Carts found",
                       data: carts,
@@ -97,6 +107,64 @@ class CartController{
               
              
                 }
+            async purchase(req, res)  {
+               try{
+                  const idCart = req.params.cid;
+                  let  cartById = await  Carts.getById(idCart);
+                  let amount = 0;
+                  for (const item of cartById) {
+                     let product = await Products.getById(item.id);
+                     product = product[0];
+                     if (!product) {
+                        return res.status(404).json({ error: 'Producto no encontrado' });
+                     }
+
+                     if (product.stock < item.quantity) {
+                        let restStock = item.quantity - product.stock;
+                        let productNostock ;
+                        productNostock.id= item.id ;
+                        productNostock.quantity =restStock;
+                       await  Products.productNoStock(item.id,productNostock)
+                        return res.status(400).json({ error: 'Stock insuficiente para el producto: ' + product.name });
+                     }
+            
+
+                     let updateStock = product.stock -item.quantity
+                     console.log("Stock del producto",product.stock)
+                     console.log("quantity en el cart",item.quantity)
+                    
+                     let subtotal = product.price * item.quantity;
+                     amount = amount + subtotal
+                     let productUpdate = await Products.updateStock(item.id,updateStock)
+                     
+                  }
+                  let  products = await  Carts.getById(idCart);
+                 
+                  console.log("productos despues de actualizar stock",products)
+                  let newTicket ={};
+                  newTicket.products = products;
+                  newTicket.cartById;
+                  newTicket.amount = amount;
+                  let userSession = req.session.user
+                  newTicket.email = userSession.email;
+                  await Carts.delectAllProducts(idCart);
+                  let ticket = await Tickets.createOne(newTicket)
+                  return res.status(200).json({
+                        status: "success",
+                        message: 'Compra realizada con éxito',
+                        data: {ticket},
+                      });
+                  }catch(e){
+                     console.log(e)
+                     return res.status(500).json({
+                        status: "error",
+                        msg: "something went wrong :(",
+                        data: {e},
+                      });
+                  }
+                
+               
+                  }      
 }
 
 export const cartController = new CartController();

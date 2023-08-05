@@ -16,6 +16,7 @@ import { iniPassport } from "./config/passport.config.js";
 import passport from "passport";
 import {  sessionsRouter } from "./routes/session.router.js";
 import config from "./config/config.js";
+import { mailRouter } from "./routes/mail.router.js";
 
 const app = express()
 const port = config.port;
@@ -23,10 +24,10 @@ const port = config.port;
 const httpServer = app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
 });
-connectSocket(httpServer);
 connectMongo();
 
 app.use(express.json())
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
@@ -43,10 +44,12 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 //PASSPORT
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
+connectSocket(httpServer);
 
 app.engine("handlebars",handlebars.engine());
 app.set("views",path.join(__dirname, "views"))
@@ -55,6 +58,7 @@ app.set('view engine','handlebars');
 app.use("/api/products",prodructsRouter)
 app.use("/api/users",usersRouter)
 app.use("/api/sessions",sessionsRouter)
+app.use("/api/mail",mailRouter)
 app.use("/",viewsRouter)
 
 

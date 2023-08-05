@@ -8,6 +8,7 @@ export class CartsService{
     }
     async getById(idCart){
         let cart = await CartsModel.findOne({_id:idCart}).populate("products.product");
+
         let products =  cart.products.map((doc)=>{
             return {id: doc.product.id,
                  title: doc.product.title, 
@@ -60,7 +61,10 @@ export class CartsService{
         }
     }
 
-
+    async delectAllProducts(idCart){
+      let cart =  await CartsModel.updateOne( { _id: idCart },{ $set: { products: [] } })
+      return cart;
+    }
 
 
 }

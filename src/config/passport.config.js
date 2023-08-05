@@ -4,7 +4,11 @@ import { createHash, isValidPassword } from '../utils.js';
 import { UserModel } from '../DAO/models/user.models.js';
 import GitHubStrategy from 'passport-github2';
 import config from './config.js';
+import { CartsService } from '../services/carts.services.js';
+import { UserService } from '../services/users.services.js';
 const LocalStrategy = local.Strategy;
+const Carts = new CartsService()
+const Users = new UserService()
 
 export function iniPassport() {
 
@@ -43,6 +47,9 @@ export function iniPassport() {
                   password: 'nopass',
                 };
                 let userCreated = await UserModel.create(newUser);
+                let cartCreate = await  Carts.createOne();
+                await Users.addCart(newUser.email,cartCreate._id)
+
                 console.log('User Registration succesful');
                 return done(null, userCreated);
               } else {
@@ -106,6 +113,8 @@ export function iniPassport() {
             password: createHash(password),
           };
           let userCreated = await UserModel.create(newUser);
+          let cartCreate = await  Carts.createOne();
+          await Users.addCart(newUser.email,cartCreate._id)
           console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (e) {

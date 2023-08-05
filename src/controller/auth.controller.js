@@ -28,7 +28,7 @@ class AuthController{
         if (!req.user) {
           return res.json({ error: 'something went wrong' });
         }
-        req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
+        req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role,cart: req.user.cart };
         return res.redirect("/products")
       }
     async failRegister  (req, res)  {

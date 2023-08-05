@@ -1,3 +1,4 @@
+import { UserDTO } from "../DAO/DTO/user.dto.js";
 
 class SessionController{
   async registerGithub (req, res)  {
@@ -6,7 +7,8 @@ class SessionController{
     res.redirect('/products');
   }
   async showSession (req, res)  {
-    return res.send(JSON.stringify(req.session.user.firstName));
+    const infoUser = new UserDTO(req.session.user)
+    return res.send({user : infoUser});
   }
 }
 

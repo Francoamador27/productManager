@@ -55,6 +55,7 @@ export class ProductsService{
    
     async createOne(newProduct){
         try{
+
             if (!newProduct.title || !newProduct.description || !newProduct.price || !newProduct.thumbnail ||
                !newProduct.code ||
                !newProduct.category ||
@@ -62,6 +63,7 @@ export class ProductsService{
             ){
                 throw new Error("Complete campos")
             }
+
             let title = newProduct.title  ;
             let description = newProduct.description ;
             let price = parseInt(newProduct.price) ;
@@ -72,7 +74,7 @@ export class ProductsService{
             const productCreated = await ProductsModel.create({ title, price,description,code,thumbnail,category,stock,});
             return productCreated;
          }catch(e){
-            throw new Error("Complete campos")
+            throw new Error("<Error inesperado>")
             }
     }
     
@@ -98,6 +100,31 @@ export class ProductsService{
       throw  new Error("Error")     
       }
    }
+   async updateStock(_id,updateStock){
+    try{
+        const filtro = { _id: _id };
+        const actualizacion = { $set: { stock: updateStock } }; // Nuevo valor del stock que quieres establecer
+      
+        let productUpdate = await ProductsModel.updateOne(filtro, actualizacion) 
+        return productUpdate;
+     }
+    catch(e){
+    throw  new Error("Error")     
+    }
+ }
+ async creatProductNoStock(_id,productsNoStock){
+    try{
+      
+        const filtro = { _id: _id };
+        const actualizacion = { $set: { productsNoStock: productsNoStock } };
+      
+        let productUpdate = await ProductsModel.updateOne(filtro, actualizacion) 
+        return productUpdate;
+     }
+    catch(e){
+    throw  new Error("Error")     
+    }
+ }
 
    
 }

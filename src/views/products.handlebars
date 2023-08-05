@@ -1,13 +1,13 @@
  <div class="btnPerfil">
 
 
- {{#if firstNameUser}}
-<p class=""  ><a class="btn" href="/auth/perfil"> Hola {{firstNameUser}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
+ {{#if user.firstName}}
+<p class=""  ><a class="btn" href="/auth/perfil"> Hola {{user.firstName}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
 {{else}}
 <p class=""  ><a class="btn" href="/auth/login"> Iniciar Sesion </a> </p>
 
 {{/if}}
-    <a href="" id="view-cart"><i class="bi bi-cart"></i>
+    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
 <span id="carritoCantidad">0</span>
 </a>
 
@@ -35,9 +35,12 @@
     </div> <label class="price" for="price">Precio
         <input type="number" name="price" id="pricefilter" >
         </label>
+
 <h4>Ordenar</h4>
-<a href="{{pagination.orderAscLink}}">Ascendente</a>
-<a href="{{pagination.orderDescLink}}"> Descendente</a>
+<select id="orderSelector">
+  <option value="asc">Order Ascendente</option>
+  <option value="desc">Order Descendente</option>
+</select>
  
 
 </div>
@@ -55,7 +58,8 @@
             <h3 class="title-card">{{this.title}}</h5> 
             <p class="description-card">{{this.description}}   </p>
             <p class="price-card"><b>$</b> {{this.price}} </p>
-            <a type="button" onclick='addProducttoCart("{{this.id}}") ' value="{{this.id}}" class="addToCart" id='{{this.id}}'>Agregar al Cart</a>
+            {{../user.cart}}
+            <a type="button" onclick='addProducttoCart("{{this.id}}","{{../user.cart}}") ' value="{{this.id}}" class="addToCart" id='{{this.id}}'>Agregar al Cart</a>
 
          </li>
     {{/each}} 

@@ -1,6 +1,7 @@
 import { ChatsModel } from "../DAO/models/chats.models.js";
 import productManager from "../DAO/productManager.js";
 import { Server } from "socket.io";
+import { isAdmin, isUser } from "../middleware/auth.js";
 
 export async  function  connectSocket(httpServer){
 

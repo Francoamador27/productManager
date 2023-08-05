@@ -48,6 +48,7 @@ class ProductsController{
     try{
      let newProduct = req.body;
      newProduct.thumbnail = "/"+ req.file.filename;
+     console.log(newProduct.thumbnail)
      const productCreated = await Products.createOne(newProduct);
        return  res.status(200).json({
                 status: "success",
@@ -55,17 +56,18 @@ class ProductsController{
                 data: productCreated,
               });;
      } catch(e) {
+      console.log(e)
         return res.status(500).json({
           status: "error",
           msg: "something went wrong :(",
-          data: {},
+          data: {e},
         });
       }
     }
     async updateOne (req, res) {
         const datosNuevosUsuario = req.body;
         const idSearch = req.params.id;
-        let product = await productManager.updateProduct(idSearch,datosNuevosUsuario);
+        let product = await Products.updateOne(idSearch,datosNuevosUsuario);
         return res.status(200).json({product})
         }
     async deletOne  (req, res)  {

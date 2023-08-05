@@ -1,6 +1,7 @@
 import { ProductsService } from "../services/products.services.js";
 import { CartsService } from "../services/carts.services.js";
 import { UserService } from "../services/users.services.js";
+import { UserDTO } from "../DAO/DTO/user.dto.js";
 const Users = new UserService()
 const Products = new ProductsService()
 const Carts = new CartsService()
@@ -20,21 +21,38 @@ class ViewsController{
           let products = data.products;
           let pagination = data.pagination;
           // BUSCO SI EXISTE SESSION Y USUARIO
-          let firstNameUser ="";
+          let user ="";
           if(req?.session?.user?.email){
             let email = req.session.user.email
-            var usuarioEncontrado = await Users.findOnebyEmail(email)
-            firstNameUser = usuarioEncontrado.firstName;
+            user = await Users.findOnebyEmail(email)
+            console.log("usuario en producto antes de dto",user)
+            req.session.user.cart= user.cart;
+            user = new UserDTO(user);
+            console.log("despues de dto",user)
+            console.log("session",req.session.user)
+
           }
-          return res.status(201).render('products',{products, pagination,firstNameUser,});
+          return res.status(201).render('products',{products, pagination,user});
+        }catch(e){
+          console.log(e)
+        }
+     }
+      async creatProduct (req, res){
+        try{
+          
+          return res.status(201).render('creatProduct',{});
         }catch(e){
           console.log(e)
         }
      }
      async getCardbyId(req, res)  {
       try{
-        const idCart = JSON.stringify(req.params.cid);
+        const idCart = req.params.cid;
+        const dataSession = req.session;
+        console.log(dataSession)
+        console.log("estoy aca",idCart)
         let  products = await  Carts.getById(idCart);
+        console.log(products)
         return res.status(201).render('cart',{products,idCart});
         }catch(e){
           return res.status(500).json({

@@ -1,6 +1,6 @@
 import multer from "multer";
 import path from "path";
-
+import nodemailer from 'nodemailer'
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, (path.join(__dirname, "public/img")));
@@ -36,3 +36,14 @@ import bcrypt from 'bcrypt';
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword);
 
+export const transport = nodemailer.createTransport({
+service: 'gmail',
+tls: {
+  rejectUnauthorized: false
+},
+port:587,
+auth:{
+  user:'francohugoamador25@gmail.com',
+  pass:config.googlePass
+}
+})
