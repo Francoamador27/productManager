@@ -111,23 +111,27 @@ class CartController{
                try{
                   const idCart = req.params.cid;
                   let  cartById = await  Carts.getById(idCart);
+                  console.log("id en el service",idCart)
+
                   let amount = 0;
                   for (const item of cartById) {
                      let product = await Products.getById(item.id);
                      product = product[0];
+                     console.log("producto en el Carrito",product)
                      if (!product) {
                         return res.status(404).json({ error: 'Producto no encontrado' });
                      }
-
                      if (product.stock < item.quantity) {
                         let restStock = item.quantity - product.stock;
-                        let productNostock ;
-                        productNostock.id= item.id ;
-                        productNostock.quantity =restStock;
-                       await  Products.productNoStock(item.id,productNostock)
-                        return res.status(400).json({ error: 'Stock insuficiente para el producto: ' + product.name });
+                        let rest = {};
+                        rest.restStock= restStock;
+                        rest.id= item.id ;
+                        rest.quantity =restStock;
+                        await  Products.creatProductNoStock(item.id,rest)
+                        return res.status(400).json({ error: 'Stock insuficiente para el producto: ' + product.title });
                      }
-            
+                     console.log("producto traido de mongo",product)
+                     console.log("producto en el Carrito",item)
 
                      let updateStock = product.stock -item.quantity
                      console.log("Stock del producto",product.stock)
@@ -139,7 +143,6 @@ class CartController{
                      
                   }
                   let  products = await  Carts.getById(idCart);
-                 
                   console.log("productos despues de actualizar stock",products)
                   let newTicket ={};
                   newTicket.products = products;
@@ -149,19 +152,20 @@ class CartController{
                   newTicket.email = userSession.email;
                   await Carts.delectAllProducts(idCart);
                   let ticket = await Tickets.createOne(newTicket)
-                  return res.status(200).json({
-                        status: "success",
-                        message: 'Compra realizada con éxito',
-                        data: {ticket},
-                      });
-                  }catch(e){
+                  console.log(ticket);
+                  return  res.status(200).json({
+                     status: "success",
+                     msg: "product created",
+                     data: ticket,
+                   });;
+                     } catch(e) {
                      console.log(e)
-                     return res.status(500).json({
-                        status: "error",
-                        msg: "something went wrong :(",
-                        data: {e},
-                      });
-                  }
+                        return res.status(500).json({
+                           status: "error",
+                           msg: "something went wrong :(",
+                           data: {e},
+                        });
+           }
                 
                
                   }      

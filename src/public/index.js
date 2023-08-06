@@ -108,7 +108,40 @@ async function getCart(cartId){
     var carritoCantidadElemento = document.getElementById("carritoCantidad"); // Obtén el elemento HTML del número de carrito
     carritoCantidadElemento.textContent = cantidad;
 }
+async function purchase(idCart){
 
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', 
+    },
+  };
+  
+  // Realizar la solicitud POST al servidor
+  fetch(`http://localhost:8080/api/carts/${idCart}/purchase`, requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        // Si la respuesta del servidor no es exitosa, lanzamos un error para ser capturado por el catch
+        alert("PRIMERA Respuesta del servidor:",data)
+
+        throw new Error('Error en la solicitud');
+      }
+      // Si la respuesta es exitosa, devolvemos la respuesta en formato JSON
+      return response.json();
+    })
+    .then(data => {
+      // Aquí puedes trabajar con la respuesta del servidor (data) cuando sea exitosa
+      alert("Respuesta del servidor:",data)
+      console.log('Respuesta del servidor:', data);
+    })
+    .catch(error => {
+      // Si ocurre algún error en la solicitud, lo capturamos aquí
+      alert('Error en la solicitud:', error)
+      console.error('Error en la solicitud:', error);
+    });
+
+
+}
   async function addProduct(idProduct,idCart){
     var raw = "";
     let requestOptions = {
@@ -119,7 +152,7 @@ async function getCart(cartId){
   fetch('http://localhost:8080/api/carts/'+idCart+'/product/'+idProduct, requestOptions)
   .then(response => response.text())
   .then(result => cart = result)
-  .catch(error => console.log('error', error));
+  .catch(error => console.log('error', alert(error) ));
 
   await getCart();
   } 

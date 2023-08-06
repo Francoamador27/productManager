@@ -22,7 +22,8 @@
 
          </li>
     {{/each}} 
-    <a href="#">FINALIZAR COMPRA</a>
+    {{idCart}}
+    <a onclick='purchase("{{idCart}}")'  href="">FINALIZAR COMPRA</a>
     <script></script>
     </ul>
 </section>

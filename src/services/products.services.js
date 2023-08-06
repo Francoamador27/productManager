@@ -47,6 +47,7 @@ export class ProductsService{
 
     async getById(_id){
         const product = await ProductsModel.find({_id:_id})
+  
         if(!product){
             throw new Error("validation error: id cannot finded");
         }
