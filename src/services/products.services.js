@@ -1,5 +1,7 @@
 import url from "url"
 import { ProductsModel } from "../DAO/models/products.model.js";
+import CustomError from "../errors/custom-error.js";
+import EErrors from "../errors/enums.js";
 const Products = new ProductsModel;
 
 export class ProductsService{
@@ -51,7 +53,12 @@ export class ProductsService{
         const product = await Products.getById(_id)
   
         if(!product){
-            throw new Error("validation error: id cannot finded");
+            CustomError.createError({
+                name:"User creation errror",
+                cause:"El id no se encontro",
+                message:"Ese producto no se encontro",
+                code: EErrors.INVALID_TYPES_ERROR,
+            })
         }
        return product;
    }

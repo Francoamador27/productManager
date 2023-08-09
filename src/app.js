@@ -18,7 +18,7 @@ import {  sessionsRouter } from "./routes/session.router.js";
 import config from "./config/config.js";
 import { mailRouter } from "./routes/mail.router.js";
 import compression from "express-compression";
-
+import errorHandler from "./middleware/error.js"
 const app = express()
 const port = config.port;
 
@@ -28,9 +28,7 @@ const httpServer = app.listen(port, () => {
 connectMongo();
 
 app.use(express.json())
-app.use(compression({
-  brotli:{enabled:true,zlib:{}}
-}));
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
@@ -62,11 +60,14 @@ app.use("/api/users",usersRouter)
 app.use("/api/sessions",sessionsRouter)
 app.use("/api/mail",mailRouter)
 app.use("/",viewsRouter)
+app.use(errorHandler);
 
 
 app.use("/api/carts",cartsRouter)
 app.use("/auth",authRouter)
-
+app.use(compression({
+  brotli:{enabled:true,zlib:{}}
+}));
 
 
 

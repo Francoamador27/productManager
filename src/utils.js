@@ -33,6 +33,7 @@ export async function connectMongo() {
 }
 //hash
 import bcrypt from 'bcrypt';
+import { title } from "process";
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword);
 
@@ -47,3 +48,16 @@ auth:{
   pass:config.googlePass
 }
 })
+
+import {faker} from "@faker-js/faker"
+export const generateProducts = () =>{
+  return {
+    title: faker.commerce.productName(),
+    price: faker.commerce.price(),
+    description: faker.commerce.productDescription(),
+    id:faker.database.mongodbObjectId(),
+    image: faker.image.url()
+
+  }
+
+}

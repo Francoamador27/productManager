@@ -2,6 +2,7 @@ import { ProductsService } from "../services/products.services.js";
 import { CartsService } from "../services/carts.services.js";
 import { UserService } from "../services/users.services.js";
 import { UserDTO } from "../DAO/DTO/user.dto.js";
+import { generateProducts } from "../utils.js";
 const Users = new UserService()
 const Products = new ProductsService()
 const Carts = new CartsService()
@@ -63,6 +64,18 @@ class ViewsController{
           }catch(e){
           return res.status(500).json({ });
           }}
+        
+          async creatFake  (req, res)  {
+            try{
+              const products = [];
+              for(let i= 0; i<200; i++){
+                products.push(generateProducts())
+              }
+             return res.status(201).send(JSON.stringify(products));
+            }catch(e){
+            return res.status(500).json({ });
+              }}
+
       async logout (req, res){
         req.session.destroy(err => {
         if (err) {
