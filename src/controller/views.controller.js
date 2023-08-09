@@ -25,11 +25,9 @@ class ViewsController{
           if(req?.session?.user?.email){
             let email = req.session.user.email
             user = await Users.findOnebyEmail(email)
-            console.log("usuario en producto antes de dto",user)
             req.session.user.cart= user.cart;
             user = new UserDTO(user);
-            console.log("despues de dto",user)
-            console.log("session",req.session.user)
+            
 
           }
           return res.status(201).render('products',{products, pagination,user});
@@ -48,9 +46,6 @@ class ViewsController{
      async getCardbyId(req, res)  {
       try{
         const idCart = req.params.cid;
-        const dataSession = req.session;
-        console.log(dataSession)
-        console.log("estoy aca",idCart)
         let  products = await  Carts.getById(idCart);
         console.log(products)
         return res.status(201).render('cart',{products,idCart});

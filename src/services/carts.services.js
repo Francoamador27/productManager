@@ -1,4 +1,4 @@
-import { CartsModel } from "../DAO/models/carts.models.js";
+import { CartsModel } from "../DAO/models/carts.model.js";
 
 export class CartsService{
     
@@ -7,6 +7,7 @@ export class CartsService{
       return carts;
     }
     async getById(idCart){
+        console.log("id cart cart service getbyid",idCart)
         let cart = await CartsModel.findOne({_id:idCart}).populate("products.product");
 
         let products =  cart.products.map((doc)=>{

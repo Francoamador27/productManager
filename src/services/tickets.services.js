@@ -1,5 +1,5 @@
 import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
-import { TicketsModel } from '../DAO/models/tickets.models.js';
+import { TicketsModel } from '../DAO/schema/tickets.schema.js';
 
 export class ticketsService{
 

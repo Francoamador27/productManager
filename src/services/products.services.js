@@ -1,5 +1,7 @@
-import { ProductsModel } from "../DAO/models/products.models.js";
 import url from "url"
+import { ProductsModel } from "../DAO/models/products.model.js";
+const Products = new ProductsModel;
+
 export class ProductsService{
 
     async getProducts(limit,page,category,order,maxPrice,currentUrl){
@@ -12,7 +14,7 @@ export class ProductsService{
         if (category) {
             filters.category = { $regex: category, $options:'i' };
           }
-         const dataProducts = await ProductsModel.paginate(filters,{limit:limit || 4 ,page: page || 1, sort:([['price', order]])});;
+         const dataProducts = await Products.getAll(filters,limit,page, order);
          const {docs, ...rest} = dataProducts;
          let products =  docs.map((doc)=>{
              return {id: doc.id,
@@ -46,7 +48,7 @@ export class ProductsService{
     }
 
     async getById(_id){
-        const product = await ProductsModel.find({_id:_id})
+        const product = await Products.getById(_id)
   
         if(!product){
             throw new Error("validation error: id cannot finded");
@@ -72,7 +74,7 @@ export class ProductsService{
             let stock = parseInt(newProduct.stock);
             let category = newProduct.category;
             let thumbnail =newProduct.thumbnail;
-            const productCreated = await ProductsModel.create({ title, price,description,code,thumbnail,category,stock,});
+            const productCreated = await Products.createOne(title, price,description,code,thumbnail,category,stock);
             return productCreated;
          }catch(e){
             throw new Error("<Error inesperado>")
@@ -82,7 +84,7 @@ export class ProductsService{
     async deletOne(_id){
        try{
           if(_id){
-             let productDelet = await ProductsModel.deleteOne({_id: _id});
+             let productDelet = await Products.deletOne(id);
              return productDelet;
         }
        }
@@ -90,36 +92,35 @@ export class ProductsService{
         throw  new Error("Nuevo error")     
       }
     }
-
-    async updateOne(_id,firstName, lastName, email){
-      try{
-          this.validate(firstName, lastName, email);
-          const userUptaded = await ProductsModel.updateOne( { _id: _id },{ firstName, lastName, email });
-          return userUptaded;
-       }
-      catch(e){
-      throw  new Error("Error")     
-      }
-   }
+    async updateOne(_id,updateData){
+        try{
+            const updatedProduct = await Products.updateOne(_id,updateData)
+            return updatedProduct;
+         }
+        catch(e){
+        throw  new Error("Error")     
+        }
+     }
+   
    async updateStock(_id,updateStock){
     try{
         const filtro = { _id: _id };
         const actualizacion = { $set: { stock: updateStock } }; // Nuevo valor del stock que quieres establecer
       
-        let productUpdate = await ProductsModel.updateOne(filtro, actualizacion) 
+        let productUpdate = await Products.updateOne(filtro, actualizacion) 
         return productUpdate;
      }
     catch(e){
     throw  new Error("Error")     
     }
  }
+
  async creatProductNoStock(_id,productsNoStock){
     try{
       
         const filtro = { _id: _id };
         const actualizacion = { $set: { productsNoStock: productsNoStock } };
-      
-        let productUpdate = await ProductsModel.updateOne(filtro, actualizacion) 
+        let productUpdate = await Products.updateOne(filtro, actualizacion) 
         return productUpdate;
      }
     catch(e){

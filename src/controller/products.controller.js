@@ -65,9 +65,9 @@ class ProductsController{
       }
     }
     async updateOne (req, res) {
-        const datosNuevosUsuario = req.body;
+        const datosNuevosProducts = req.body;
         const idSearch = req.params.id;
-        let product = await Products.updateOne(idSearch,datosNuevosUsuario);
+        let product = await Products.updateOne(idSearch,datosNuevosProducts);
         return res.status(200).json({product})
         }
     async deletOne  (req, res)  {

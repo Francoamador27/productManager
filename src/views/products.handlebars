@@ -58,7 +58,6 @@
             <h3 class="title-card">{{this.title}}</h5> 
             <p class="description-card">{{this.description}}   </p>
             <p class="price-card"><b>$</b> {{this.price}} </p>
-            {{../user.cart}}
             <a type="button" onclick='addProducttoCart("{{this.id}}","{{../user.cart}}") ' value="{{this.id}}" class="addToCart" id='{{this.id}}'>Agregar al Cart</a>
 
          </li>

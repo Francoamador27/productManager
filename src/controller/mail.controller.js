@@ -6,7 +6,7 @@ class MailController{
        try{
          let result = await transport.sendMail({
             from:'Prueba desde Back End',
-            to:'francohugoamador@hotmail.com',
+            to:'francohugoamador@hotmail.com ',
             subject:'Correo Prueba',
             html:`
             <div>

@@ -1,5 +1,7 @@
 import { UserDTO } from "../DAO/DTO/user.dto.js"
+import { UserService } from "../services/users.services.js"
 
+let Users = new UserService
 // Medialware Admin
 export function isUser(req,res,next){
   console.log("ENTRO A MIDDLEWARE ")
@@ -16,6 +18,16 @@ export function isUser(req,res,next){
   }
     
 } 
+export async function isCart(req,res,next){
+  const userSession = new UserDTO(req.session.user)
+  const user = await Users.checkCart(userSession)
+  if(user){
+   console.log("user middleware cart",user)
+  return next() 
+  }
+  return res.status(500).render("error",{error:"No es Admin"})
+} 
+
   
   export function isAdmin(req,res,next){
     const user = new UserDTO(req.session.user)

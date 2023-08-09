@@ -17,6 +17,7 @@ import passport from "passport";
 import {  sessionsRouter } from "./routes/session.router.js";
 import config from "./config/config.js";
 import { mailRouter } from "./routes/mail.router.js";
+import compression from "express-compression";
 
 const app = express()
 const port = config.port;
@@ -27,12 +28,13 @@ const httpServer = app.listen(port, () => {
 connectMongo();
 
 app.use(express.json())
-
+app.use(compression({
+  brotli:{enabled:true,zlib:{}}
+}));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(cookieParser());
-// "mongodb+srv://francohugoamador25:5n0UFpBjSqF7loFG@cluster0.ad24vck.mongodb.net/ecommerce?retryWrites=true&w=majority"
 
 //SESSION
 app.use(

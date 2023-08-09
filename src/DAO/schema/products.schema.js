@@ -12,4 +12,4 @@ const schema = new Schema({
 });
 
 schema.plugin(mongoosePaginate);
-export const ProductsModel = model("products", schema);
+export const ProductsSchema = model("products", schema);

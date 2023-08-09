@@ -1,4 +1,4 @@
-import { UserModel } from "../DAO/models/user.models.js";
+import { UserModel } from "../DAO/schema/user.schema.js";
 
 export class UserService{
     
@@ -20,7 +20,13 @@ export class UserService{
       let user = await UserModel.findOne({email:email})
       return user;
     }
-
+    async checkCart(userSession){
+      let user = await UserModel.findOne({
+        email: userSession.email,
+        cart: userSession.cart
+      });
+      return user;
+    }
     async createOne(firstName, lastName, email){
         this.validate(firstName, lastName, email);
         const userCreated = await UserModel.create({ firstName, lastName, email });
