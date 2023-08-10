@@ -21,7 +21,16 @@ case EErrors.DATABASE_ERROR:
         error: error.name,
         cause: error.cause,
 })
+break;case EErrors.PRODUCTS_NO_FIND:
+res
+.status(400)
+.send({
+    status:"error",
+    error: error.name,
+    cause: error.cause,
+})
 break;
+
 default:
     res.send({status:"error",error:"Unhandled erro"})
 break;

@@ -17,6 +17,14 @@ export class ProductsService{
             filters.category = { $regex: category, $options:'i' };
           }
          const dataProducts = await Products.getAll(filters,limit,page, order);
+         if(!dataProducts){
+            CustomError.createError({
+                name:"Products get All",
+                cause:"No se pudieron obtener los datos",
+                message:"Los productos no se pudieron encontrar",
+                code: EErrors.PRODUCTS_NO_FIND,
+            })
+         }
          const {docs, ...rest} = dataProducts;
          let products =  docs.map((doc)=>{
              return {id: doc.id,
@@ -57,7 +65,7 @@ export class ProductsService{
                 name:"User creation errror",
                 cause:"El id no se encontro",
                 message:"Ese producto no se encontro",
-                code: EErrors.INVALID_TYPES_ERROR,
+                code: EErrors.PRODUCTS_NO_FIND,
             })
         }
        return product;
@@ -70,8 +78,12 @@ export class ProductsService{
                !newProduct.code ||
                !newProduct.category ||
                !newProduct.stock
-            ){
-                throw new Error("Complete campos")
+            ){CustomError.createError({
+                name:"Completar campos",
+                cause:"Algunos de los Campos no existe, ",
+                message:"Controlar que esten completos los campos",
+                code: EErrors.INVALID_TYPES_ERROR,
+            })
             }
 
             let title = newProduct.title  ;
