@@ -1,7 +1,6 @@
 import  express  from "express";
 import { prodructsRouter } from "./routes/products.router.js";
 import { cartsRouter } from "./routes/carts.router.js";
-import { __dirname, connectMongo } from "./utils.js";
 import path from "path";
 import handlebars from "express-handlebars"
 import { viewsRouter } from "./routes/views.router.js";
@@ -19,6 +18,8 @@ import config from "./config/config.js";
 import { mailRouter } from "./routes/mail.router.js";
 import compression from "express-compression";
 import errorHandler from "./middleware/error.js"
+import { __dirname, connectMongo } from "./utils/utils.js";
+import { logger } from "./utils/logger.js";
 const app = express()
 const port = config.port;
 
@@ -28,7 +29,6 @@ const httpServer = app.listen(port, () => {
 connectMongo();
 
 app.use(express.json())
-
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
@@ -38,7 +38,7 @@ app.use(cookieParser());
 app.use(
   session({
     store: MongoStore.create({
-       mongoUrl: "mongodb+srv://francohugoamador25:5n0UFpBjSqF7loFG@cluster0.ad24vck.mongodb.net/ecommerce?retryWrites=true&w=majority", ttl: 7200 }),
+       mongoUrl: config.mongoUrl, ttl: 7200 }),
     secret: 'un-re-secreto',
     resave: true,
     saveUninitialized: true,
@@ -60,6 +60,15 @@ app.use("/api/users",usersRouter)
 app.use("/api/sessions",sessionsRouter)
 app.use("/api/mail",mailRouter)
 app.use("/",viewsRouter)
+app.use("/testing",(req,res)=>{
+  logger.debug("ESTE ES UN DEBUG");
+  logger.http("ESTE ES UN HTTP");
+  logger.info("ACA ES INFORMACION");
+  logger.error("TODO MAL");
+  logger.warn("ALGO NO TAN MAL");
+  res.send({message:"Hola Mundo"})
+})
+
 app.use(errorHandler);
 
 

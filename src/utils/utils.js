@@ -16,7 +16,7 @@ export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
 import { connect } from "mongoose";
-import config from "./config/config.js";
+import config from "../config/config.js";
 
 // CONECTAR MONGO
 export async function connectMongo() {

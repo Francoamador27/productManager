@@ -2,7 +2,7 @@ import { ProductsService } from "../services/products.services.js";
 import { CartsService } from "../services/carts.services.js";
 import { UserService } from "../services/users.services.js";
 import { UserDTO } from "../DAO/DTO/user.dto.js";
-import { generateProducts } from "../utils.js";
+import { generateProducts } from "../utils/utils.js";
 const Users = new UserService()
 const Products = new ProductsService()
 const Carts = new CartsService()

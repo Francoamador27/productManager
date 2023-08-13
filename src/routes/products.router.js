@@ -1,7 +1,7 @@
 import  express  from "express";
  export const prodructsRouter = express.Router();
-import { uploader } from "../utils.js";
 import { productsController } from "../controller/products.controller.js";
+import { uploader } from "../utils/utils.js";
 
 //GET = OBTENER TODOS
 prodructsRouter.get("/", productsController.getAll);

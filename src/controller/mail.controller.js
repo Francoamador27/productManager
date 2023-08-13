@@ -1,4 +1,4 @@
-import { __dirname, transport } from "../utils.js";
+import { __dirname, transport } from "../utils/utils.js";
 
 
 class MailController{

@@ -17,4 +17,5 @@ export default {
   adminName: process.env.ADMIN_NAME,
   adminPassword: process.env.ADMIN_PASSWORD,
   googlePass:process.env.GOOGLE_PASS,
+  loggMode:process.env.LOGG_MODE,
 };
