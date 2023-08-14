@@ -1,4 +1,5 @@
 import { ProductsService } from "../services/products.services.js";
+import { logger } from "../utils/logger.js";
 
 const Products = new ProductsService()
 
@@ -36,6 +37,7 @@ class ProductsController{
         data: data,
       });
     }catch(e){
+      logger.error({message:"Producto no encontrado",error:e.message});
       return res.status(400).json({
         status: "error",
         msg: "producto no encontrado",
@@ -48,15 +50,15 @@ class ProductsController{
     try{
      let newProduct = req.body;
      newProduct.thumbnail = "/"+ req.file.filename;
-     console.log(newProduct.thumbnail)
      const productCreated = await Products.createOne(newProduct);
-       return  res.status(200).json({
+     logger.debug({message:"producto creado",data: productCreated});
+     return  res.status(200).json({
                 status: "success",
                 msg: "product created",
                 data: productCreated,
               });;
      } catch(e) {
-      console.log(e)
+      logger.error({message:"Producto no creado",error:e.message});
         return res.status(500).json({
           status: "error",
           msg: "something went wrong :(",
@@ -65,21 +67,31 @@ class ProductsController{
       }
     }
     async updateOne (req, res) {
-        const datosNuevosProducts = req.body;
-        const idSearch = req.params.id;
+      const datosNuevosProducts = req.body;
+      const idSearch = req.params.id;
+      try{
         let product = await Products.updateOne(idSearch,datosNuevosProducts);
         return res.status(200).json({product})
+      }catch{
+        logger.error({message:"ID de producto no válido",data: idSearch});
+        return res.status(400).json({ error: "ID de producto no válido" });
+
+      }
         }
-    async deletOne  (req, res)  {
+    async deletOne(req, res)  {
         try{
         const _id = req.params.id;
         const productDelet= await Products.deletOne(_id);
+        logger.error({message:"Producto eliminado"});
+
         return res.status(200).json({
           status: "success",
           msg: "product deleted",
-          data: productDelet,
+          data: {},
         });
         }catch(e){
+          logger.error({message:"No se encontro el producto"})
+
           res.status(500).json({
             status: "error",
             msg: "something went wrong :(",

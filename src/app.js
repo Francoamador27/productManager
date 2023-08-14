@@ -19,7 +19,6 @@ import { mailRouter } from "./routes/mail.router.js";
 import compression from "express-compression";
 import errorHandler from "./middleware/error.js"
 import { __dirname, connectMongo } from "./utils/utils.js";
-import { logger } from "./utils/logger.js";
 const app = express()
 const port = config.port;
 
@@ -60,14 +59,7 @@ app.use("/api/users",usersRouter)
 app.use("/api/sessions",sessionsRouter)
 app.use("/api/mail",mailRouter)
 app.use("/",viewsRouter)
-app.use("/testing",(req,res)=>{
-  logger.debug("ESTE ES UN DEBUG");
-  logger.http("ESTE ES UN HTTP");
-  logger.info("ACA ES INFORMACION");
-  logger.error("TODO MAL");
-  logger.warn("ALGO NO TAN MAL");
-  res.send({message:"Hola Mundo"})
-})
+
 
 app.use(errorHandler);
 

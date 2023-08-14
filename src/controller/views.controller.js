@@ -3,6 +3,7 @@ import { CartsService } from "../services/carts.services.js";
 import { UserService } from "../services/users.services.js";
 import { UserDTO } from "../DAO/DTO/user.dto.js";
 import { generateProducts } from "../utils/utils.js";
+import { logger } from "../utils/logger.js";
 const Users = new UserService()
 const Products = new ProductsService()
 const Carts = new CartsService()
@@ -84,5 +85,14 @@ class ViewsController{
           res.send('Logout ok!')
             })
           }
+      async testingLoggers (req,res){
+        logger.debug("ESTE ES UN DEBUG");
+        logger.http("ESTE ES UN HTTP");
+        logger.info("ACA ES INFORMACION");
+        logger.error("TODO MAL");
+        logger.warn("ALGO NO TAN MAL");
+        res.send({message:"Hola Mundo"})
+      }    
+
 }
 export const viewsController = new ViewsController();

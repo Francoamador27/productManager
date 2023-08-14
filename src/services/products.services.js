@@ -2,6 +2,7 @@ import url from "url"
 import { ProductsModel } from "../DAO/models/products.model.js";
 import CustomError from "../errors/custom-error.js";
 import EErrors from "../errors/enums.js";
+import { logger } from "../utils/logger.js";
 const Products = new ProductsModel;
 
 export class ProductsService{
@@ -103,21 +104,27 @@ export class ProductsService{
     async deletOne(_id){
        try{
           if(_id){
-             let productDelet = await Products.deletOne(id);
+            let data = await this.getById(_id);
+            logger.info({message:"Producto encontrado",data:data })
+
+             let productDelet = await Products.deletOne(_id);
+
              return productDelet;
         }
        }
       catch(e){
+        logger.error({message:e.message})
         throw  new Error("Nuevo error")     
       }
     }
     async updateOne(_id,updateData){
         try{
+            await this.getById(_id);
             const updatedProduct = await Products.updateOne(_id,updateData)
             return updatedProduct;
          }
         catch(e){
-        throw  new Error("Error")     
+            throw  new Error("Nuevo error")     
         }
      }
    
