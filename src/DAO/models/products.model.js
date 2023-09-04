@@ -33,9 +33,9 @@ export class ProductsModel {
     }
   }
 
-  async createOne(title, price,description,code,thumbnail,category,stock) {
+  async createOne(title, price,description,code,thumbnail,category,stock,owner) {
     try {
-        const cartCreated = await ProductsSchema.create({ title, price,description,code,thumbnail,category,stock,});
+        const cartCreated = await ProductsSchema.create({ title, price,description,code,thumbnail,category,stock,owner});
         return cartCreated;
     } catch (error) {
       throw  new Error("Nuevo error")     

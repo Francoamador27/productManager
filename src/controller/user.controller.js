@@ -72,6 +72,24 @@ async updateOne (req, res) {
     });
   }
 }
+async updatePassword (req, res) {
+  const _id  = req.params.id;
+  const { firstName, lastName, email } = req.body;
+  try {
+    let userUptaded = await Service.updateOne(_id,firstName, lastName, email)
+    return res.status(201).json({
+      status: "success",
+      msg: "user uptaded",
+      data: userUptaded,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+  }
+}
 }
 
 export const userController = new UserController();

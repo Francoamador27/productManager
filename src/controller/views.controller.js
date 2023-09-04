@@ -24,15 +24,18 @@ class ViewsController{
           let pagination = data.pagination;
           // BUSCO SI EXISTE SESSION Y USUARIO
           let user ="";
+          let vfyUoA= false;
           if(req?.session?.user?.email){
             let email = req.session.user.email
+            let role = req.session.user.role
+            if (role === "admin" || role === "premium") {
+               vfyUoA= true;
+            }
             user = await Users.findOnebyEmail(email)
             req.session.user.cart= user.cart;
             user = new UserDTO(user);
-            
-
           }
-          return res.status(201).render('products',{products, pagination,user});
+          return res.status(201).render('products',{products, pagination,user,vfyUoA});
         }catch(e){
           console.log(e)
         }

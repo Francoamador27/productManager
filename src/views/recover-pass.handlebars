@@ -1,0 +1,43 @@
+<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+						<img src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png" class="brand_logo" alt="Logo">
+					</div>
+				</div>
+      	{{#if vfyPassword}}
+			<p class="error-link">Password ya utilizada</p>
+		{{/if}}
+				<div class="d-flex justify-content-center form_container">
+                <form action="/auth/recover-pass" method="POST">
+                       
+						<div class="input-group mb-2">
+                            <input value="{{email}}" type="hidden" name="email" placeholder="email" class="form-control input_pass"> 
+						</div>
+                       
+						<div class="input-group mb-2">
+							
+                            <input value="{{code}}" type="hidden" name="code" placeholder="code" class="form-control input_pass"> 
+						</div>
+                       
+                        {{!-- PASSWORD --}}
+                            <label for="password">Nueva Contraseña</label>
+       	                <div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="bi bi-key"></i></span>
+							</div>
+                        <input type="text" name="password" placeholder="password" class="form-control input_pass"> 
+						</div>
+
+							<div class="d-flex justify-content-center mt-3 login_container">
+                                <input type="submit" value="Guardar" class="btn login_btn"/>
+				   </div>
+					</form>
+				</div>
+		        
+			
+			</div>
+		</div>
+	</div>
+

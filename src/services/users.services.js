@@ -60,6 +60,18 @@ export class UserService{
       throw  new Error("Id no encontrado")     
       }
    }
-
+   async updatePassword(email,password){
+    try{
+        const userUptaded = await UserModel.findOneAndUpdate(
+          { email },
+          { password },
+          { new: true } // Devuelve el documento actualizado
+        );
+        return userUptaded;
+     }
+    catch(e){
+    throw  new Error("No fue posible cambiar la contraseña")     
+    }
+ }
    
 }

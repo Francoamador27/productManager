@@ -50,6 +50,14 @@ class ProductsController{
     try{
      let newProduct = req.body;
      newProduct.thumbnail = "/"+ req.file.filename;
+     let userEmail = req.session.user.email;
+
+     let userRole = req.session.user.role;
+     logger.debug({message:"rol de usuario",data: userRole});
+     newProduct.owner = 'admin';
+     if(userRole === 'premium'){
+      newProduct.owner = userEmail;
+     }
      const productCreated = await Products.createOne(newProduct);
      logger.debug({message:"producto creado",data: productCreated});
      return  res.status(200).json({
@@ -80,15 +88,28 @@ class ProductsController{
         }
     async deletOne(req, res)  {
         try{
-        const _id = req.params.id;
-        const productDelet= await Products.deletOne(_id);
-        logger.error({message:"Producto eliminado"});
-
-        return res.status(200).json({
-          status: "success",
-          msg: "product deleted",
-          data: {},
-        });
+          let userEmail = req.session.user.email;
+          let userRole = req.session.user.role;
+          const _id = req.params.id;
+          if(userRole === 'admin'){
+            const productDelet= await Products.deletOne(_id);
+            logger.error({message:"Producto eliminado"});
+            return res.status(200).json({
+              status: "success",
+              msg: "product deleted",
+              data: {},
+            });
+          }
+          const productDelet = await Products.findOneAndDelete({ _id: _id, owner: userEmail });
+          if (!productDelet) {
+              // Si no se encuentra el producto, puedes lanzar un error de permiso
+              throw new Error("No tienes permiso para eliminar este producto");
+          }        
+          return res.status(200).json({
+            status: "success",
+            msg: "product deleted",
+            data: {},
+          });
         }catch(e){
           logger.error({message:"No se encontro el producto"})
 

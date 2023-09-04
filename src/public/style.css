@@ -453,3 +453,39 @@ span#carritoCantidad {
     border-radius: 50%;
     margin-left: -15px;
 }
+p.error-link {
+    color: red;
+    font-weight: 900;
+    background-color: white;
+}
+h3.vfy-email {
+    text-align: center;
+    font-size: 31px;
+    color: white;
+    padding: 50px;
+}
+i.bi.bi-envelope-at-fill.error {
+    font-size: red;
+    color: red;
+    font-size: 25px;
+    text-align: center;
+}
+i.bi.bi-envelope-at.vfyemail {
+    color: lime;
+    justify-content: center;
+    display: flex;
+    font-size: 50px;
+    padding-top: 30px;
+}
+p.btn-login {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+i.bi.bi-check-circle-fill {
+    display: flex;
+    justify-content: center;
+    font-size: 54px;
+    padding: 20px;
+    color: #16f316;
+}

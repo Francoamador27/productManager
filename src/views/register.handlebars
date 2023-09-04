@@ -13,6 +13,10 @@
                         <h4 class="log">o Crear Usuario y contraseña</h4>
 
                     </div>
+					{{#if errorRegister}}
+					<p class="error-link">Error al Registrar</p>
+
+					{{/if}}
 				<div class="d-flex justify-content-center form_container">
 
                     <form action="/auth/register" method="POST">

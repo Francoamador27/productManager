@@ -33,8 +33,16 @@ export async function isCart(req,res,next){
     const user = new UserDTO(req.session.user)
     if(user.role === 'admin'){
         return next()
-
     }
     
     return res.status(500).render("error",{error:"No es Admin"})
+} 
+  export function isUseroPremium(req,res,next){
+    const user = new UserDTO(req.session.user)
+    if(user.role === 'admin'){
+        return next()
+    }if(user.role === 'premium'){
+      return next()
+    }
+    return res.status(500).render("error",{error:"No es Admin ni Premium"})
 } 

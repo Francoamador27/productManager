@@ -94,7 +94,8 @@ export class ProductsService{
             let stock = parseInt(newProduct.stock);
             let category = newProduct.category;
             let thumbnail =newProduct.thumbnail;
-            const productCreated = await Products.createOne(title, price,description,code,thumbnail,category,stock);
+            let owner = newProduct.owner;
+            const productCreated = await Products.createOne(title, price,description,code,thumbnail,category,stock,owner);
             return productCreated;
          }catch(e){
             throw new Error("<Error inesperado>")

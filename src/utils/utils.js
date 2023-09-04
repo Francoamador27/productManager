@@ -13,7 +13,9 @@ export const uploader = multer({ storage });
 
 import { fileURLToPath } from "url";
 export const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
+ const dirnameUtils = path.dirname(__filename);
+export const __dirname =  path.resolve(dirnameUtils, "..");
+
 
 import { connect } from "mongoose";
 import config from "../config/config.js";

@@ -19,12 +19,17 @@ import { mailRouter } from "./routes/mail.router.js";
 import compression from "express-compression";
 import errorHandler from "./middleware/error.js"
 import { __dirname, connectMongo } from "./utils/utils.js";
+import cluster from "cluster";
+import os from "os";
 const app = express()
 const port = config.port;
+
 
 const httpServer = app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
 });
+
+
 connectMongo();
 
 app.use(express.json())
@@ -51,6 +56,7 @@ app.use(passport.session());
 connectSocket(httpServer);
 
 app.engine("handlebars",handlebars.engine());
+console.log(__dirname)
 app.set("views",path.join(__dirname, "views"))
 app.set('view engine','handlebars');
 

@@ -7,6 +7,11 @@
 <p class=""  ><a class="btn" href="/auth/login"> Iniciar Sesion </a> </p>
 
 {{/if}}
+{{#if vfyUoA}}
+<a class="btn" href="/creatProduct"> Crear Productos</a> 
+
+{{/if}}
+
     <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
 <span id="carritoCantidad">0</span>
 </a>
