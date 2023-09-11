@@ -2,6 +2,9 @@
 
   // Código a ejecutar en la página 1
   const socket = io();
+
+
+
   let chatBtn = document.getElementById('btn-enviar')
   let saveBtn = document.getElementById('btn-guardar')
   let usuario = "";

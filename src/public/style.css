@@ -183,6 +183,7 @@ border-radius: 10px;
 li.card {
     width: 202px;
     height: auto;
+    margin: 5px;
     -webkit-box-shadow: 2px 10px 20px 3px rgba(107,107,214,1);
 -moz-box-shadow: 2px 10px 20px 3px rgba(107,107,214,1);
 box-shadow: 2px 10px 20px 3px rgba(107,107,214,1);
@@ -324,9 +325,8 @@ input#price {
 
 }
 .checks a {
-    text-decoration: none;
-    background: blue;
-    color: white;
+    text-decoration: underline;
+    color: black;
     padding: 7px;
     margin-left: 2px;
     border-radius: 10px;
@@ -488,4 +488,88 @@ i.bi.bi-check-circle-fill {
     font-size: 54px;
     padding: 20px;
     color: #16f316;
+}
+
+
+section.formulario {
+    display: flex;
+    justify-content: space-evenly;
+}
+.refresh-title{
+    text-align: center;
+    font-family: 'Poppins';
+    padding: 20px;
+}
+li.card.edit {
+    width: 350px;
+}
+#updateProductForm input,
+#creatForm input
+ {
+border: none;
+border-bottom: 2px solid blue;
+font-family: 'Poppins', sans-serif;
+}
+#updateProductForm label{
+    font-family: 'Poppins', sans-serif;
+
+}
+#updateProductForm input[type="submit"],
+#creatForm input[type="submit"]
+ {
+    background: blue;
+    color: white;
+}
+.btn{
+    font-family: 'Poppins';
+}.btnPerfil a {
+    text-align: center;
+    font-family: 'Poppins';
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+a.btn.check-out {
+    background: blue;
+    color: white;
+    display: flex;
+    justify-content: center;
+  border: 2px solid black; /* Borde negro predeterminado */
+  padding: 10px 20px;
+}
+
+a.btn.check-out:hover {
+    border:inset   1px solid white ;
+    background: blue;
+    color: white;
+    display: flex;
+    justify-content: center;
+    border-width: 4px; /* Aumenta el ancho del borde en hover */
+  padding: 8px 18px; /* Reduce el relleno en hover para crear el efecto de borde interior */
+  border-color: white; 
+}
+section.principal {
+    display: flex;
+    justify-content: space-evenly;
+}
+input#pricefilter {
+    width: 192px;
+}
+ul.list-filter {
+    display: inline-block;
+}
+li.checks {
+    list-style: circle !important;
+}
+.order {
+    display: flex;
+    justify-content: flex-end;
+}
+h1.title-home {
+    padding: 10px;
+    font-family: 'Poppins';
+    text-align: center;
+    background: rgb(0,212,255);
+    color: white;
+background: linear-gradient(90deg, rgba(0,212,255,1) 11%, rgba(2,0,36,0.9164040616246498) 50%, rgba(0,212,255,1) 93%);
 }

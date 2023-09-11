@@ -21,6 +21,9 @@ import errorHandler from "./middleware/error.js"
 import { __dirname, connectMongo } from "./utils/utils.js";
 import cluster from "cluster";
 import os from "os";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-Ui-Express";
+
 const app = express()
 const port = config.port;
 
@@ -31,6 +34,19 @@ const httpServer = app.listen(port, () => {
 
 
 connectMongo();
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Documentacion Proyecto Coder",
+      description: "Proyecto de Ecommerce Node",
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

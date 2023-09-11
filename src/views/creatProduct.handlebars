@@ -1,4 +1,25 @@
-<form action="/api/products/" method="POST" enctype="multipart/form-data">
+<h1 class="title-home">Proyecto Ecommerce CoderHouse</h1>
+
+<div class="btnPerfil">
+    {{#if user.firstName}}
+     <p class=""  ><a class="btn" href="/auth/perfil"> Hola {{user.firstName}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
+    {{else}}
+    <p class=""  >
+        <a class="btn" href="/auth/login"> Iniciar Sesion </a> 
+    </p>
+    {{/if}}
+    <a class="btn" href="/products"> Inicio</a> 
+    {{#if vfyUoA}}
+        <a class="btn" href="/creatProduct"> Crear Productos</a> 
+        <a class="btn" href="/myProducts"> Ver Mis Products</a> 
+    {{/if}}
+    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
+    <span id="carritoCantidad"></span>
+    </a>
+ </div>
+    <h1 class="refresh-title">Crear Producto</h1>
+
+<form action="/api/products/" id="creatForm" method="POST" enctype="multipart/form-data">
   <label for="title">Título:</label>
   <input type="text" id="title" name="title" required><br>
 

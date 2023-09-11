@@ -4,6 +4,7 @@ import { UserService } from "../services/users.services.js";
 import { UserDTO } from "../DAO/DTO/user.dto.js";
 import { generateProducts } from "../utils/utils.js";
 import { logger } from "../utils/logger.js";
+import { ProductDTO } from "../DAO/DTO/product.dto.js";
 const Users = new UserService()
 const Products = new ProductsService()
 const Carts = new CartsService()
@@ -30,8 +31,8 @@ class ViewsController{
             let role = req.session.user.role
             if (role === "admin" || role === "premium") {
                vfyUoA= true;
+               user = await Users.findOnebyEmail(email)
             }
-            user = await Users.findOnebyEmail(email)
             req.session.user.cart= user.cart;
             user = new UserDTO(user);
           }
@@ -40,10 +41,64 @@ class ViewsController{
           console.log(e)
         }
      }
+     async getMyProducts(req, res)  {
+      try {
+          var currentUrl = req.url
+          const {page} = req.query;
+          const {limit}= req.query;
+          const {maxPrice}= req.query;
+          const {order}= req.query;
+          let user = "";
+          let vfyUoA= false;
+
+          if(req?.session?.user?.email){
+            let email = req.session.user.email
+            let role = req.session.user.role
+            if (role === "admin" || role === "premium") {
+               vfyUoA= true;
+            }
+            user = await Users.findOnebyEmail(email)
+            user = new UserDTO(user);
+
+          }
+          let owner ;
+          let session = req.session.user.role;
+          if (session != 'admin') {
+            owner = req.session.user.email;
+          }          
+          const category = req.query.category || "";
+          const data = await Products.getProducts(limit,page,category,order,maxPrice,currentUrl,owner);
+          let products = data.products;
+          let pagination = data.pagination;
+          return res.status(201).render('my-products',{products, pagination,user,vfyUoA});
+
+      } catch (e) {
+        console.log(e);
+        return res.status(501).render('error',{});
+
+      }
+  }
       async creatProduct (req, res){
         try{
-          
-          return res.status(201).render('creatProduct',{});
+          let user = "";
+          let vfyUoA= false;
+
+          if(req?.session?.user?.email){
+            let email = req.session.user.email
+            let role = req.session.user.role
+            if (role === "admin" || role === "premium") {
+               vfyUoA= true;
+            }
+            user = await Users.findOnebyEmail(email)
+            user = new UserDTO(user);
+
+          }
+          let owner ;
+          let session = req.session.user.role;
+          if (session != 'admin') {
+            owner = req.session.user.email;
+          }         
+          return res.status(201).render('creatProduct',{user,vfyUoA});
         }catch(e){
           console.log(e)
         }
@@ -54,6 +109,40 @@ class ViewsController{
         let  products = await  Carts.getById(idCart);
         console.log(products)
         return res.status(201).render('cart',{products,idCart});
+        }catch(e){
+          return res.status(500).json({
+          status: "error",
+          msg: "something went wrong :(",
+          data: {},
+            });
+          }}
+      async showSession  (req, res)  {
+        try{
+         const dataSession = req.session;
+         return res.status(201).send(JSON.stringify(dataSession));
+          }catch(e){
+          return res.status(500).json({ });
+          }}
+     async editProductbyId(req, res)  {
+      try{
+        const id = req.params.id;
+        let  product = await  Products.getById(id);
+        let user = "";
+          let vfyUoA= false;
+
+          if(req?.session?.user?.email){
+            let email = req.session.user.email
+            let role = req.session.user.role
+            if (role === "admin" || role === "premium") {
+               vfyUoA= true;
+            }
+            user = await Users.findOnebyEmail(email)
+            user = new UserDTO(user);
+
+          }
+         let  productDto = new ProductDTO(product)
+          console.log("view controller",product)
+        return res.status(201).render('edit-product',{product:productDto,vfyUoA,user,id});
         }catch(e){
           return res.status(500).json({
           status: "error",

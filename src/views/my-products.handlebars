@@ -1,0 +1,60 @@
+<h1 class="title-home">Proyecto Ecommerce CoderHouse</h1>
+
+<div class="btnPerfil">
+
+
+ {{#if user.firstName}}
+<p class=""  ><a class="btn" href="/auth/perfil"> Hola {{user.firstName}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
+{{else}}
+<p class=""  ><a class="btn" href="/auth/login"> Iniciar Sesion </a> </p>
+
+{{/if}}
+<a class="btn" href="/products"> Inicio</a> 
+
+{{#if vfyUoA}}
+<a class="btn" href="/creatProduct"> Crear Productos</a> 
+<a class="btn" href="/myProducts"> Ver Mis Products</a> 
+
+{{/if}}
+
+    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
+<span id="carritoCantidad">0</span>
+</a>
+
+ </div>
+
+<h1>Mis Productos</h1>
+ 
+
+
+
+  <ul>   
+     {{#each products}}
+         <li class="card">           
+            <div class="img-div"> 
+               <img class="img-card" src='/img{{this.thumbnail}}'/>
+            </div>
+           
+            <h3 class="title-card">{{this.title}}</h5> 
+            <p class="description-card">{{this.description}}   </p>
+            <p class="price-card"><b>$</b> {{this.price}} </p>
+            <a type="button" href="/editProduct/{{this.id}}"   class="addToCart" id='{{this.id}}'>Editar Producto</a>
+         </li>
+    {{/each}} 
+    </ul>
+    <div class="pagination"> 
+        {{#if pagination.hasPrevPage}}
+            <a href="{{pagination.prevLink}}">
+             ⇚ {{pagination.prevPage}}
+            </a>
+        {{/if}}
+    {{pagination.page}}  
+
+    {{#if pagination.hasNextPage}}
+        <a href="{{pagination.nextLink}}"> 
+            {{pagination.nextPage}}⇛
+        </a>
+    {{/if}}
+    </div>
+    <a href="" id="view-cart">Ver Carrito</a>
+    <section class="all-chat">

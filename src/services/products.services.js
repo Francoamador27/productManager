@@ -7,10 +7,13 @@ const Products = new ProductsModel;
 
 export class ProductsService{
 
-    async getProducts(limit,page,category,order,maxPrice,currentUrl){
+    async getProducts(limit,page,category,order,maxPrice,currentUrl,owner){
         let filters = {};
         let defaultOrder = 'asc';
          order = order || defaultOrder;
+         if (owner) {
+            filters.owner = { $regex: owner, $options: 'i' };
+          }
        if (maxPrice) {
         filters.price = { $lte: maxPrice };
         }
@@ -58,8 +61,21 @@ export class ProductsService{
         return {products,pagination};
     }
 
+    async checkOwner(_id,owner){
+        const product = await Products.checkOwner(_id,owner);
+        if(!product){
+            CustomError.createError({
+                name:"User creation errror",
+                cause:"El id no se encontro",
+                message:"Ese producto no se encontro",
+                code: EErrors.PRODUCTS_NO_FIND,
+            })
+        }
+       return product;
+   }
     async getById(_id){
-        const product = await Products.getById(_id)
+        const product = await Products.getById(_id);
+        console.log("product getByid Service",product)
   
         if(!product){
             CustomError.createError({
@@ -71,7 +87,6 @@ export class ProductsService{
         }
        return product;
    }
-   
     async createOne(newProduct){
         try{
 
@@ -121,6 +136,7 @@ export class ProductsService{
     async updateOne(_id,updateData){
         try{
             await this.getById(_id);
+            
             const updatedProduct = await Products.updateOne(_id,updateData)
             return updatedProduct;
          }

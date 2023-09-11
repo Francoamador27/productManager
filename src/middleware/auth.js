@@ -1,6 +1,7 @@
 import { UserDTO } from "../DAO/DTO/user.dto.js"
+import { ProductsService } from "../services/products.services.js"
 import { UserService } from "../services/users.services.js"
-
+const Products = new ProductsService()
 let Users = new UserService
 // Medialware Admin
 export function isUser(req,res,next){
@@ -45,4 +46,18 @@ export async function isCart(req,res,next){
       return next()
     }
     return res.status(500).render("error",{error:"No es Admin ni Premium"})
+} 
+export async function checkOwner(req,res,next){
+  let owner = req.session.user.email;
+  let userRole = req.session.user.role;
+  const _id = req.params.id;
+  if(userRole === 'admin'){
+   next();
+  }
+  const productCheck = await Products.checkOwner(_id,owner); 
+  if (!productCheck) {
+      // Si no se encuentra el producto, puedes lanzar un error de permiso
+      return res.status(500).render("error",{error:"No tienes permiso para este producto"})
+    }        
+    return next()
 } 

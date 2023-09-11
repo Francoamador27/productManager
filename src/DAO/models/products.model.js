@@ -16,8 +16,30 @@ export class ProductsModel {
   async getById(idProduct) {
     try {
       logger.debug({message:"id product en model" ,data: idProduct})
-        let product = await ProductsSchema.find({_id:idProduct})
+        let product = await ProductsSchema.findOne({_id:idProduct})
         if (product.length === 0) {
+          logger.info({message:"product no encontrado en el model" })
+          CustomError.createError({
+            name:"User creation errror",
+            cause:"El id no se encontro",
+            message:"Ese producto no se encontro",
+            code: EErrors.PRODUCTS_NO_FIND,
+        })
+        }
+        return product;
+      
+    } catch (error) {
+      throw  new Error("Nuevo error")     
+    }
+  }
+  async checkOwner(_id,userEmail) {
+    try {
+      logger.info({message:"id",data:_id })
+console.log(_id);
+        let product = await ProductsSchema.find({ _id, owner:userEmail });
+        logger.debug({message:"Product Chequeado" ,data: product})
+        if (product.length === 0) {
+
           logger.info({message:"product no encontrado en el model" })
           CustomError.createError({
             name:"User creation errror",
@@ -52,8 +74,8 @@ export class ProductsModel {
 
   async updateOne(_id,updateData) {
     try {
-      const cartUpdated = await ProductsSchema.findByIdAndUpdate(_id,{ $set: updateData },{ new: true });
-      return cartUpdated;
+      const productUpdated = await ProductsSchema.findByIdAndUpdate(_id,{ $set: updateData },{ new: true });
+      return productUpdated;
     } catch (error) {
       logger.error({message:error.message});
       throw  new Error("Nuevo error")     

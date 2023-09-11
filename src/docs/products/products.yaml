@@ -1,0 +1,167 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron devueltos satisfactoriamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+  /api/products/{uid}:
+    get:
+      summary: Obtiene un producto
+      tags:
+        - Products
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del producto que se busca
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+    put:
+      summary: Actualizar un producto a partir del ID
+      tags:
+        - Products
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del producto que se busca. Loggin required
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: Producto modificado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+components:
+  schemas:
+    Success:
+      type: object
+      properties:
+        status:
+          type: String
+          description: success or error
+        message:
+          type: String
+          description: aclarando que ocurrio
+      example:
+        status: success
+        message: Product updated
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado by mongo
+        title:
+          type: String
+          description: Title
+        price:
+          type: Number
+          description: Price
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: String
+          description: Password hasheado del user
+        thumbnail:
+          type: String
+          description: Filename of the image
+        category:
+          type: String
+          description: category
+        stock:
+          type: Number
+          description: stock
+      example:
+        _id: ObjectId("64c6dafb0bfd35a2c3d6926d")
+        title: Computadora
+        description: Computadora i5
+        stock: 24
+        category: audio
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado by mongo
+        title:
+          type: String
+          description: Title
+        price:
+          type: Number
+          description: Price
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: String
+          description: Password hasheado del user
+        thumbnail:
+          type: String
+          description: Filename of the image
+        category:
+          type: String
+          description: category
+        stock:
+          type: Number
+          description: stock
+        owner:
+          type: String
+          description: Owner of the product
+      example:
+         _id: 64fdf1d664696bf260f0edbc
+          title: producto nuevo
+          price: 5500
+          description: Con prueba jeje
+          thumbnail: /INMO 2.PNG
+          stock: 25
+          category: componentes
+          owner: email@hotmail.com
+  requestBodies:
+    updateUser:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: Primer nombre
+        last_name:
+          type: String
+          description: Apellido
+        email:
+          type: String
+          description: Email de usuario
+        password:
+          type: String
+          description: Password hasheado del user
+      example:
+        first_name: Adrian
+        last_name: Campo
+        email: atrian@gmail.com
+        password: $2b$10$Cf.uErjQ/lEzypTNfyE1IuFGxVXSRqGzjFWBYwL9KLK4Fe29kvu.e
