@@ -22,11 +22,11 @@ class UserController{
   async getOnebyEmail (req, res)  {
     try{
     const email = req.params.email;
-    userDelet = await Service.findOnebyEmail(email)
+    let userFound = await Service.findOnebyEmail(email)
     return res.status(201).json({
       status: "success",
-      msg: "user deleted",
-      data: userDelet,
+      msg: "user found",
+      data: userFound,
     });
     }catch (e) {
       return res.status(500).json({

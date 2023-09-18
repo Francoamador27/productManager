@@ -90,8 +90,7 @@ class CartController{
                 }
             async getCarts   (req, res)  {
                 try{
-                  const idCart = req.params.cid;
-                  let  cartById = await  Carts.getById(idCart);
+                  let  carts = await  Carts.getAll();
 
                   return res.status(200).json({
                       status: "success",

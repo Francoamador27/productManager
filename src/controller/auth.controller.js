@@ -56,7 +56,6 @@ class AuthController{
   
     async recoverSendEmail  (req, res) {
       const {email} = req.body;
-
       const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
       transport.sendMail({
         from:'Recuperar contraseña',

@@ -23,6 +23,7 @@ import cluster from "cluster";
 import os from "os";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-Ui-Express";
+import { body, query } from "express-validator";
 
 const app = express()
 const port = config.port;
@@ -46,6 +47,10 @@ const swaggerOptions = {
 };
 
 const specs = swaggerJSDoc(swaggerOptions);
+//SANITIZACION 
+//SANITIZACION 
+app.use(body().escape());
+app.use(query().escape());
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use(express.json())
@@ -53,6 +58,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(cookieParser());
+
 
 //SESSION
 app.use(
@@ -99,6 +105,5 @@ app.use(compression({
   
 
 
-
-//CON QUERY  ?ID=
+export default app;
 

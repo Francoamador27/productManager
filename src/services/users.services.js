@@ -1,3 +1,4 @@
+import { UserDTO } from "../DAO/DTO/user.dto.js";
 import { UserModel } from "../DAO/schema/user.schema.js";
 
 export class UserService{
@@ -17,8 +18,14 @@ export class UserService{
     }
     
     async findOnebyEmail(email){
-      let user = await UserModel.findOne({email:email})
-      return user;
+      try{
+        let user = await UserModel.findOne({email:email})
+        let userDto = new UserDTO(user);
+        return userDto;
+      }catch{
+        console.log(e)
+        throw new Error("validation error: please complete firstName, lastname and email.");
+      }
     }
     async checkCart(userSession){
       let user = await UserModel.findOne({

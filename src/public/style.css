@@ -573,3 +573,6 @@ h1.title-home {
     color: white;
 background: linear-gradient(90deg, rgba(0,212,255,1) 11%, rgba(2,0,36,0.9164040616246498) 50%, rgba(0,212,255,1) 93%);
 }
+a.logout:hover {
+    color: red;
+}

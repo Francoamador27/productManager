@@ -136,7 +136,7 @@ components:
           type: String
           description: Owner of the product
       example:
-         _id: 64fdf1d664696bf260f0edbc
+          _id: 64fdf1d664696bf260f0edbc
           title: producto nuevo
           price: 5500
           description: Con prueba jeje
@@ -148,20 +148,36 @@ components:
     updateUser:
       type: object
       properties:
-        first_name:
+        _id:
           type: String
-          description: Primer nombre
-        last_name:
+          description: Id
+        title:
           type: String
-          description: Apellido
-        email:
+          description: title
+        price:
+          type: Number
+          description: price
+        description:
           type: String
-          description: Email de usuario
-        password:
+          description: description
+        thumbnail:
           type: String
-          description: Password hasheado del user
+          description: thumbnail
+        stock:
+          type: Number
+          description: stock
+        category:
+          type: String
+          description: category
+        owner:
+          type: String
+          description: owner
       example:
-        first_name: Adrian
-        last_name: Campo
-        email: atrian@gmail.com
-        password: $2b$10$Cf.uErjQ/lEzypTNfyE1IuFGxVXSRqGzjFWBYwL9KLK4Fe29kvu.e
+          _id: 64fdf1d664696bf260f0edbc
+          title: producto nuevo
+          price: 5500
+          description: Con prueba jeje
+          thumbnail: /INMO 2.PNG
+          stock: 25
+          category: componentes
+          owner: email@hotmail.com
