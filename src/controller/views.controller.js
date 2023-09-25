@@ -5,6 +5,7 @@ import { UserDTO } from "../DAO/DTO/user.dto.js";
 import { generateProducts } from "../utils/utils.js";
 import { logger } from "../utils/logger.js";
 import { ProductDTO } from "../DAO/DTO/product.dto.js";
+import { tr } from "@faker-js/faker";
 const Users = new UserService()
 const Products = new ProductsService()
 const Carts = new CartsService()
@@ -26,17 +27,47 @@ class ViewsController{
           // BUSCO SI EXISTE SESSION Y USUARIO
           let user ="";
           let vfyUoA= false;
+
           if(req?.session?.user?.email){
             let email = req.session.user.email
             let role = req.session.user.role
+            user = await Users.findOnebyEmail(email)
             if (role === "admin" || role === "premium") {
                vfyUoA= true;
-               user = await Users.findOnebyEmail(email)
             }
             req.session.user.cart= user.cart;
             user = new UserDTO(user);
           }
           return res.status(201).render('products',{products, pagination,user,vfyUoA});
+        }catch(e){
+          console.log(e)
+        }
+     }
+      async getAllUsers (req, res){
+        try{
+          // OBTENGO LOS QUERYS PARA VISTA DE PRODUCTOS
+          var currentUrl = req.url
+          const {page} = req.query;
+          const {limit}= req.query;
+          const status = req.query.status || "";
+          const data = await Users.getAll(limit,page,status,currentUrl);
+          let users = data.users;
+          let pagination = data.pagination;
+          // BUSCO SI EXISTE SESSION Y USUARIO
+          let user ="";
+          let vfyUoA= false;
+
+          if(req?.session?.user?.email){
+            let email = req.session.user.email
+            let role = req.session.user.role
+            user = await Users.findOnebyEmail(email)
+            if (role === "admin" || role === "premium") {
+               vfyUoA= true;
+            }           
+            req.session.user.cart= user.cart;
+            user = new UserDTO(user);
+          }
+          return res.status(201).render('users',{users, pagination,user,vfyUoA});
         }catch(e){
           console.log(e)
         }
@@ -78,11 +109,29 @@ class ViewsController{
 
       }
   }
+      async bePremium (req, res){
+        try{
+          let vfyUoA= false;
+          if(req.session.user){
+            console.log(req.session.user)
+            let user = req.session.user
+            let role = req.session.user.role
+            console.log(role);
+            if (role === "admin" || role === "premium") {
+              vfyUoA= true;
+            }
+            return res.status(201).render('documents',{user,vfyUoA});
+
+          }
+        } catch(e){
+          console.log(e)
+        }
+
+      }
       async creatProduct (req, res){
         try{
           let user = "";
           let vfyUoA= false;
-
           if(req?.session?.user?.email){
             let email = req.session.user.email
             let role = req.session.user.role

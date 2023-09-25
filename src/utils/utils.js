@@ -1,16 +1,36 @@
 import multer from "multer";
 import path from "path";
 import nodemailer from 'nodemailer'
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, (path.join(__dirname, "public/img")));
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
-export const uploader = multer({ storage });
 
+const storage = (folder) => {
+  return multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null,(path.join(__dirname, `public/${folder}`)) );
+    },
+    filename: (req, file, cb) => {
+      const fieldName = file.fieldname; // Obtén el nombre del campo
+      const extension = path.extname(file.originalname); // Obtén la extensión del archivo original
+      const timestamp = Date.now(); // Obtén la marca de tiempo actual en milisegundos
+      const filename = `${fieldName}-${timestamp}${extension}`; // Combina nombre del campo, marca de tiempo y extensión
+      cb(null, filename);
+    },
+  });
+};
+
+export const uploadDocument = multer({ storage: storage('documents') });
+export const uploadProfile = multer({ storage: storage('profiles') });
+
+// Middleware de Multer para archivos de producto
+export const uploadProduct = multer({ storage: storage('products') });
+
+// Middleware de Multer para archivos de documento
+
+export const optionalFileUpload = (req, res, next) => {
+  uploadProduct.single('thumbnail')(req, res, (err) => {
+    // Ignorar errores y continuar incluso si no se proporciona un archivo
+    next();
+  });
+};
 import { fileURLToPath } from "url";
 export const __filename = fileURLToPath(import.meta.url);
  const dirnameUtils = path.dirname(__filename);

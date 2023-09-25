@@ -5,13 +5,20 @@ const Service = new UserService();
 class UserController{
  async getAll (req, res) {
     try {
-      const users =await Service.getAll();
+          var currentUrl = req.url;
+          const {page} = req.query;
+          const {limit}= req.query;
+          const status = req.query.status || "";
+          const data = await Service.getAll(limit,page,status,currentUrl);
+          console.log("data controller",data);
       return res.status(200).json({
         status: "success",
         msg: "listado de usuarios",
-        data: users,
+        data: data,
       });
     } catch (e) {
+      console.log(e);
+
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -72,6 +79,25 @@ async updateOne (req, res) {
     });
   }
 }
+async updatePremium (req, res) {
+  const id  = req.params.id;
+  console.log(id)
+  try {
+    let userUptaded = await Service.updatePremium(id)
+    return res.status(201).json({
+      status: "success",
+      msg: "user uptaded",
+      data: userUptaded,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+  }
+}
+
 async updatePassword (req, res) {
   const _id  = req.params.id;
   const { firstName, lastName, email } = req.body;
@@ -82,6 +108,30 @@ async updatePassword (req, res) {
       msg: "user uptaded",
       data: userUptaded,
     });
+  } catch (e) {
+    return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+  }
+}
+async uploadDocuments (req, res) {
+  try {
+    const id = req.params.id
+    
+    const dniFile = req.files['dni'][0].filename; 
+    const domicilioFile = req.files['domicilio'][0].filename;
+    const cuentaFile = req.files['cuenta'][0].filename;
+    const newDocumentProperties = {
+      dniFile: dniFile,
+      domicilioFile: domicilioFile,
+      cuentaFile: cuentaFile,
+    };
+    let userUptaded = await Service.updateDocuments(id,newDocumentProperties)
+    return res.status(201).render('archivos-enviados',{userUptaded});
+
+  
   } catch (e) {
     return res.status(500).json({
       status: "error",

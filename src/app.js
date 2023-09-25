@@ -50,7 +50,6 @@ const specs = swaggerJSDoc(swaggerOptions);
 //SANITIZACION 
 //SANITIZACION 
 app.use(body().escape());
-app.use(query().escape());
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use(express.json())

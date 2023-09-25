@@ -1,11 +1,50 @@
 import { UserDTO } from "../DAO/DTO/user.dto.js";
 import { UserModel } from "../DAO/schema/user.schema.js";
+import url from "url"
 
 export class UserService{
     
-    async getAll(){
-      const users = await UserModel.find({});
-      return users;
+    async getAll(limit,page,status,currentUrl){
+      let filters = {};
+      if (status) {
+        filters.status = { $regex: status, $options:'i' };
+      }
+      const usersData = await UserModel.paginate(filters,{limit:limit || 4 ,page: page || 1});
+      const {docs, ...rest} = usersData;
+      let users =  docs.map((doc)=>{
+        return {id: doc.id,
+             email: doc.email, 
+             firstName:doc.firstName,
+             lastName: doc.lastName,
+             role: doc.role,
+             cart:doc.cart,
+            status: doc.status,
+          documents:doc.documents}
+    })
+    console.log("users",users)
+
+    let pagination = rest;
+    if(pagination.hasNextPage){
+      let parsedUrl = url.parse(currentUrl,true)
+      parsedUrl.query.page= pagination.nextPage;
+      let nextLink = url.format({
+          pathname: parsedUrl.pathname,
+          query : parsedUrl.query,
+      })
+      pagination.nextLink = nextLink;
+  }
+  if(pagination.hasPrevPage){
+      let parsedUrl = url.parse(currentUrl,true)
+      parsedUrl.query.page= pagination.prevPage;
+      let prevLink = url.format({
+          pathname: parsedUrl.pathname,
+          query : parsedUrl.query,
+      })
+      pagination.prevLink = prevLink;
+  }
+  console.log("pagination",pagination)
+
+ return {users,pagination};
     }
     validate(firstName, lastName ,email){
         if (!firstName || !lastName || !email) {
@@ -67,6 +106,43 @@ export class UserService{
       throw  new Error("Id no encontrado")     
       }
    }
+    async updatePremium(id){
+      try{
+          const userUptaded = await UserModel.findOneAndUpdate(
+            { _id: id },
+            { $set: {'status': 'checked','role':'premium' } },
+            { new: true });
+          return userUptaded;
+       }
+      catch(e){
+      throw  new Error("Id no encontrado")     
+      }
+   }
+    async updateDocuments(id,newDocumentProperties){
+      try{
+          const userUptaded = await UserModel.findOneAndUpdate(
+            { _id: id },
+            { $set: { 'documents': newDocumentProperties, 'status': 'processing' } },
+            { new: true })
+          return userUptaded;
+       }
+      catch(e){
+      throw  new Error("Id no encontrado")     
+      }
+   }
+    async updateStatus(id){
+      try{
+          const userUptaded = await UserModel.findOneAndUpdate(
+            { _id: id },
+            { $set: { 'status': 'processing' } },
+            { new: true })
+          return userUptaded;
+       }
+      catch(e){
+      throw  new Error("Id no encontrado")     
+      }
+   }
+   
    async updatePassword(email,password){
     try{
         const userUptaded = await UserModel.findOneAndUpdate(

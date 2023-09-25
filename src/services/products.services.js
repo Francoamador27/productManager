@@ -62,16 +62,26 @@ export class ProductsService{
     }
 
     async checkOwner(_id,owner){
-        const product = await Products.checkOwner(_id,owner);
-        if(!product){
+        try{
+
+            const product = await Products.checkOwner(_id,owner);
+            if(!product){
+                CustomError.createError({
+                    name:"User creation errror",
+                    cause:"El id no se encontro",
+                    message:"Ese producto no se encontro",
+                    code: EErrors.PRODUCTS_NO_FIND,
+                })
+        }
+        return product;
+
+        }catch(e){
             CustomError.createError({
                 name:"User creation errror",
-                cause:"El id no se encontro",
+                cause:"El producto no tiene owner",
                 message:"Ese producto no se encontro",
                 code: EErrors.PRODUCTS_NO_FIND,
-            })
-        }
-       return product;
+            })        }
    }
     async getById(_id){
         const product = await Products.getById(_id);

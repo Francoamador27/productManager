@@ -17,9 +17,8 @@ class ProductsController{
         status: "success",
         msg: "listado de productos",
         data: data,
-      });
+      }); 
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -38,7 +37,6 @@ class ProductsController{
         if (owner != 'admin') {
           owner = req.session.user.email;
         }
-      console.log(owner,"ONWER")
         const category = req.query.category || "";
         const data = await Products.getProducts(limit,page,category,order,maxPrice,currentUrl,owner);
         return res.status(200).json({
@@ -104,8 +102,10 @@ class ProductsController{
     async updateOne (req, res) {
       const updatedProduct = req.body;
       const idSearch = req.params.id;
-      const thumbnail = "/" + req.file.filename;
-      updatedProduct.thumbnail = thumbnail;
+      if (req.file) {
+        const thumbnail = "/" + req.file.filename;
+        updatedProduct.thumbnail = thumbnail;
+      }     
       console.log("product put", updatedProduct)
       console.log("id search",idSearch);
       try{

@@ -35,8 +35,11 @@
         <input type="text" id="code" name="code" value="{{product.code}}"  required><br>
 
         <label for="thumbnail">Thumbnail:</label>
-        <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required><br>
+        <div class="img-form">
+        <input type="file" id="thumbnail" name="thumbnail" accept="image/*" ><br>
+    <img id="thumbnail-preview" src="" alt="Vista previa de la miniatura" style="max-width: 200px; display: none;">
 
+        </div>
         <label for="category">Categoría:</label>
         <select id="category" name="category" required>
             <option value="audio">Audio</option>
@@ -52,7 +55,7 @@
     </form>
         <li class="card edit">           
             <div class="img-div"> 
-               <img class="img-card" src='/img{{product.thumbnail}}'/>
+               <img class="img-card" src='/products{{product.thumbnail}}'/>
             </div>
             <h3 class="title-card">{{product.title}}</h5> 
             <p class="description-card">Description:{{product.description}}   </p>
@@ -88,4 +91,25 @@
                 console.error('Error en la solicitud:', error);
             });
         });
+        const thumbnailInput = document.getElementById('thumbnail');
+const thumbnailPreview = document.getElementById('thumbnail-preview');
+
+// Agrega un evento "change" al input de tipo "file"
+thumbnailInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+
+  if (file) {
+    // Si se selecciona un archivo, muestra la vista previa
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      thumbnailPreview.src = e.target.result;
+      thumbnailPreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // Si se borra la selección, oculta la vista previa
+    thumbnailPreview.src = '';
+    thumbnailPreview.style.display = 'none';
+  }
+});
     </script>

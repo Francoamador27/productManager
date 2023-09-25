@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
 const schema = new Schema({
   firstName: { type: String, required: false, max: 100 },
@@ -8,7 +9,13 @@ const schema = new Schema({
   cart: { type: String , required: false,  },
   age: {type: Number,max: 100 ,required: false },
   role: { type: String, default:"user", required: false },
-
+  status: { type: String, default:"not-require", required: false },
+  documents: {
+    dniFile: String,
+    domicilioFile: String,
+    cuentaFile: String,
+  },
 });
+schema.plugin(mongoosePaginate);
 
 export const UserModel = model("users", schema);

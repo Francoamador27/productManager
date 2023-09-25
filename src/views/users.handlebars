@@ -1,0 +1,154 @@
+<style>
+ul.list-users {
+    display: block;
+}
+ .td-download {
+    display: inline-grid;
+}   
+</style>
+
+<h1 class="title-home">Proyecto Ecommerce CoderHouse</h1>
+
+ <div class="btnPerfil">
+    {{#if user.firstName}}
+     <p class=""  ><a class="btn" href="/auth/perfil"> Hola {{user.firstName}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
+    {{else}}
+    <p class=""  >
+        <a class="btn" href="/auth/login"> Iniciar Sesion </a> 
+    </p>
+    {{/if}}
+    <a class="btn" href="/products"> Inicio</a> 
+    {{#if vfyUoA}}
+        <a class="btn" href="/creatProduct"> Crear Productos</a> 
+        <a class="btn" href="/myProducts"> Ver Mis Products</a> 
+    {{/if}}
+    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
+    <span id="carritoCantidad"></span>
+    </a>
+ </div>
+<section class="">
+    <div class="filters-users">
+        <h3 class="title-filter">Filtros</h3>
+        <ul class="list-filter-users">
+            <li class="checks">
+                <a href="/users?page=1&status=processing">
+                Procesando</a>
+            </li>
+            <li  class="checks">
+                <a href="/products?page=1&status=user">
+                Users   </a>
+            </li>
+            <li class="checks">
+                <a href="/products?page=1&category=componentes">
+                Premium</a> 
+            </li>
+            <li class="checks">
+                <a href="/users?page=1">
+                Todos los Usuarios</a> 
+            </li> 
+    </ul>
+    </div>
+    <div class="secc-users">
+        <div class="list-users">
+        <ul class="list-users">   
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+      <th scope="col">Status</th>
+      <th scope="col">Documents</th>
+      <th scope="col">Update</th>
+    </tr>
+  </thead>
+  <tbody>
+{{#each users}}
+    <tr>
+      <th scope="row">{{this.firstName}}</th>
+      <td>{{this.lastName}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.role}}</td>
+      <td>{{this.status}}</td>
+       <td >
+        <div class="td-download">
+
+        {{#if this.documents.dniFile}}
+        <a href='/documents/{{this.documents.dniFile}}' download='{{documents.dniFile}} ' class="btn btn-primary">Download Dni</a>
+        {{/if}}
+        {{#if this.documents.domicilioFile}}
+        <a href='/documents/{{this.documents.domicilioFile}}' download='{{documents.domicilioFile}} ' class="btn btn-primary">Download Domicilio</a>
+        {{/if}}
+        {{#if this.documents.cuentaFile}}
+        <a href='/documents/{{this.documents.cuentaFile}}' download='{{documents.cuentaFile}} ' class="btn btn-primary">Download Cuenta</a>
+        {{/if}}        
+        </div>
+
+    </td>
+    <td>
+      
+        {{#if this.documents.dniFile}}
+<button id="premiumButton" data-uid="{{this.id}}" class="btn btn-primary">Actualizar a Premium</button>
+        {{/if}}
+    </td>
+    </tr>
+{{/each}} 
+
+  </tbody>
+</table>
+
+        </div>
+        <div class="pagination"> 
+            {{#if pagination.hasPrevPage}}
+                <a href="{{pagination.prevLink}}">
+                ⇚ {{pagination.prevPage}}
+                </a>
+            {{/if}}
+            {{pagination.page}}  
+
+            {{#if pagination.hasNextPage}}
+                <a href="{{pagination.nextLink}}"> 
+                    {{pagination.nextPage}}⇛
+                </a>
+            {{/if}}
+    </div>
+    </div>
+</section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const premiumButton = document.getElementById('premiumButton');
+
+    premiumButton.addEventListener('click', async function () {
+      const userId = premiumButton.getAttribute('data-uid');
+
+      try {
+        let myHeaders = new Headers();
+            myHeaders.append("Cookie", "connect.sid=s%3ANF0aIAq6WiZ6JnI4x8g3bB8lOZHNWly0.OIoJao4Wxy5SIliF1WdyE1KKGs2JMebtX3nZHystKQc");
+
+        let requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow'
+            };
+
+        let response = await fetch(`http://localhost:8080/api/users/premium/${userId}`, requestOptions)
+        if (response.ok) {
+  try {
+    const data = await response.json(); // Parsea la respuesta JSON
+    console.log(data);
+    window.location.reload();
+  } catch (error) {
+    console.error('Error al parsear la respuesta JSON', error);
+  }
+} else {
+  // Si la solicitud no fue exitosa (código de respuesta diferente de 200)
+  console.error('Hubo un error en la solicitud', response.status, response.statusText);
+}
+      } catch (error) {
+        console.error(error);
+        alert('Hubo un error al realizar la solicitud.');
+      }
+    });
+  });
+</script>

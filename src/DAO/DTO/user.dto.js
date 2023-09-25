@@ -5,6 +5,8 @@ export class UserDTO {
       this.lastName = user.lastName;
       this.role =user.role;
       this.cart =user.cart;
-      this.id = user._id;
+      this.status =user.status;
+      this.documents =user.documents;
+      this.id = user.id;
     }
   }

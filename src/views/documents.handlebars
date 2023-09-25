@@ -1,0 +1,37 @@
+
+
+ <h1 class="title-home">Proyecto Ecommerce CoderHouse</h1>
+
+ <div class="btnPerfil">
+    {{#if user.firstName}}
+     <p class=""  ><a class="btn" href="/auth/perfil"> Hola {{user.firstName}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
+    {{else}}
+    <p class=""  >
+        <a class="btn" href="/auth/login"> Iniciar Sesion </a> 
+    </p>
+    {{/if}}
+    <a class="btn" href="/products"> Inicio</a> 
+    {{#if vfyUoA}}
+        <a class="btn" href="/creatProduct"> Crear Productos</a> 
+        <a class="btn" href="/myProducts"> Ver Mis Products</a> 
+    {{/if}}
+    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
+    <span id="carritoCantidad"></span>
+    </a>
+ </div>
+<form method="POST" action="/api/users/{{user._id}}/documents" enctype="multipart/form-data">
+    <!-- Etiqueta y campo para el archivo 'dni' -->
+    <label for="dni" class="custom-file-upload">Subir DNI</label>
+    <input class="file-select"  type="file" id="dni" name="dni" accept="image/*,.pdf" required><br>
+
+    <!-- Etiqueta y campo para el archivo 'domicilio' -->
+    <label for="domicilio" class="custom-file-upload">Subir Comprobante de Domicilio</label>
+    <input class="file-select"   type="file" id="domicilio" name="domicilio" accept="image/*,.pdf" required><br>
+
+    <!-- Etiqueta y campo para el archivo 'cuenta' -->
+    <label for="cuenta" class="custom-file-upload">Subir Comprobante de Cuenta</label>
+
+    <input  type="file" id="cuenta" name="cuenta" accept="image/*,.pdf" required><br>
+    <input class="file-select" type="submit" value="Subir Archivos">
+  </form>
+

@@ -1,0 +1,13 @@
+ <h1 class="title-home">Proyecto Ecommerce CoderHouse</h1>
+
+ <div class="btnPerfil">
+    <a class="btn" href="/products"> Inicio</a> 
+    {{#if vfyUoA}}
+        <a class="btn" href="/creatProduct"> Crear Productos</a> 
+        <a class="btn" href="/myProducts"> Ver Mis Products</a> 
+    {{/if}}
+    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
+    <span id="carritoCantidad"></span>
+    </a>
+ </div>
+<h3>ESTAMOS PROCESANDO SUS ARCHIVOS PARA SER PREMIUM</h3>
