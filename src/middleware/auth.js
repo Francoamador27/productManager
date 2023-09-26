@@ -19,7 +19,6 @@ export async function isCart(req,res,next){
   const userSession = new UserDTO(req.session.user)
   const user = await Users.checkCart(userSession)
   if(user){
-   console.log("user middleware cart",user)
   return next() 
   }
   return res.status(500).render("error",{error:"No es Admin"})
@@ -44,27 +43,51 @@ export async function isCart(req,res,next){
     return res.status(500).render("error",{error:"No es Admin ni Premium"})
 } 
 export async function checkOwner(req,res,next){
-  let owner = req.session.user.email;
-  let userRole = req.session.user.role;
-  console.log("user Role",userRole);
-  const _id = req.params.id;
-  if(userRole === 'admin'){
-   next();
+  try{
+
+    let owner = req.session.user.email;
+    let userRole = req.session.user.role;
+    const _id = req.params.id;
+    if(userRole === 'admin'){
+      return next();
+    }
+    let checkProduct = await Products.checkOwner(_id,owner)
+  if(checkProduct){
+    return next();
   }
-  const productCheck = await Products.checkOwner(_id,owner); 
-  if (!productCheck) {
-      // Si no se encuentra el producto, puedes lanzar un error de permiso
-      return res.status(500).render("error",{error:"No tienes permiso para este producto"})
-    }        
-    return next()
+  }catch(e){
+    res.status(500).render("error", { error: "Error interno del servidor." });
+  }
 } 
+export async function isNotOwner(req,res,next){
+  try{
+    let owner = req.session.user.email;
+    let userRole = req.session.user.role;
+    const _id = req.params.pid;
+    console.log("id en el middelware",_id)
+    if(userRole === "admin"){
+      return next();
+    }      
+      const product = await Products.getById(_id);
+      console.log(product)
+      if (product && product.owner === owner) {
+        // Si el usuario está intentando comprar su propio producto, responde con un error 400 (Solicitud incorrecta)
+        return res.status(400).render("error", { error: "No puedes comprar tu propio producto." });
+      }
+      return next();
+
+  }catch(e){
+    res.status(500).render("error", { error: "Error interno del servidor." });
+  }
+
+}
+
 export async function checkDocuments(req,res,next){
   let email = req.session.user.email;
   let userRole = req.session.user.role;
-  console.log("user Role",userRole);
   const _id = req.params.id;
   if(userRole === 'admin'){
-   next();
+   return next();
   }
   const productCheck = await Products.checkOwner(_id,owner); 
   if (!productCheck) {

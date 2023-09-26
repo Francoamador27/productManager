@@ -21,7 +21,6 @@ export class UserService{
             status: doc.status,
           documents:doc.documents}
     })
-    console.log("users",users)
 
     let pagination = rest;
     if(pagination.hasNextPage){
@@ -42,7 +41,6 @@ export class UserService{
       })
       pagination.prevLink = prevLink;
   }
-  console.log("pagination",pagination)
 
  return {users,pagination};
     }

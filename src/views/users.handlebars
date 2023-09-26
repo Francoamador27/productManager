@@ -22,6 +22,10 @@ ul.list-users {
         <a class="btn" href="/creatProduct"> Crear Productos</a> 
         <a class="btn" href="/myProducts"> Ver Mis Products</a> 
     {{/if}}
+    {{#if vfyAdmin}}
+            <a class="btn" href="/users"> Users</a> 
+
+    {{/if}}
     <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
     <span id="carritoCantidad"></span>
     </a>
@@ -136,7 +140,6 @@ ul.list-users {
         if (response.ok) {
   try {
     const data = await response.json(); // Parsea la respuesta JSON
-    console.log(data);
     window.location.reload();
   } catch (error) {
     console.error('Error al parsear la respuesta JSON', error);

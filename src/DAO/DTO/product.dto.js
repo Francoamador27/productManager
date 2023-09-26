@@ -1,6 +1,5 @@
 export class ProductDTO {
   constructor(product) {
-      console.log("dto",product)
       this.id = product._id;
       this.title =product.title;
       this.price = product.price;

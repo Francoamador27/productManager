@@ -10,7 +10,6 @@ class UserController{
           const {limit}= req.query;
           const status = req.query.status || "";
           const data = await Service.getAll(limit,page,status,currentUrl);
-          console.log("data controller",data);
       return res.status(200).json({
         status: "success",
         msg: "listado de usuarios",

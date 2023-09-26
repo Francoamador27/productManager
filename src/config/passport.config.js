@@ -51,10 +51,8 @@ export function iniPassport() {
                 let cartCreate = await  Carts.createOne();
                 await Users.addCart(newUser.email,cartCreate._id)
 
-                console.log('User Registration succesful');
                 return done(null, userCreated);
               } else {
-                console.log('User already exists');
                 return done(null, user);
               }
             } catch (e) {

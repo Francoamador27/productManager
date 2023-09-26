@@ -77,7 +77,6 @@ app.use(passport.session());
 connectSocket(httpServer);
 
 app.engine("handlebars",handlebars.engine());
-console.log(__dirname)
 app.set("views",path.join(__dirname, "views"))
 app.set('view engine','handlebars');
 

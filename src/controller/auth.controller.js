@@ -29,7 +29,6 @@ class AuthController{
             }
             return res.redirect("/auth/login")
                 })
-                // console.log(req?.session?.user,req?.session?.admin)
                }
     async register  (req, res)  {
         if (!req.user) {

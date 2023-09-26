@@ -22,7 +22,6 @@ describe("Pruebas de rutas de productos", () => {
       const idProducto = "64c6dafb0bfd35a2c3d6926d"; // Reemplaza con un ID válido de tu base de datos
       const response = await request.get(`/api/products/${idProducto}`);
       const body = response.body;
-      console.log(body);
       expect(response.status).to.equal(200); // Verificar que la respuesta sea un código 200 (éxito)
       expect(body.data).to.have.property('_id', idProducto); // Verificar que el ID del producto sea el esperado
       expect(response.body).to.be.an("object"); // Asumiendo que la respuesta es un objeto de producto

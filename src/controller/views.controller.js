@@ -27,6 +27,7 @@ class ViewsController{
           // BUSCO SI EXISTE SESSION Y USUARIO
           let user ="";
           let vfyUoA= false;
+          let vfyAdmin= false;
 
           if(req?.session?.user?.email){
             let email = req.session.user.email
@@ -35,10 +36,13 @@ class ViewsController{
             if (role === "admin" || role === "premium") {
                vfyUoA= true;
             }
+            if (role === "admin") {
+              vfyAdmin= true;
+            }   
             req.session.user.cart= user.cart;
             user = new UserDTO(user);
           }
-          return res.status(201).render('products',{products, pagination,user,vfyUoA});
+          return res.status(201).render('products',{products, pagination,user,vfyUoA,vfyAdmin});
         }catch(e){
           console.log(e)
         }
@@ -56,7 +60,7 @@ class ViewsController{
           // BUSCO SI EXISTE SESSION Y USUARIO
           let user ="";
           let vfyUoA= false;
-
+          let vfyAdmin=false;
           if(req?.session?.user?.email){
             let email = req.session.user.email
             let role = req.session.user.role
@@ -64,10 +68,13 @@ class ViewsController{
             if (role === "admin" || role === "premium") {
                vfyUoA= true;
             }           
+            if (role === "admin") {
+              vfyAdmin= true;
+            }           
             req.session.user.cart= user.cart;
             user = new UserDTO(user);
           }
-          return res.status(201).render('users',{users, pagination,user,vfyUoA});
+          return res.status(201).render('users',{users, pagination,user,vfyUoA,vfyAdmin});
         }catch(e){
           console.log(e)
         }
@@ -113,7 +120,6 @@ class ViewsController{
         try{
           let vfyUoA= false;
           if(req.session.user){
-            console.log(req.session.user)
             let user = req.session.user
             let role = req.session.user.role
             console.log(role);
@@ -132,12 +138,17 @@ class ViewsController{
         try{
           let user = "";
           let vfyUoA= false;
+          let vfyAdmin= false;
+
           if(req?.session?.user?.email){
             let email = req.session.user.email
             let role = req.session.user.role
             if (role === "admin" || role === "premium") {
                vfyUoA= true;
             }
+            if (role === "admin") {
+              vfyAdmin= true;
+            }   
             user = await Users.findOnebyEmail(email)
             user = new UserDTO(user);
 
@@ -147,7 +158,7 @@ class ViewsController{
           if (session != 'admin') {
             owner = req.session.user.email;
           }         
-          return res.status(201).render('creatProduct',{user,vfyUoA});
+          return res.status(201).render('creatProduct',{user,vfyUoA,vfyAdmin});
         }catch(e){
           console.log(e)
         }
@@ -156,7 +167,6 @@ class ViewsController{
       try{
         const idCart = req.params.cid;
         let  products = await  Carts.getById(idCart);
-        console.log(products)
         return res.status(201).render('cart',{products,idCart});
         }catch(e){
           return res.status(500).json({
@@ -190,7 +200,6 @@ class ViewsController{
 
           }
          let  productDto = new ProductDTO(product)
-          console.log("view controller",product)
         return res.status(201).render('edit-product',{product:productDto,vfyUoA,user,id});
         }catch(e){
           return res.status(500).json({

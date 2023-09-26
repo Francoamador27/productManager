@@ -1,7 +1,7 @@
 import  express  from "express";
 export const viewsRouter = express.Router();
 import { viewsController } from "../controller/views.controller.js";
-import { checkOwner, iAdminoPremium, isUser } from "../middleware/auth.js";
+import { checkOwner, iAdminoPremium, isAdmin, isUser } from "../middleware/auth.js";
 
 
 viewsRouter.get('/products', viewsController.getAll);
@@ -14,7 +14,7 @@ viewsRouter.get("/carts/:cid" ,  viewsController.getCardbyId)
 viewsRouter.get("/show-session" , viewsController.showSession )
 viewsRouter.get("/mockingproducts" , viewsController.creatFake )
 viewsRouter.get("/testing",viewsController.testingLoggers)
-viewsRouter.get("/users",viewsController.getAllUsers)
+viewsRouter.get("/users",isAdmin,viewsController.getAllUsers)
 
 viewsRouter.get('/logout', viewsController.logout)
 

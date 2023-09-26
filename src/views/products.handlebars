@@ -14,9 +14,12 @@
 <a class="btn" href="/creatProduct"> Crear Productos</a> 
 <a class="btn" href="/myProducts"> Ver Mis Products</a> 
 {{/if}}
+  {{#if vfyAdmin}}
+            <a class="btn" href="/users"> Users</a> 
 
-    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
-<span id="carritoCantidad"></span>
+    {{/if}}
+    <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"> </i>
+<span id="carritoCantidad">""</span>
 </a>
 
  </div>

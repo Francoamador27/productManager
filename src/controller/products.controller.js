@@ -106,8 +106,7 @@ class ProductsController{
         const thumbnail = "/" + req.file.filename;
         updatedProduct.thumbnail = thumbnail;
       }     
-      console.log("product put", updatedProduct)
-      console.log("id search",idSearch);
+
       try{
         let product = await Products.updateOne(idSearch,updatedProduct);
         return res.status(200).json({product})

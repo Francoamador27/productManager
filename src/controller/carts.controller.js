@@ -37,7 +37,6 @@ class CartController{
         try{
            const idCart = req.params.cid;
            const idProduct = req.params.pid;
-           console.log("idCart",idCart)
            let  addProduct = await  Carts.addProdductCart(idCart,idProduct)
         
            return res.status(200).json({

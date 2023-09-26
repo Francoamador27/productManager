@@ -63,16 +63,7 @@ export class ProductsService{
 
     async checkOwner(_id,owner){
         try{
-
             const product = await Products.checkOwner(_id,owner);
-            if(!product){
-                CustomError.createError({
-                    name:"User creation errror",
-                    cause:"El id no se encontro",
-                    message:"Ese producto no se encontro",
-                    code: EErrors.PRODUCTS_NO_FIND,
-                })
-        }
         return product;
 
         }catch(e){
@@ -84,8 +75,8 @@ export class ProductsService{
             })        }
    }
     async getById(_id){
+
         const product = await Products.getById(_id);
-        console.log("product getByid Service",product)
   
         if(!product){
             CustomError.createError({

@@ -78,12 +78,12 @@ function limpiarCarrito() {
   async function addProducttoCart(id,cartId){
     try{
         localStorage.setItem("cartId", JSON.stringify(cartId));
-        await addProduct(id,cartId)
+       let response =  await addProduct(id,cartId)
         await  getCart(cartId);
         alert("Producto Agregado con exito")
     }
     catch(e){
-      alert("Debes Iniciar Sesion")
+      alert(e)
     }
   }
 
@@ -102,12 +102,11 @@ async function getCart(cartId){
     method: 'GET',
     redirect: 'follow'
   };
-  
+  console.log("cartId",cartId);
   let response = await fetch('http://localhost:8080/api/carts/'+ cartId, requestOptions)
   let respJson = await response.json()
   let cart = respJson.data
     var cantidad = cart.length;
-    console.log(cart);
     var carritoCantidadElemento = document.getElementById("carritoCantidad"); // Obtén el elemento HTML del número de carrito
     carritoCantidadElemento.textContent = cantidad;
 }
@@ -146,19 +145,25 @@ async function purchase(idCart){
 
 }
   async function addProduct(idProduct,idCart){
-    var raw = "";
-    let requestOptions = {
-    method: 'POST',
-    body: raw,
-    redirect: 'follow'
-  };
-  fetch('http://localhost:8080/api/carts/'+idCart+'/product/'+idProduct, requestOptions)
-  .then(response => response.text())
-  .then(result => cart = result)
-  .catch(error => console.log('error', alert(error) ));
+    try{
 
-  await getCart();
-  } 
+      var raw = "";
+      let requestOptions = {
+      method: 'POST',
+      body: raw,
+      redirect: 'follow'
+    };
+    let response = await fetch('http://localhost:8080/api/carts/'+idCart+'/product/'+idProduct, requestOptions)
+   console.log(response);
+   if (!response.ok) {
+    throw new Error("No se pudo agregar");
+  }
+  return response;
+    }catch(e){
+      throw new Error ("No se puedo agregar")
+    }
+
+} 
     // Código a ejecutar en la página 2
     
   async function deletProductToCart(idCartid,idProduct){

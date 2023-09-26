@@ -20,7 +20,6 @@ class MailController{
                 cid:"bici.jpg",
             }]
          }) 
-         console.log(result)
          return res.status(201).json({
           message:"Email enviado ",
           data: ''}); 

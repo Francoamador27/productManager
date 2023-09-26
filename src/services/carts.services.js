@@ -7,7 +7,6 @@ export class CartsService{
       return carts;
     }
     async getById(idCart){
-        console.log("id cart cart service getbyid",idCart)
         let cart = await CartsModel.findOne({_id:idCart}).populate("products.product");
 
         let products =  cart.products.map((doc)=>{
@@ -25,9 +24,7 @@ export class CartsService{
       }
     async createOne(){
         const cartCreated = await CartsModel.create({});
-        
-          console.log(cartCreated)
-        return cartCreated;
+                return cartCreated;
     }
     async addProdductCart(idCart,idProduct){
         try{
