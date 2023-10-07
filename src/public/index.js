@@ -1,7 +1,6 @@
 
 
   // Código a ejecutar en la página 1
-  const socket = io();
 
 
 
@@ -10,40 +9,8 @@
   let usuario = "";
   let emailUser ="";
   
-//RENDERIZAR CHAT
-socket.on('all-msg',chats=>{
-  let msgFormateados = "";
 
-  chats.forEach(msg => {
-    if(usuario === msg.user ){
-          msgFormateados += `<div class="my-msg msgChat">`;
-    }else{
-          msgFormateados += `<div class="otros-msg msgChat">`;
-
-    }
-    msgFormateados += `<div ">`;
-    msgFormateados += '<p class="user">'+ msg.user+ "</p>";
-    msgFormateados += '<p class="email">'+ msg.email+ '</p>';
-    msgFormateados += '<h3 class="mensaje">'+ msg.message+ '</h3>';
-    msgFormateados += `</div ">`;
-    msgFormateados += '</div>';
-
-  });
-  divMsgs = document.getElementById("div-msgs")
-  divMsgs.innerHTML = msgFormateados;
-  })
-  //CHAT
-  chatBtn.addEventListener("click", function(event) {
-    const messageInput = document.getElementById('msg');
-
-    const username = saveBtn;
-    const message = messageInput.value;
-
-    // Enviar el mensaje y el nombre de usuario al servidor
-    socket.emit('send-msg', { username, message });
-
-    messageInput.value = '';
-  })
+  
 
 
 
@@ -110,43 +77,50 @@ async function getCart(cartId){
     var carritoCantidadElemento = document.getElementById("carritoCantidad"); // Obtén el elemento HTML del número de carrito
     carritoCantidadElemento.textContent = cantidad;
 }
-async function purchase(idCart){
+async function purchase(idCart, e){
+    try {
+            var requestOptions2 = {
+        method: 'POST',
+        redirect: 'follow'
+      };
+      
+      fetch(`http://localhost:8080/api/carts/${idCart}/purchase/`, requestOptions2)
+        .then(response => response.json())
+        .then(result => {
+          Swal.fire({
+            title: 'Finalizado',
+            text: 'La compra se realizó con éxito',
+            icon: 'success',
+            confirmButtonText: 'Ver Orden',
+            showCancelButton: true,
+            cancelButtonText: 'Ver Mas Tarde',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = '/orders';
+            }else{
+            window.location.href = '/products';
 
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json', 
-    },
-  };
-  
-  // Realizar la solicitud POST al servidor
-  fetch(`http://localhost:8080/api/carts/${idCart}/purchase`, requestOptions)
-    .then(response => {
-      if (!response.ok) {
-        // Si la respuesta del servidor no es exitosa, lanzamos un error para ser capturado por el catch
-        alert("PRIMERA Respuesta del servidor:",data)
+          }
 
-        throw new Error('Error en la solicitud');
-      }
-      // Si la respuesta es exitosa, devolvemos la respuesta en formato JSON
-      return response.json();
-    })
-    .then(data => {
-      // Aquí puedes trabajar con la respuesta del servidor (data) cuando sea exitosa
-      alert("Respuesta del servidor:",data)
-      console.log('Respuesta del servidor:', data);
-    })
-    .catch(error => {
-      // Si ocurre algún error en la solicitud, lo capturamos aquí
-      alert('Error en la solicitud:', error)
-      console.error('Error en la solicitud:', error);
-    });
+        })
+      })
+        .catch(error => {
+          alert('Error: ' + error.message);
+          alert('Error: ' + error.stack);
+          console.log('Error:', error.message);
 
-
+        });
+}catch(e){
+  alert("error catch")
 }
+}
+document.getElementById('finalizar-compra-link').addEventListener('click', function(event) {
+  event.preventDefault(); // Evita la recarga de la página
+  const idCart = this.getAttribute('data-idcart');
+  purchase(idCart);
+});
   async function addProduct(idProduct,idCart){
     try{
-
       var raw = "";
       let requestOptions = {
       method: 'POST',

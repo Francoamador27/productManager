@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { createHash, isValidPassword, transport } from "../utils/utils.js";
 import { UserService } from '../services/users.services.js';
+import { ProductsService } from '../services/products.services.js';
+import { UserDTO } from '../DAO/DTO/user.dto.js';
 
 const secretKey = 'tu_clave_secreta';
 const Service = new UserService();
-
+const Products = new ProductsService()
 class AuthController{
 
     async renderLogin  (req, res) {
@@ -15,13 +17,24 @@ class AuthController{
           return res.json({ error: 'invalid credentials' });
         }
         req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
-      
+        let lastLoginDate = Date.now();
+        await Service.updateConection(req.user.email,lastLoginDate)
         return res.redirect("/products")
       }
     async perfil  (req, res)  {
-        const user = {email: req.session.user.email,isAdmin: req.session.user.role}
-        return res.render("perfil",{user})
+        const user = req.session.user
+        let vfyUoA= false;
+        if(req?.session?.user?.email){
+          let role = req.session.user.role
+          if (role === "admin" || role === "premium") {
+             vfyUoA= true;
+          }
+          let userBd = await  Service.findOnebyEmail(user.email)
+          userBd = new UserDTO(userBd)
+          console.log(userBd)
+          return res.render("perfil",{user,vfyUoA})
         }
+      }
     async logut (req, res) {
         req.session.destroy(err => {
             if (err) {
@@ -89,22 +102,23 @@ class AuthController{
         try { 
           let vfyPassword = true;
            const code = req.body.code;
+           console.log(code)
           const email = req.body.email;
           const password = req.body.password;
           // Verifica el token utilizando la clave secreta
           const decoded =  jwt.verify(code, secretKey);
-          // El token es válido, puedes acceder a la información del usuario
           const emailDecoded = decoded.email;
+          console.log(emailDecoded,"email decodificado")
           if(email===emailDecoded){
            let passwordHash = createHash(password)
            let userEmail = await Service.findOnebyEmail(email);
-           let passwordDb = userEmail.password
+           let passwordDb = userEmail.password;
+      
            let valid = isValidPassword(password,passwordDb)
             if(valid){
               res.render("recover-pass",{email,code,vfyPassword})
 
             }else{
-              console.log('usuario en db',userEmail)
               let uptadedPass = await Service.updatePassword(email,passwordHash);
               res.render("succes-pass",{email,code})
               

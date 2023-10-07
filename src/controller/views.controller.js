@@ -6,10 +6,13 @@ import { generateProducts } from "../utils/utils.js";
 import { logger } from "../utils/logger.js";
 import { ProductDTO } from "../DAO/DTO/product.dto.js";
 import { tr } from "@faker-js/faker";
+import { OrdersService } from "../services/orders.services.js";
+import { format } from 'date-fns';
+
 const Users = new UserService()
 const Products = new ProductsService()
 const Carts = new CartsService()
-
+const Orders = new OrdersService();
 class ViewsController{
       async getAll (req, res){
         try{
@@ -53,11 +56,12 @@ class ViewsController{
           var currentUrl = req.url
           const {page} = req.query;
           const {limit}= req.query;
+          let {lastTwo}= req.query;
           const status = req.query.status || "";
-          const data = await Users.getAll(limit,page,status,currentUrl);
+          const role =req.query.role;
+          const data = await Users.getAll(limit,page,status,currentUrl,lastTwo,role);
           let users = data.users;
           let pagination = data.pagination;
-          // BUSCO SI EXISTE SESSION Y USUARIO
           let user ="";
           let vfyUoA= false;
           let vfyAdmin=false;
@@ -180,6 +184,26 @@ class ViewsController{
          const dataSession = req.session;
          return res.status(201).send(JSON.stringify(dataSession));
           }catch(e){
+          return res.status(500).json({ });
+          }}
+      async orders  (req, res)  {
+        try{
+          let user = req.session.user;
+          let vfyUoA= false;
+            let email = user.email
+            let role = user.role
+            if (role === "admin" || role === "premium") {
+               vfyUoA= true;
+            }
+            user = await Users.findOnebyEmail(email)
+            user = new UserDTO(user);
+          let session = req.session.user.role;
+        
+        let Orderfound = await Orders.getAll(role,email)
+console.log(Orderfound);
+          return res.status(201).render('orders',{user,vfyUoA,Orderfound});
+          }catch(e){
+            console.log(e)
           return res.status(500).json({ });
           }}
      async editProductbyId(req, res)  {

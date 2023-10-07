@@ -9,7 +9,7 @@
          <li class="card-cart">  
             <div class="card-img">
                 <div class="img-div"> 
-                <img class="img-card" src='/img{{this.thumbnail}}'/>
+                <img class="img-card" src='/products/{{this.thumbnail}}'/>
             </div>
             </div>         
            <div class="info-card">
@@ -24,7 +24,7 @@
 
          </li>
     {{/each}} 
-    <a class="btn check-out" onclick='purchase("{{idCart}}")'  href="">FINALIZAR COMPRA</a>
+    <a class="btn check-out" id="finalizar-compra-link" data-idcart="{{idCart}}"  href="">FINALIZAR COMPRA</a>
     <script></script>
     </ul>
 </section>

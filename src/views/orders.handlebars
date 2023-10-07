@@ -1,15 +1,5 @@
-<style>
-    a.logout-page {
-    background: red;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    font-family: 'Poppins';
-    text-decoration: none;
-    margin: 10px;
-}
-</style>
 <h1 class="title-home">Proyecto Ecommerce CoderHouse</h1>
+
  <div class="btnPerfil">
     {{#if user.firstName}}
      <p class=""  ><a class="btn" href="/auth/perfil"> Hola {{user.firstName}} </a> <a class="logout" href="/auth/logout">Cerrar sesion</a> </p>
@@ -23,14 +13,39 @@
         <a class="btn" href="/creatProduct"> Crear Productos</a> 
         <a class="btn" href="/myProducts"> Ver Mis Products</a> 
     {{/if}}
+    {{#if vfyAdmin}}
+            <a class="btn" href="/users"> Users</a> 
+
+    {{/if}}
     <a href="" onclick='viewCart("{{user.cart}}") '  id="view-cart"><i class="bi bi-cart"></i>
     <span id="carritoCantidad"></span>
     </a>
  </div>
-<h1>Perfil</h1>
-<h3>Name: {{user.firstName}} </h3>
-<h3>Last Name:{{user.lastName}} </h3>
-<h3>Role:{{user.role}} </h3>
-<h3>Email: {{user.email}}</h3>
-<br></br>
-<a href="/auth/logout" class="logout-page">Logout</a><br>
+<section class="">
+   
+    <div class="secc-users">
+        <div class="list-users">
+        <ul class="list-users">   
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Email</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+{{#each Orderfound}}
+    <tr>
+      <th scope="row">{{this.purchaser}}</th>
+        <td>{{this.purchase_datetime}}</td>
+        <td>{{this.amount}}</td>
+    </tr>
+{{/each}} 
+  </tbody>
+  <tbody>
+
+
+  </tbody>
+</table>
+</section>

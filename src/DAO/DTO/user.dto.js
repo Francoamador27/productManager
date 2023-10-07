@@ -7,6 +7,7 @@ export class UserDTO {
       this.cart =user.cart;
       this.status =user.status;
       this.documents =user.documents;
+      this.lastConnection =user.lastConnection;
       this.id = user.id;
     }
   }

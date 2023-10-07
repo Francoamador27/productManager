@@ -10,7 +10,10 @@ const schema = new Schema({
   age: {type: Number,max: 100 ,required: false },
   role: { type: String, default:"user", required: false },
   status: { type: String, default:"not-require", required: false },
-  documents: {
+  lastConnection: {
+    type: Number, // Tipo de datos: número
+    default: () => Date.now(), // Valor predeterminado: fecha actual en números
+  },  documents: {
     dniFile: String,
     domicilioFile: String,
     cuentaFile: String,

@@ -165,6 +165,7 @@ export class ProductsService{
         const filtro = { _id: _id };
         const actualizacion = { $set: { productsNoStock: productsNoStock } };
         let productUpdate = await Products.updateOne(filtro, actualizacion) 
+        console.log("productUpdate",productUpdate)
         return productUpdate;
      }
     catch(e){

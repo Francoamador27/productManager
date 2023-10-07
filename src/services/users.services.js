@@ -1,15 +1,23 @@
 import { UserDTO } from "../DAO/DTO/user.dto.js";
 import { UserModel } from "../DAO/schema/user.schema.js";
-import url from "url"
+import url, { fileURLToPath } from "url"
 
 export class UserService{
     
-    async getAll(limit,page,status,currentUrl){
-      let filters = {};
-      if (status) {
-        filters.status = { $regex: status, $options:'i' };
-      }
-      const usersData = await UserModel.paginate(filters,{limit:limit || 4 ,page: page || 1});
+  async getAll(limit,page,status,currentUrl,lastTwo,role) {
+    let filters = {};
+    if (status) {
+      filters.status = { $regex: status, $options: 'i' };
+    }
+    if (lastTwo) {
+      const tenMinutesAgo = new Date();
+      tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10); // Resta 10 minutos a la fecha actual
+      filters.lastConnection = { $lt: tenMinutesAgo.getTime() };
+    }
+    if (role) {
+      filters.role = role; 
+    }
+    const usersData = await UserModel.paginate(filters, { limit: limit || 4, page: page || 1 });
       const {docs, ...rest} = usersData;
       let users =  docs.map((doc)=>{
         return {id: doc.id,
@@ -57,8 +65,7 @@ export class UserService{
     async findOnebyEmail(email){
       try{
         let user = await UserModel.findOne({email:email})
-        let userDto = new UserDTO(user);
-        return userDto;
+        return user;
       }catch{
         console.log(e)
         throw new Error("validation error: please complete firstName, lastname and email.");
@@ -79,10 +86,21 @@ export class UserService{
     
     async deletOne(_id){
        try{
-          if(_id){
-             let productDelet = await UserModel.deleteOne({_id: _id});
+             let productDelet = await UserModel.findOneAndDelete({ _id: _id });
              return productDelet;
-        }
+       }
+      catch(e){
+        throw  new Error("Nuevo error")     
+      }
+    }
+    async deletOldConection(){
+      try {
+        const tenMinutesAgo = new Date();
+        tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 30); // Resta 10 minutos a la fecha actual
+        const result = await UserModel.deleteMany({
+          lastConnection: { $lt: tenMinutesAgo },
+        });
+             return result;
        }
       catch(e){
         throw  new Error("Nuevo error")     
@@ -151,6 +169,22 @@ export class UserService{
         return userUptaded;
      }
     catch(e){
+      console.log(e)
+    throw  new Error("No fue posible cambiar la contraseña")     
+    }
+ }
+   
+   async updateConection(email,lastConnection){
+    try{
+        const userLastConection = await UserModel.findOneAndUpdate(
+          { email },
+          { lastConnection },
+          { new: true } // Devuelve el documento actualizado
+        );
+        return userLastConection;
+     }
+    catch(e){
+      console.log(e)
     throw  new Error("No fue posible cambiar la contraseña")     
     }
  }

@@ -1,10 +1,27 @@
 <style>
+  button#premiumButton {
+    margin-bottom: 20px;
+}
+a#delet-user {
+    padding: 5px;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
 ul.list-users {
     display: block;
 }
  .td-download {
     display: inline-grid;
 }   
+td#actualizar-premium {
+    display: revert;
+   
+}
+td {
+    font-family: 'Poppins';
+}
 </style>
 
 <h1 class="title-home">Proyecto Ecommerce CoderHouse</h1>
@@ -38,12 +55,20 @@ ul.list-users {
                 <a href="/users?page=1&status=processing">
                 Procesando</a>
             </li>
+            <li class="checks">
+                <a href="/users?role=admin">
+                Admins</a>
+            </li>
             <li  class="checks">
-                <a href="/products?page=1&status=user">
+                <a href="/users?role=user">
                 Users   </a>
             </li>
+            <li  class="checks">
+                <a href="users?lastTwo=true">
+                Coneccion ultima mas de 10 min   </a>
+            </li>
             <li class="checks">
-                <a href="/products?page=1&category=componentes">
+                <a href="/users?page=1&status=checked">
                 Premium</a> 
             </li>
             <li class="checks">
@@ -73,9 +98,9 @@ ul.list-users {
       <th scope="row">{{this.firstName}}</th>
       <td>{{this.lastName}}</td>
       <td>{{this.email}}</td>
-      <td>{{this.role}}</td>
-      <td>{{this.status}}</td>
-       <td >
+      <td id="role">{{this.role}}</td>
+      <td id="status">{{this.status}}</td>
+        <td >
         <div class="td-download">
 
         {{#if this.documents.dniFile}}
@@ -88,14 +113,15 @@ ul.list-users {
         <a href='/documents/{{this.documents.cuentaFile}}' download='{{documents.cuentaFile}} ' class="btn btn-primary">Download Cuenta</a>
         {{/if}}        
         </div>
-
     </td>
-    <td>
-      
-        {{#if this.documents.dniFile}}
-<button id="premiumButton" data-uid="{{this.id}}" class="btn btn-primary">Actualizar a Premium</button>
+      <td id="actualizar-premium">     {{#if this.documents.dniFile}}
+        <button id="premiumButton" data-uid="{{this.id}}" class="btn btn-primary">Actualizar a Premium</button>
         {{/if}}
-    </td>
+        
+           <a data-id="{{this.id}}" onclick="deleteUser('{{this.id}}')" id="delet-user" class="delet-user"><i class="bi bi-trash"></i>Delete User</a>
+      </td>
+
+  
     </tr>
 {{/each}} 
 
@@ -119,6 +145,7 @@ ul.list-users {
     </div>
     </div>
 </section>
+<a  href="#" id="delet-many">Eliminar Usuarios con viejas conecciones</a>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const premiumButton = document.getElementById('premiumButton');
@@ -154,4 +181,80 @@ ul.list-users {
       }
     });
   });
+// Obtén todos los elementos <td> con id "status"
+var statusElements = document.querySelectorAll('td#status');
+var premiumElements = document.querySelectorAll('td#actualizar-premium');
+var roleElements = document.querySelectorAll('td#role');
+// Itera a través de los elementos y aplica el estilo si el valor es "checked"
+statusElements.forEach(function (statusElement, index) {
+  var statusValue = statusElement.textContent;
+  var premiumButton = premiumElements[index].querySelector('#premiumButton');
+  if (statusValue === 'checked') {
+    roleElements[index].style.backgroundColor = '#efb810';
+        premiumButton.disabled = true;
+          premiumButton.textContent = 'Es Premium';
+    premiumButton.style.backgroundColor = '#efb810';
+    statusElement.style.backgroundColor = 'green';
+
+  }
+  if (statusValue === 'processing') {
+    roleElements[index].style.backgroundColor = '#fffb21';
+    premiumButton.style.backgroundColor = '#fffb21';
+    statusElement.style.backgroundColor = 'yellow';
+
+  }
+});
+
+async function deleteUser(userId) {
+  try {
+    const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        // Puedes agregar encabezados adicionales aquí si es necesario
+      },
+      // Puedes incluir un cuerpo (body) si es necesario para la eliminación
+      // body: JSON.stringify({}),
+    });
+
+    if (response.ok) {
+      // La solicitud fue exitosa y el usuario se eliminó
+      alert('Usuario eliminado con éxito');
+      window.location.reload();
+      // Aquí puedes realizar acciones adicionales, como actualizar la interfaz de usuario
+    } else {
+      // La solicitud no fue exitosa, maneja el error aquí
+      console.error('Error al eliminar usuario');
+    }
+  } catch (error) {
+    // Maneja cualquier error de red aquí
+    console.error('Error de red:', error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const deleteManyLink = document.getElementById("delete-many");
+
+  deleteManyLink.addEventListener("click", async (e) => {
+    e.preventDefault(); // Evita que el enlace siga su href por defecto
+
+    try {
+      const response = await fetch("/oldconection", {
+        method: "DELETE",
+      });
+
+      if (response.status === 200) {
+        console.log("Usuarios con conexiones antiguas eliminados con éxito.");
+        // Puedes realizar alguna acción adicional después de la eliminación.
+      } else {
+        console.error("Error al eliminar usuarios con conexiones antiguas.");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  });
+});
+
+
+
 </script>

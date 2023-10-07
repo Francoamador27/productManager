@@ -13,6 +13,9 @@
 {{#if vfyUoA}}
 <a class="btn" href="/creatProduct"> Crear Productos</a> 
 <a class="btn" href="/myProducts"> Ver Mis Products</a> 
+{{else}}
+<a class="btn" href="/bePremium"> Ser Premium</a> 
+
 {{/if}}
   {{#if vfyAdmin}}
             <a class="btn" href="/users"> Users</a> 
@@ -43,7 +46,7 @@
             <li class="checks">
                 <a href="/products?page=1">
                 Todos los productos</a> 
-            </li> <label class="price" for="price">Precio
+            </li> <label class="price" for="price">Maximo Precio
                 <input type="number" name="price" id="pricefilter" >
         </label>
     </ul>
@@ -97,19 +100,9 @@
     <section class="all-chat">
 
 
-<section class="div_hide" id="chat-soc">
-    <h3>Chat</h3>
-    <div class="msgs" id="div-msgs"></div>
-    <p class="txt-msg">Escribe tu mensaje</p>
-    <div>
-        <input type="text" name="msg" id="msg">
-        <input type="button" value="Enviar" id="btn-enviar">
-    </div>
-</section>
+
 
     </section>
-    <script src="/socket.io/socket.io.js"></script>
-
 {{!-- <div class="floating_menu" id="FloatMenu">
     <div class="menu">
         <ion-icon name="chatbox-outline"></ion-icon>

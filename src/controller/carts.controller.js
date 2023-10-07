@@ -110,12 +110,11 @@ class CartController{
                try{
                   const idCart = req.params.cid;
                   let  cartById = await  Carts.getById(idCart);
-                  console.log("id en el service",idCart)
-
                   let amount = 0;
                   for (const item of cartById) {
+                     console.log(item,"item")
                      let product = await Products.getById(item.id);
-                     product = product[0];
+                     console.log("product",product);
                      if (!product) {
                         return res.status(404).json({ error: 'Producto no encontrado' });
                      }
@@ -141,23 +140,22 @@ class CartController{
                   newTicket.amount = amount;
                   let userSession = req.session.user
                   newTicket.email = userSession.email;
-                  await Carts.delectAllProducts(idCart);
+                  let cartDeleted =await Carts.delectAllProducts(idCart);
+                  console.log("cart deleted",cartDeleted)
                   let ticket = await Tickets.createOne(newTicket)
+                  console.log(ticket);
                   return  res.status(200).json({
                      status: "success",
                      msg: "product created",
                      data: ticket,
-                   });;
+                   });
                      } catch(e) {
-                     console.log(e)
                         return res.status(500).json({
                            status: "error",
                            msg: "something went wrong :(",
                            data: {e},
                         });
-           }
-                
-               
+                     }
                   }      
 }
 

@@ -6,7 +6,8 @@ import {  isAdmin, isUser } from "../middleware/auth.js";
 
 usersRouter.get("/", userController.getAll);
 usersRouter.get('/:email', userController.getOnebyEmail);
-usersRouter.delete('/:id', userController.deletOne);
+usersRouter.delete('/:id',isAdmin, userController.deletOne);
+usersRouter.delete('/oldconection',isAdmin, userController.deletOldConection);
 usersRouter.put("/:id", userController.updateOne);
 usersRouter.put("/premium/:id",isAdmin, userController.updatePremium);
 usersRouter.post("/:id/documents",isUser, uploadDocument.fields([
