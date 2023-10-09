@@ -4,6 +4,9 @@
   "description": "",
   "main": "productManager.js",
   "type": "module",
+  "engines":{
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "node ./src/app.js --mode DEVELOPMENT ",
     "start": "node ./src/app.js --mode PRODUCTION ",
