@@ -54,7 +54,7 @@ app.use(
   session({
     store: MongoStore.create({
        mongoUrl: config.mongoUrl, ttl: 7200 }),
-    secret: 'un-re-secreto',
+    secret: config.secretMongo,
     resave: true,
     saveUninitialized: true,
   })

@@ -2,7 +2,7 @@ import passport from 'passport';
 import local from 'passport-local';
 import { createHash, isValidPassword } from '../utils/utils.js';
 
-import { UserModel } from '../DAO/schema/user.schema.js';
+import {UserSchema } from '../DAO/schema/user.schema.js';
 import GitHubStrategy from 'passport-github2';
 import config from './config.js';
 import { CartsService } from '../services/carts.services.js';
@@ -38,7 +38,7 @@ export function iniPassport() {
               }
               profile.email = emailDetail.email;
     
-              let user = await UserModel.findOne({ email: profile.email });
+              let user = await UserSchema.findOne({ email: profile.email });
               if (!user) {
                 const newUser = {
                   email: profile.email,
@@ -47,7 +47,7 @@ export function iniPassport() {
                   role: "user",
                   password: 'nopass',
                 };
-                let userCreated = await UserModel.create(newUser);
+                let userCreated = await UserSchema.create(newUser);
                 let cartCreate = await  Carts.createOne();
                 await Users.addCart(newUser.email,cartCreate._id)
 
@@ -70,7 +70,7 @@ export function iniPassport() {
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
-        const user = await UserModel.findOne({ email: username });
+        const user = await UserSchema.findOne({ email: username });
         if (!user) {
           console.log('User Not Found with username (email) ' + username);
           return done(null, false);
@@ -97,7 +97,7 @@ export function iniPassport() {
       async (req, username, password, done) => {
         try {
           const { email, firstName, lastName, age } = req.body;
-          let user = await UserModel.findOne({ email: username });
+          let user = await UserSchema.findOne({ email: username });
           if (user) {
             console.log('User already exists');
             return done(null, false);
@@ -111,7 +111,7 @@ export function iniPassport() {
             role: "user",
             password: createHash(password),
           };
-          let userCreated = await UserModel.create(newUser);
+          let userCreated = await UserSchema.create(newUser);
           let cartCreate = await  Carts.createOne();
           await Users.addCart(newUser.email,cartCreate._id)
           console.log('User Registration succesful');
@@ -130,7 +130,7 @@ export function iniPassport() {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await UserModel.findById(id);
+    let user = await UserSchema.findById(id);
     done(null, user);
   });
 }

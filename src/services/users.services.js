@@ -1,6 +1,6 @@
 import { UserDTO } from "../DAO/DTO/user.dto.js";
-import { UserModel } from "../DAO/schema/user.schema.js";
 import url, { fileURLToPath } from "url"
+import { UserModel } from "../DAO/models/users.model.js";
 
 export class UserService{
     
@@ -17,7 +17,7 @@ export class UserService{
     if (role) {
       filters.role = role; 
     }
-    const usersData = await UserModel.paginate(filters, { limit: limit || 4, page: page || 1 });
+    const usersData = await UserModel.getAll(filters,limit, page);
       const {docs, ...rest} = usersData;
       let users =  docs.map((doc)=>{
         return {id: doc.id,
@@ -64,7 +64,7 @@ export class UserService{
     
     async findOnebyEmail(email){
       try{
-        let user = await UserModel.findOne({email:email})
+        let user = await UserModel.findOnebyEmail(email)
         return user;
       }catch{
         console.log(e)
@@ -72,21 +72,28 @@ export class UserService{
       }
     }
     async checkCart(userSession){
-      let user = await UserModel.findOne({
-        email: userSession.email,
-        cart: userSession.cart
-      });
-      return user;
+      try{
+        let user = await UserModel.checkCart( userSession.email,userSession.cart);
+        return user;
+      }catch(e){
+        throw new Error("No eres el dueño");
+
+      }
     }
     async createOne(firstName, lastName, email){
+      try{
         this.validate(firstName, lastName, email);
-        const userCreated = await UserModel.create({ firstName, lastName, email });
+        const userCreated = await UserModel.createOne(firstName, lastName, email );
         return userCreated;
+      }catch(e){
+        throw new Error("No es posible la creacion");
+
+      }
     }
     
     async deletOne(_id){
        try{
-             let productDelet = await UserModel.findOneAndDelete({ _id: _id });
+             let productDelet = await UserModel.deletOne(_id);
              return productDelet;
        }
       catch(e){
@@ -97,9 +104,7 @@ export class UserService{
       try {
         const tenMinutesAgo = new Date();
         tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 30); // Resta 10 minutos a la fecha actual
-        const result = await UserModel.deleteMany({
-          lastConnection: { $lt: tenMinutesAgo },
-        });
+        const result = await UserModel.deletOldConection(tenMinutesAgo);
              return result;
        }
       catch(e){
@@ -108,14 +113,20 @@ export class UserService{
     }
   
     async addCart(email,id){
-      let data = await  UserModel.updateOne({ email },{ $set: { cart: id } })
-      return data;
+      try{
+        let data = await  UserModel.addCart( email , id )
+        return data;
+      }catch(e){
+        throw  new Error("Nuevo error")     
+
+      }
+      
     }
 
     async updateOne(_id,firstName, lastName, email){
       try{
           this.validate(firstName, lastName, email);
-          const userUptaded = await UserModel.updateOne( { _id: _id },{ firstName, lastName, email });
+          const userUptaded = await UserModel.updateOne( _id, firstName, lastName, email);
           return userUptaded;
        }
       catch(e){
@@ -124,10 +135,7 @@ export class UserService{
    }
     async updatePremium(id){
       try{
-          const userUptaded = await UserModel.findOneAndUpdate(
-            { _id: id },
-            { $set: {'status': 'checked','role':'premium' } },
-            { new: true });
+          const userUptaded = await UserModel.updatePremium(id);
           return userUptaded;
        }
       catch(e){
@@ -136,10 +144,7 @@ export class UserService{
    }
     async updateDocuments(id,newDocumentProperties){
       try{
-          const userUptaded = await UserModel.findOneAndUpdate(
-            { _id: id },
-            { $set: { 'documents': newDocumentProperties, 'status': 'processing' } },
-            { new: true })
+          const userUptaded = await UserModel.updateDocuments(id ,newDocumentProperties)
           return userUptaded;
        }
       catch(e){
@@ -148,10 +153,7 @@ export class UserService{
    }
     async updateStatus(id){
       try{
-          const userUptaded = await UserModel.findOneAndUpdate(
-            { _id: id },
-            { $set: { 'status': 'processing' } },
-            { new: true })
+          const userUptaded = await UserModel.updateStatus(id)
           return userUptaded;
        }
       catch(e){
@@ -161,11 +163,7 @@ export class UserService{
    
    async updatePassword(email,password){
     try{
-        const userUptaded = await UserModel.findOneAndUpdate(
-          { email },
-          { password },
-          { new: true } // Devuelve el documento actualizado
-        );
+        const userUptaded = await UserModel.updatePassword(email,password );
         return userUptaded;
      }
     catch(e){
@@ -174,19 +172,15 @@ export class UserService{
     }
  }
    
-   async updateConection(email,lastConnection){
-    try{
-        const userLastConection = await UserModel.findOneAndUpdate(
-          { email },
-          { lastConnection },
-          { new: true } // Devuelve el documento actualizado
-        );
-        return userLastConection;
-     }
-    catch(e){
-      console.log(e)
-    throw  new Error("No fue posible cambiar la contraseña")     
-    }
- }
+ async updateConection(email,lastConnection){
+  try{
+      const userLastConection = await UserModel.updateConection( email ,lastConnection );
+      return userLastConection;
+   }
+  catch(e){
+    console.log(e)
+  throw  new Error("No fue posible cambiar la contraseña")     
+  }
+}
    
 }

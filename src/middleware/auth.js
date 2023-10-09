@@ -7,6 +7,7 @@ let Users = new UserService
 export function isUser(req,res,next){
   try{
     if(req?.session?.user.email){
+      console.log("is user")
       return next()
         }
   }catch(e){
@@ -16,12 +17,20 @@ export function isUser(req,res,next){
     
 } 
 export async function isCart(req,res,next){
-  const userSession = new UserDTO(req.session.user)
-  const user = await Users.checkCart(userSession)
-  if(user){
-  return next() 
+  try{
+    console.log(req.session.user,"req.session.user");
+    let user = await Users.findOnebyEmail(req.session.user.email)
+     user = new UserDTO(user)
+    console.log("user",user)
+    const userChecked = await Users.checkCart(user)
+    if(userChecked){
+    return next() 
+    }
+    return res.status(400).render("error",{error:"No es Admin"})
+
+  }catch(e){
+    console.log(e);
   }
-  return res.status(500).render("error",{error:"No es Admin"})
 } 
 
   
@@ -72,12 +81,13 @@ export async function isNotOwner(req,res,next){
       console.log(product)
       if (product && product.owner === owner) {
         // Si el usuario está intentando comprar su propio producto, responde con un error 400 (Solicitud incorrecta)
-        return res.status(400).render("error", { error: "No puedes comprar tu propio producto." });
+        return res.status(403).render("error", { error: "No puedes comprar tu propio producto." });
       }
       return next();
 
   }catch(e){
-    res.status(500).render("error", { error: "Error interno del servidor." });
+    console.log(e);
+    res.status(403).render("error", { error: "Error interno del servidor." });
   }
 
 }

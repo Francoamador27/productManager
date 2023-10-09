@@ -47,11 +47,20 @@ function limpiarCarrito() {
         localStorage.setItem("cartId", JSON.stringify(cartId));
        let response =  await addProduct(id,cartId)
         await  getCart(cartId);
-        alert("Producto Agregado con exito")
-    }
+        Swal.fire({
+          title: 'Producto Agregado con Éxito',
+          icon: 'success', // Puedes cambiar el icono según tus preferencias (success, error, warning, info, etc.)
+          showConfirmButton: false, // Puedes ocultar el botón de confirmación si lo deseas
+          timer: 1500 // Controla cuánto tiempo se mostrará el mensaje (en milisegundos)
+        });    }
     catch(e){
-      alert(e)
-    }
+
+      Swal.fire({
+        title: 'Error',
+        text: e.toString(), // Puedes personalizar el mensaje de error aquí
+        icon: 'error', // Utiliza el icono de error
+        confirmButtonText: 'OK' // Cambia el texto del botón de confirmación si lo deseas
+      });    }
   }
 
 async function viewCart(idCart){
@@ -114,6 +123,9 @@ async function purchase(idCart, e){
   alert("error catch")
 }
 }
+
+
+
 document.getElementById('finalizar-compra-link').addEventListener('click', function(event) {
   event.preventDefault(); // Evita la recarga de la página
   const idCart = this.getAttribute('data-idcart');
@@ -129,17 +141,22 @@ document.getElementById('finalizar-compra-link').addEventListener('click', funct
     };
     let response = await fetch('http://localhost:8080/api/carts/'+idCart+'/product/'+idProduct, requestOptions)
    console.log(response);
-   if (!response.ok) {
-    throw new Error("No se pudo agregar");
-  }
+   if (response.status === 403){
+    throw "No puedes agregar tu producto a tu carrito";
+
+   }
+   if (response.status === 404){
+    throw "Debes iniciar Sesion";
+
+   }
+  console.log(response)
   return response;
     }catch(e){
-      throw new Error ("No se puedo agregar")
+      throw e;
     }
 
 } 
-    // Código a ejecutar en la página 2
-    
+  
   async function deletProductToCart(idCartid,idProduct){
       let requestOptions = {
         method: 'DELETE',
@@ -152,50 +169,9 @@ document.getElementById('finalizar-compra-link').addEventListener('click', funct
       } 
   
   
-      const inputPrice = document.getElementById('pricefilter');
-
-      inputPrice.addEventListener('keyup', function(event) {
-      if (event.keyCode === 13) {
-          const value = event.target.value; // Obtener el valor del input
-          const urlParams = new URLSearchParams(window.location.search); // Obtener los parámetros de la URL actual
-          urlParams.set('maxPrice', value); // Añadir el nuevo parámetro con su valor
-      const newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString(); // Construir la nueva URL
-      window.location.href = newUrl; // Redirigir a la nueva URL con el parámetro añadido
-        }
-      });
+ 
   
-  const orderSelector = document.getElementById("orderSelector");
 
-  // Leer el valor almacenado en localStorage y establecerlo como opción seleccionada
-  const lastSelectedOrder = localStorage.getItem("lastSelectedOrder");
-  if (lastSelectedOrder) {
-    orderSelector.value = lastSelectedOrder;
-  }
-
-  orderSelector.addEventListener("change", function() {
-    // Obtener el valor seleccionado del selector (asc o desc)
-    const selectedOrder = orderSelector.value;
-
-    // Guardar el valor seleccionado en localStorage
-    localStorage.setItem("lastSelectedOrder", selectedOrder);
-
-    // Obtener la URL actual y sus parámetros
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-
-    // Verificar si el parámetro "order" ya existe en la URL
-    if (params.has("order")) {
-      // Si existe, cambiar su valor según la opción seleccionada
-      params.set("order", selectedOrder);
-    } else {
-      // Si no existe, agregar el parámetro "order" con el valor seleccionado
-      params.append("order", selectedOrder);
-    }
-
-    // Actualizar la URL con los nuevos parámetros
-    url.search = params.toString();
-    window.location.href = url.toString();
-  });
 
 
  

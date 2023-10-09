@@ -21,4 +21,4 @@ const schema = new Schema({
 });
 schema.plugin(mongoosePaginate);
 
-export const UserModel = model("users", schema);
+export const UserSchema = model("users", schema);

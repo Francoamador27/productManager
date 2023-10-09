@@ -1,13 +1,19 @@
 import { CartsModel } from "../DAO/models/carts.model.js";
+import { CartsSchema } from "../DAO/schema/carts.schema.js";
 
+const Carts = new CartsModel();
 export class CartsService{
     
     async getAll(){
-      const carts = await CartsModel.find({}).populate("products.product");
-      return carts;
+        try{
+            const carts = await Carts.getAll();
+            return carts;
+        }catch(e){
+                console.log(e);
+        }
     }
     async getById(idCart){
-        let cart = await CartsModel.findOne({_id:idCart}).populate("products.product");
+        let cart = await Carts.getById(idCart);
 
         let products =  cart.products.map((doc)=>{
             return {id: doc.product.id,
@@ -23,20 +29,24 @@ export class CartsService{
         return products;
       }
     async createOne(){
-        const cartCreated = await CartsModel.create({});
-                return cartCreated;
+        try{
+            const cartCreated = await Carts.createOne();
+                    return cartCreated;
+        }catch(e){
+                console.log(e)
+        }
     }
     async addProdductCart(idCart,idProduct){
         try{
-            let cart = await CartsModel.findOne({_id:idCart});
-            let productIndex = cart.products.findIndex(p => p.product.toString() === idProduct)
+            let cart = await Carts.getById(idCart);
+            let productIndex = cart.products.findIndex(p => p.product._id.toString() === idProduct)
             if(productIndex === -1){
             cart.products.push({product:idProduct, quantity:1});
-            await CartsModel.updateOne({_id:idCart},cart);
+            await Carts.updateOne(idCart,cart);
             return cart;
        }
             cart.products[productIndex].quantity++;
-            await CartsModel.updateOne({_id:idCart},cart);
+            await Carts.updateOne(idCart,cart);
             return cart.products;  
         }catch(e){
             throw new Error("Error")
@@ -44,23 +54,23 @@ export class CartsService{
     }
     async deletProductCart(idCart,idProduct){
         try{
-            let cart = await CartsModel.findOne({_id:idCart});
+            let cart = await CartsSchema.findOne({_id:idCart});
             let productIndex = cart.products.findIndex(p => p.product.toString() === idProduct)
             if(cart.products[productIndex].quantity > 1){
                 cart.products[productIndex].quantity--;
-                await CartsModel.updateOne({_id:idCart},cart);
+                await CartsSchema.updateOne({_id:idCart},cart);
                 return cart;
        }
             cart.products.splice(productIndex, 1)
-            await CartsModel.updateOne({_id:idCart},cart);
+            await CartsSchema.updateOne({_id:idCart},cart);
             return cart.products;  
         }catch(e){
-            throw new Error("Error")
+            throw new Error(e)
         }
     }
 
     async delectAllProducts(idCart){
-      let cart =  await CartsModel.updateOne( { _id: idCart },{ $set: { products: [] } })
+      let cart =  await Carts.delectAllProducts(idCart);
       return cart;
     }
 

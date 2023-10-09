@@ -35,6 +35,7 @@ class ViewsController{
           if(req?.session?.user?.email){
             let email = req.session.user.email
             let role = req.session.user.role
+            req.session.user.cart= user.cart;
             user = await Users.findOnebyEmail(email)
             if (role === "admin" || role === "premium") {
                vfyUoA= true;
@@ -42,7 +43,6 @@ class ViewsController{
             if (role === "admin") {
               vfyAdmin= true;
             }   
-            req.session.user.cart= user.cart;
             user = new UserDTO(user);
           }
           return res.status(201).render('products',{products, pagination,user,vfyUoA,vfyAdmin});

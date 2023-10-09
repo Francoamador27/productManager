@@ -1,5 +1,3 @@
-import CustomError from "../../errors/custom-error.js";
-import EErrors from "../../errors/enums.js";
 import { logger } from "../../utils/logger.js";
 import { ProductsSchema } from "../schema/products.schema.js";
 
