@@ -5,8 +5,8 @@
   "main": "productManager.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -e yaml,js src/app.js",
-    "start": "node ./src/app.js",
+    "dev": "node ./src/app.js --mode DEVELOPMENT ",
+    "start": "node ./src/app.js --mode PRODUCTION ",
     "test": "mocha test/test.supertest.js"
   },
   "author": "",
