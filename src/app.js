@@ -20,6 +20,7 @@ import compression from "express-compression";
 import errorHandler from "./middleware/error.js"
 import { __dirname, connectMongo } from "./utils/utils.js";
 import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 import { body, } from "express-validator";
 
 const app = express()
