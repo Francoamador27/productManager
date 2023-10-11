@@ -8,57 +8,62 @@ const Products = new ProductsModel;
 export class ProductsService{
 
     async getProducts(limit,page,category,order,maxPrice,currentUrl,owner){
-        let filters = {};
-        let defaultOrder = 'asc';
-         order = order || defaultOrder;
-         if (owner) {
-            filters.owner = { $regex: owner, $options: 'i' };
-          }
-       if (maxPrice) {
-        filters.price = { $lte: maxPrice };
+        try{
+            let filters = {};
+            let defaultOrder = 'asc';
+             order = order || defaultOrder;
+             if (owner) {
+                filters.owner = { $regex: owner, $options: 'i' };
+              }
+           if (maxPrice) {
+            filters.price = { $lte: maxPrice };
+            }
+            if (category) {
+                filters.category = { $regex: category, $options:'i' };
+              }
+             const dataProducts = await Products.getAll(filters,limit,page, order);
+             if(!dataProducts){
+                CustomError.createError({
+                    name:"Products get All",
+                    cause:"No se pudieron obtener los datos",
+                    message:"Los productos no se pudieron encontrar",
+                    code: EErrors.PRODUCTS_NO_FIND,
+                })
+             }
+             const {docs, ...rest} = dataProducts;
+             let products =  docs.map((doc)=>{
+                 return {id: doc.id,
+                      title: doc.title, 
+                      price:doc.price,
+                      description: doc.description,
+                      thumbnail: doc.thumbnail,
+                      stock:doc.stock,
+                     category: doc.category}
+             })
+             let pagination = rest;
+             if(pagination.hasNextPage){
+                 let parsedUrl = url.parse(currentUrl,true)
+                 parsedUrl.query.page= pagination.nextPage;
+                 let nextLink = url.format({
+                     pathname: parsedUrl.pathname,
+                     query : parsedUrl.query,
+                 })
+                 pagination.nextLink = nextLink;
+             }
+             if(pagination.hasPrevPage){
+                 let parsedUrl = url.parse(currentUrl,true)
+                 parsedUrl.query.page= pagination.prevPage;
+                 let prevLink = url.format({
+                     pathname: parsedUrl.pathname,
+                     query : parsedUrl.query,
+                 })
+                 pagination.prevLink = prevLink;
+             }
+            return {products,pagination};
+
+        }catch(e){
+     throw new Error (e);
         }
-        if (category) {
-            filters.category = { $regex: category, $options:'i' };
-          }
-         const dataProducts = await Products.getAll(filters,limit,page, order);
-         if(!dataProducts){
-            CustomError.createError({
-                name:"Products get All",
-                cause:"No se pudieron obtener los datos",
-                message:"Los productos no se pudieron encontrar",
-                code: EErrors.PRODUCTS_NO_FIND,
-            })
-         }
-         const {docs, ...rest} = dataProducts;
-         let products =  docs.map((doc)=>{
-             return {id: doc.id,
-                  title: doc.title, 
-                  price:doc.price,
-                  description: doc.description,
-                  thumbnail: doc.thumbnail,
-                  stock:doc.stock,
-                 category: doc.category}
-         })
-         let pagination = rest;
-         if(pagination.hasNextPage){
-             let parsedUrl = url.parse(currentUrl,true)
-             parsedUrl.query.page= pagination.nextPage;
-             let nextLink = url.format({
-                 pathname: parsedUrl.pathname,
-                 query : parsedUrl.query,
-             })
-             pagination.nextLink = nextLink;
-         }
-         if(pagination.hasPrevPage){
-             let parsedUrl = url.parse(currentUrl,true)
-             parsedUrl.query.page= pagination.prevPage;
-             let prevLink = url.format({
-                 pathname: parsedUrl.pathname,
-                 query : parsedUrl.query,
-             })
-             pagination.prevLink = prevLink;
-         }
-        return {products,pagination};
     }
 
     async checkOwner(_id,owner){

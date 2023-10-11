@@ -1,3 +1,5 @@
+import CustomError from "../../errors/custom-error.js";
+import EErrors from "../../errors/enums.js";
 import { logger } from "../../utils/logger.js";
 import { ProductsSchema } from "../schema/products.schema.js";
 
@@ -5,10 +7,14 @@ export class ProductsModel {
   async getAll(filters,limit,page, order) {
     try {
       const products = await ProductsSchema.paginate(filters,{limit:limit || 3 ,page: page || 1, sort:([['price', order]])});
+     if(!products){
+      throw new Error("error")
+
+     }
       return products;
     } catch (error) {
-      return res.status(400).json({ error: "ID de productos no válido" });
-    }
+throw new Error(error)
+  }
   }
 
   async getById(idProduct) {

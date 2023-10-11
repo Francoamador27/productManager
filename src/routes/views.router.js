@@ -2,10 +2,11 @@ import  express  from "express";
 export const viewsRouter = express.Router();
 import { viewsController } from "../controller/views.controller.js";
 import { checkOwner, iAdminoPremium, isAdmin, isUser } from "../middleware/auth.js";
+import { validateQueryParameters } from "../middleware/checkQuery.js";
 
 
-viewsRouter.get('/products', viewsController.getAll);
-viewsRouter.get('/creatProduct',iAdminoPremium, viewsController.creatProduct);
+viewsRouter.get('/products',validateQueryParameters, viewsController.getAll);
+viewsRouter.get('/creatProduct', iAdminoPremium, viewsController.creatProduct);
 viewsRouter.get('/myProducts',iAdminoPremium, viewsController.getMyProducts);
 viewsRouter.get('/bepremium',isUser, viewsController.bePremium);
 viewsRouter.get('/editProduct/:id',iAdminoPremium,checkOwner, viewsController.editProductbyId);

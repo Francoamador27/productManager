@@ -4,7 +4,7 @@
   "description": "",
   "main": "productManager.js",
   "type": "module",
-  "engines":{
+  "engines": {
     "node": "18.x"
   },
   "scripts": {
@@ -42,7 +42,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.0",
-    "winston": "^3.10.0"
+    "winston": "^3.10.0",
+    "xss": "^1.0.14"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

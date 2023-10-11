@@ -163,7 +163,7 @@ td {
             redirect: 'follow'
             };
 
-        let response = await fetch(`http://localhost:8080/api/users/premium/${userId}`, requestOptions)
+        let response = await fetch(`/api/users/premium/${userId}`, requestOptions)
         if (response.ok) {
   try {
     const data = await response.json(); // Parsea la respuesta JSON
