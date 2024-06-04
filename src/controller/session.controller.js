@@ -12,6 +12,7 @@ class SessionController{
       return res.json({user : infoUser});
 
     }
+    console.log("no se ve session");
     return(res.json("Fall"))
   }
 }
