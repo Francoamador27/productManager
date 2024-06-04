@@ -7,8 +7,12 @@ class SessionController{
     res.redirect('/products');
   }
   async showSession (req, res)  {
-    const infoUser = new UserDTO(req.session.user)
-    return res.send({user : infoUser});
+    if(req.session.user){
+      const infoUser = new UserDTO(req.session.user)
+      return res.json({user : infoUser});
+
+    }
+    return(res.json("Fall"))
   }
 }
 

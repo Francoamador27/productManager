@@ -6,12 +6,24 @@ import { ProductsSchema } from "../schema/products.schema.js";
 export class ProductsModel {
   async getAll(filters,limit,page, order) {
     try {
-      const products = await ProductsSchema.paginate(filters,{limit:limit || 3 ,page: page || 1, sort:([['price', order]])});
+      const products = await ProductsSchema.paginate(filters,{limit:limit || 10    ,page: page || 1, sort:([['price', order]])});
      if(!products){
       throw new Error("error")
 
      }
       return products;
+    } catch (error) {
+throw new Error(error)
+  }
+  }
+  async getUbicaciones() {
+    try {
+      const ubicaciones = await ProductsSchema.find({ 'ubicacion.departamento': { $exists: true }, 'ubicacion.ciudad': { $exists: true } }, 'ubicacion.departamento ubicacion.ciudad');
+     if(!ubicaciones){
+      throw new Error("error")
+
+     }
+      return ubicaciones;
     } catch (error) {
 throw new Error(error)
   }
@@ -39,11 +51,21 @@ throw new Error(error)
     }
   }
 
-  async createOne(title, price,description,code,thumbnail,category,stock,owner) {
+  async createOne(title,currencytype,price,description,code,thumbnail,category,phonenumber,location,availability, owner) {
     try {
-        const cartCreated = await ProductsSchema.create({ title, price,description,code,thumbnail,category,stock,owner});
+        const cartCreated = await ProductsSchema.create({ title,currencytype,price,description,code,thumbnail,category,phonenumber,location,availability, owner});
         return cartCreated;
     } catch (error) {
+      console.log(error)
+      throw  new Error("Nuevo error")     
+    }
+  }
+  async createGallery(title,currencytype,price,description,code,category,phonenumber,location,availability, owner,thumbnail,money,ubicacion) {
+    try {
+        const cartCreated = await ProductsSchema.create({ title,currencytype,price,description,code,category,phonenumber,location,availability, owner,thumbnail,money,ubicacion});
+        return cartCreated;
+    } catch (error) {
+      console.log(error)
       throw  new Error("Nuevo error")     
     }
   }
@@ -61,6 +83,7 @@ throw new Error(error)
       const productUpdated = await ProductsSchema.findByIdAndUpdate(_id,{ $set: updateData },{ new: true });
       return productUpdated;
     } catch (error) {
+      console.log(error)
       logger.error({message:error.message});
       throw  new Error("Nuevo error")     
     }

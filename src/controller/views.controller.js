@@ -128,7 +128,6 @@ class ViewsController{
           if(req.session.user){
             let user = req.session.user
             let role = req.session.user.role
-            console.log(role);
             if (role === "admin" || role === "premium") {
               vfyUoA= true;
             }
@@ -208,7 +207,6 @@ class ViewsController{
           let session = req.session.user.role;
         
         let Orderfound = await Orders.getAll(role,email)
-console.log(Orderfound);
           return res.status(201).render('orders',{user,vfyUoA,Orderfound});
           }catch(e){
             console.log(e)

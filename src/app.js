@@ -48,15 +48,27 @@ app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['POST', 'GET', 'PUT', 'DELETE',"OPTIONS"],
+  credentials: true,
+}));
 app.use(cookieParser());
 app.use(
   session({
     store: MongoStore.create({
-       mongoUrl: config.mongoUrl, ttl: 7200 }),
-    secret: config.secretMongo,
+      mongoUrl: config.mongoUrl,
+      ttl: 7200
+    }),
+    secret: 'session',
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      maxAge:1000 * 60 * 60,      
+    httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+    },
   })
 );
 iniPassport();

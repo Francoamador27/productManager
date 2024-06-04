@@ -31,7 +31,8 @@ res
 break;
 
 default:
-    res.send({status:"error",error:"Unhandled erro"})
+    console.log(error)
+    res.send({status:"error",error:"error.name"})
 break;
 }
 }

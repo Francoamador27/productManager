@@ -78,8 +78,7 @@ async function getCart(cartId){
     method: 'GET',
     redirect: 'follow'
   };
-  console.log("cartId",cartId);
-  let response = await fetch('/api/carts/'+ cartId, requestOptions)
+    let response = await fetch('/api/carts/'+ cartId, requestOptions)
   let respJson = await response.json()
   let cart = respJson.data
     var cantidad = cart.length;

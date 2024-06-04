@@ -4,7 +4,7 @@ import { userController } from "../controller/user.controller.js";
 import { uploadDocument } from "../utils/utils.js";
 import {  isAdmin, isUser } from "../middleware/auth.js";
 
-usersRouter.get("/", userController.getAll);
+usersRouter.get("/",isAdmin, userController.getAll);
 usersRouter.get('/:email', userController.getOnebyEmail);
 usersRouter.delete('/:id',isAdmin, userController.deletOne);
 usersRouter.delete('/oldconection',isAdmin, userController.deletOldConection);

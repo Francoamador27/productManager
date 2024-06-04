@@ -16,10 +16,11 @@ class AuthController{
         if (!req.user) {
           return res.json({ error: 'invalid credentials' });
         }
-        req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
+        req.session.user = { id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
         let lastLoginDate = Date.now();
+        let user = req.session.user;
         await Service.updateConection(req.user.email,lastLoginDate)
-        return res.redirect("/products")
+        return res.json({ user});
       }
     async perfil  (req, res)  {
         const user = req.session.user
@@ -31,7 +32,6 @@ class AuthController{
           }
           let userBd = await  Service.findOnebyEmail(user.email)
           userBd = new UserDTO(userBd)
-          console.log(userBd)
           return res.render("perfil",{user,vfyUoA})
         }
       }
@@ -40,7 +40,7 @@ class AuthController{
             if (err) {
                 return res.status(500).render("error",{error:"error"})
             }
-            return res.redirect("/auth/login")
+            return res.json("deslogueado")
                 })
                }
     async register  (req, res)  {
@@ -48,7 +48,8 @@ class AuthController{
           return res.json({ error: 'something went wrong' });
         }
         req.session.user = { _id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role,cart: req.user.cart };
-        return res.redirect("/products")
+        let user = req.session.user;
+        return res.json({ user});
       }
     async failRegister  (req, res)  {
       let errorRegister = true;
@@ -57,7 +58,7 @@ class AuthController{
     }
     async failLogin  (req, res)  {
       let errorLogin = true;
-      return res.render("login",{errorLogin})
+      return res.json(false)
     }
     async renderRegister  (req, res) {
         return res.render("register",{})
@@ -102,13 +103,11 @@ class AuthController{
         try { 
           let vfyPassword = true;
            const code = req.body.code;
-           console.log(code)
           const email = req.body.email;
           const password = req.body.password;
           // Verifica el token utilizando la clave secreta
           const decoded =  jwt.verify(code, secretKey);
           const emailDecoded = decoded.email;
-          console.log(emailDecoded,"email decodificado")
           if(email===emailDecoded){
            let passwordHash = createHash(password)
            let userEmail = await Service.findOnebyEmail(email);
