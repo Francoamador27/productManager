@@ -61,12 +61,12 @@ app.use(
       ttl: 7200
     }),
     secret: 'session',
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     cookie: {
       maxAge:1000 * 60 * 60,      
     httpOnly: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       secure: false,
     },
   })
