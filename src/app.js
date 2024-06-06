@@ -1,8 +1,8 @@
-import express from "express";
+import  express  from "express";
 import { prodructsRouter } from "./routes/products.router.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import path from "path";
-import handlebars from "express-handlebars";
+import handlebars from "express-handlebars"
 import { viewsRouter } from "./routes/views.router.js";
 import cors from "cors";
 import { connectSocket } from "./sockets/chat.js";
@@ -10,20 +10,20 @@ import { usersRouter } from "./routes/users.router.js";
 import { authRouter } from "./routes/auth.router.js";
 import cookieParser from 'cookie-parser';
 import session from "express-session";
-import MongoStore from 'connect-mongo';
+import MongoStore from 'connect-mongo'
 import { iniPassport } from "./config/passport.config.js";
 import passport from "passport";
-import { sessionsRouter } from "./routes/session.router.js";
+import {  sessionsRouter } from "./routes/session.router.js";
 import config from "./config/config.js";
 import { mailRouter } from "./routes/mail.router.js";
 import compression from "express-compression";
-import errorHandler from "./middleware/error.js";
+import errorHandler from "./middleware/error.js"
 import { __dirname, connectMongo } from "./utils/utils.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
-import { body } from "express-validator";
+import { body, } from "express-validator";
 
-const app = express();
+const app = express()
 const port = config.port;
 const httpServer = app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
@@ -45,34 +45,14 @@ const specs = swaggerJSDoc(swaggerOptions);
 
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
-// Middleware de CORS
-const allowedOrigins = ['http://localhost:3000', 'https://cbaprop.com.ar'];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true
-};
-
-app.use(cors(corsOptions));
-
-// Middleware para registrar encabezados (sin Access-Control-Allow-Origin)
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['POST', 'GET', 'PUT', 'DELETE',"OPTIONS"],
+  credentials: true,
+}));
 app.use(cookieParser());
 app.use(
   session({
@@ -84,36 +64,44 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60,
-      httpOnly: true,
+      maxAge:1000 * 60 * 60,      
+    httpOnly: true,
       sameSite: 'lax',
       secure: false,
     },
   })
 );
-
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 connectSocket(httpServer);
 
-app.engine("handlebars", handlebars.engine());
-app.set("views", path.join(__dirname, "views"));
-app.set('view engine', 'handlebars');
+app.engine("handlebars",handlebars.engine());
+app.set("views",path.join(__dirname, "views"))
+app.set('view engine','handlebars');
 
-// Define rutas después de configurar CORS
-app.use("/api/products", prodructsRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/sessions", sessionsRouter);
-app.use("/api/mail", mailRouter);
-app.use("/", viewsRouter);
+app.use("/api/products",prodructsRouter)
+app.use("/api/users",usersRouter)
+app.use("/api/sessions",sessionsRouter)
+app.use("/api/mail",mailRouter)
+app.use("/",viewsRouter)
+
 
 app.use(errorHandler);
 
-app.use("/api/carts", cartsRouter);
-app.use("/auth", authRouter);
+
+app.use("/api/carts",cartsRouter)
+app.use("/auth",authRouter)
 app.use(compression({
-  brotli: { enabled: true, zlib: {} }
+  brotli:{enabled:true,zlib:{}}
 }));
 
+
+
+
+
+  
+
+
 export default app;
+
