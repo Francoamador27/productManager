@@ -12,7 +12,7 @@ const Products = new ProductsModel;
 
 export class ProductsService {
 
-    async getProducts(limit, page, category, order, maxPrice, currentUrl, owner) {
+    async getProducts(limit, page, category, order, maxPrice, currentUrl, owner,ciudad,departamento) {
         try {
             let filters = {};
             let defaultOrder = 'asc';
@@ -22,6 +22,13 @@ export class ProductsService {
             }
             if (maxPrice) {
                 filters.price = { $lte: maxPrice };
+            }
+            if (ciudad) {
+                filters['ubicacion.ciudad'] = { $regex: ciudad, $options: 'i' };
+            }
+    
+            if (departamento) {
+                filters['ubicacion.departamento'] = { $regex: departamento, $options: 'i' };
             }
             if (category) {
                 filters.category = { $regex: category, $options: 'i' };
@@ -45,6 +52,7 @@ export class ProductsService {
                     description: doc.description,
                     thumbnail: doc.thumbnail,
                     ubicacion: doc.ubicacion,
+                    location: doc.location,
                     stock: doc.stock,
                     category: doc.category
                 }

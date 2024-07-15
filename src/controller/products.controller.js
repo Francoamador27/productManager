@@ -7,12 +7,16 @@ class ProductsController {
   async getAll(req, res) {
     try {
       var currentUrl = req.url;
+      console.log("req",req.query)
       const { page } = req.query;
       const { limit } = req.query;
       const { maxPrice } = req.query;
       const { order } = req.query;
+      const { owner } = req.query;
+      const { ciudad } = req.query;
+      const { departamento } = req.query;
       const category = req.query.category || "";
-      const data = await Products.getProducts(limit, page, category, order, maxPrice, currentUrl);
+      const data = await Products.getProducts(limit, page, category, order, maxPrice, currentUrl,owner,ciudad,departamento);
       return res.status(200).json({
         status: "success",
         msg: "listado de productos",
