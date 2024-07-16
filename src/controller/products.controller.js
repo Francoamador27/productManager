@@ -14,9 +14,10 @@ class ProductsController {
       const { order } = req.query;
       const { owner } = req.query;
       const { ciudad } = req.query;
+      const { clave } = req.query;
       const { departamento } = req.query;
       const category = req.query.category || "";
-      const data = await Products.getProducts(limit, page, category, order, maxPrice, currentUrl,owner,ciudad,departamento);
+      const data = await Products.getProducts(limit, page, category, order, maxPrice, currentUrl,owner,ciudad,departamento,clave);
       return res.status(200).json({
         status: "success",
         msg: "listado de productos",

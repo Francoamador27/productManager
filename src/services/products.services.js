@@ -12,7 +12,7 @@ const Products = new ProductsModel;
 
 export class ProductsService {
 
-    async getProducts(limit, page, category, order, maxPrice, currentUrl, owner,ciudad,departamento) {
+    async getProducts(limit, page, category, order, maxPrice, currentUrl, owner,ciudad,departamento,clave) {
         try {
             let filters = {};
             let defaultOrder = 'asc';
@@ -32,6 +32,9 @@ export class ProductsService {
             }
             if (category) {
                 filters.category = { $regex: category, $options: 'i' };
+            }
+            if (clave) {
+                filters.title = { $regex: clave, $options: 'i' };
             }
             const dataProducts = await Products.getAll(filters, limit, page, order);
             if (!dataProducts) {
