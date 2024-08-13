@@ -7,11 +7,32 @@ let Users = new UserService
 export function isUser(req,res,next){
   try{
     if(req?.session?.user.email){
+      console.log(req.session.user);
       return next()
         }
   }catch(e){
     return res.status(500).render("error",{error:"no esta registrado"})
 
+  }
+    
+} 
+export function ckeckUserPassword(req,res,next){
+  try{
+    const user = new UserDTO(req.session.user)
+    console.log(user);
+    if(user.role === 'admin'){
+        return next()
+    }else{
+      if(user.email === req.body.email && user.id === req.body.id){
+        return next()
+      }else{
+        return res.status(500).json("error",{error:"No puedes actualizar tu contraseña"})
+      }
+    }
+    
+    
+  }catch(e){
+    return res.status(500).json({ status: "Declined" })
   }
     
 } 
@@ -40,6 +61,7 @@ export async function isCart(req,res,next){
     return res.status(500).render("error",{error:"No es Admin"})
 } 
   export function iAdminoPremium(req,res,next){
+    console.log(req.session);
     const user = new UserDTO(req.session.user)
     if(user.role === 'admin'){
         return next()

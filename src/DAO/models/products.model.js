@@ -16,9 +16,9 @@ export class ProductsModel {
 throw new Error(error)
   }
   }
-  async getUbicaciones() {
+  async getUbicaciones(category) {
     try {
-      const ubicaciones = await ProductsSchema.find({ 'ubicacion.departamento': { $exists: true }, 'ubicacion.ciudad': { $exists: true } }, 'ubicacion.departamento ubicacion.ciudad');
+        const ubicaciones = await ProductsSchema.find({ 'ubicacion.departamento': { $exists: true }, 'ubicacion.ciudad': { $exists: true }, category: category }, 'ubicacion.departamento ubicacion.ciudad');
      if(!ubicaciones){
       throw new Error("error")
 

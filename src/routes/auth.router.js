@@ -1,6 +1,6 @@
 import  express  from "express";
  export const authRouter = express.Router();
-import { isUser } from "../middleware/auth.js";
+import { ckeckUserPassword, isUser } from "../middleware/auth.js";
 import passport from "passport";
 import { authController } from "../controller/auth.controller.js";
 
@@ -24,3 +24,4 @@ authRouter.get("/recover-email", authController.recoverEmail);
 authRouter.post("/recover-email", authController.recoverSendEmail);
 authRouter.get("/recover-pass", authController.recoverPass);
 authRouter.post("/recover-pass", authController.recoverPassPost);
+authRouter.put("/update-password",isUser,ckeckUserPassword, authController.updatePassword);

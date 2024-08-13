@@ -99,6 +99,23 @@ class AuthController{
         }
       ;
     }  
+    async updatePassword (req,res){
+      const {email,password} = req.body;
+      let passwordHash = createHash(password)
+      let userEmail = await Service.findOnebyEmail(email);
+      let passwordDb = userEmail.password;
+      let valid = isValidPassword(password,passwordDb)
+      if(valid){
+        throw new Error("La contraseña ya existe")
+      }else{
+        let uptadedPass = await Service.updatePassword(email,passwordHash);
+        if(uptadedPass){
+          return true;
+        }else{
+          throw new Error("La contraseña no se ha actualizado")
+        }
+      }
+    }
     async recoverPassPost (req,res){
         try { 
           let vfyPassword = true;

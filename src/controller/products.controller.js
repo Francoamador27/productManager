@@ -33,8 +33,9 @@ class ProductsController {
   }
   async getAllUbicacion(req, res) {
     try {
-     
-      const data = await Products.getUbicacions();
+     const category = req.query.category || "";
+      const data = await Products.getUbicacions(category);
+
       return res.status(200).json({
         status: "success",
         msg: "listado de ubicacion",

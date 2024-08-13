@@ -87,9 +87,9 @@ export class ProductsService {
         }
     }
 
-    async getUbicacions() {
+    async getUbicacions(category) {
         try {
-            const ubicaciones = await Products.getUbicaciones();
+            const ubicaciones = await Products.getUbicaciones(category);
             const groupedLocations = {};
             ubicaciones.forEach(product => {
                 const { departamento, ciudad } = product.ubicacion;
