@@ -71,6 +71,15 @@ export class UserService{
         throw new Error("validation error: please complete firstName, lastname and email.");
       }
     }
+    async findOnebyId(id){
+      try{
+        let user = await UserModel.findOnebyId(id)
+        return user;
+      }catch{
+        console.log(e)
+        throw new Error("validation error: please complete firstName, lastname and email.");
+      }
+    }
     async checkCart(userSession){
       try{
         let user = await UserModel.checkCart( userSession.email,userSession.cart);

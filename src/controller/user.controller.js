@@ -45,6 +45,24 @@ class UserController{
       });
     }
   }
+  async getOnebyid (req, res)  {
+    try{
+    const id = req.params.id;
+    console.log(id)
+    let userFound = await Service.findOnebyId(id)
+    return res.status(201).json({
+      status: "success",
+      msg: "user found",
+      data: userFound,
+    });
+    }catch (e) {
+      return res.status(500).json({
+        status: "error",
+        msg: "something went wrong :(",
+        data: {},
+      });
+    }
+  }
 
   async deletOne (req, res){
     try{

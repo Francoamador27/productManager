@@ -100,21 +100,27 @@ class AuthController{
       ;
     }  
     async updatePassword (req,res){
-      const {email,password} = req.body;
-      let passwordHash = createHash(password)
-      let userEmail = await Service.findOnebyEmail(email);
-      let passwordDb = userEmail.password;
-      let valid = isValidPassword(password,passwordDb)
-      if(valid){
-        throw new Error("La contraseña ya existe")
-      }else{
-        let uptadedPass = await Service.updatePassword(email,passwordHash);
-        if(uptadedPass){
-          return true;
+      try{
+        const {email,password} = req.body;
+        let passwordHash = createHash(password)
+        let userEmail = await Service.findOnebyEmail(email);
+        let passwordDb = userEmail.password;
+        let valid = isValidPassword(password,passwordDb)
+        if(valid){
+          throw new Error("La contraseña ya existe")
         }else{
-          throw new Error("La contraseña no se ha actualizado")
+          let uptadedPass = await Service.updatePassword(email,passwordHash);
+          if(uptadedPass){
+            res.status(200).json({ status: 'updated', message:'updated password' });
+          }else{
+            res.status(401).json({ status:'error', message: 'password no updated' });
+          }
         }
+      }catch(e){
+        res.status(401).json({ status:'error', message: 'password no updated' });
+
       }
+ 
     }
     async recoverPassPost (req,res){
         try { 

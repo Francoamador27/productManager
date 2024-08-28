@@ -6,6 +6,7 @@ import {  isAdmin, isUser } from "../middleware/auth.js";
 
 usersRouter.get("/",isAdmin, userController.getAll);
 usersRouter.get('/:email', userController.getOnebyEmail);
+usersRouter.get('/edit/:id',isAdmin, userController.getOnebyid);
 usersRouter.delete('/:id',isAdmin, userController.deletOne);
 usersRouter.delete('/oldconection',isAdmin, userController.deletOldConection);
 usersRouter.put("/:id", userController.updateOne);
