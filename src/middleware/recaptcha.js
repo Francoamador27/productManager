@@ -1,4 +1,4 @@
-const RECAPTCHA_SECRET_KEY = '6LcW9jYqAAAAAMxPeIbTiVMTA9puqwL-AC-PSUcV'; 
+const RECAPTCHA_SECRET_KEY = '6LcwvjcqAAAAAPp5A5KoUYeZ6qSVZW7aEqX_byVi'; 
 
 export const validateRecaptcha = async (req, res, next) => {
   const recaptchaToken = req.body.token;
