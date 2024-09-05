@@ -68,6 +68,7 @@ export function iniPassport() {
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
+        
         const user = await UserSchema.findOne({ email: username });
         if (!user) {
           return done(null, false);

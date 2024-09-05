@@ -51,6 +51,7 @@ export class ProductsService {
                     id: doc.id,
                     title: doc.title,
                     price: doc.price,
+                    owner: doc.owner,
                     money: doc.money,
                     description: doc.description,
                     thumbnail: doc.thumbnail,

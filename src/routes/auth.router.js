@@ -3,10 +3,11 @@ import  express  from "express";
 import { ckeckUserPassword, isUser } from "../middleware/auth.js";
 import passport from "passport";
 import { authController } from "../controller/auth.controller.js";
+import { validateRecaptcha } from "../middleware/recaptcha.js";
 
 authRouter.get("/login", authController.renderLogin);
 
-authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/auth/faillogin' }),authController.login);
+authRouter.post('/login',validateRecaptcha, passport.authenticate('login', { failureRedirect: '/auth/faillogin' }),authController.login);
  
 authRouter.get("/perfil",isUser, authController.perfil);
     

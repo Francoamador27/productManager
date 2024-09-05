@@ -13,14 +13,21 @@ class AuthController{
         return res.render("login",{})
         }
     async login  (req, res) {
+      try{
         if (!req.user) {
           return res.json({ error: 'invalid credentials' });
         }
         req.session.user = { id: req.user._id, email: req.user.email, firstName: req.user.firstName, lastName: req.user.lastName, role: req.user.role };
         let lastLoginDate = Date.now();
         let user = req.session.user;
+        let succes ='ok'
         await Service.updateConection(req.user.email,lastLoginDate)
-        return res.json({ user});
+        return res.json({ user ,succes});
+        
+      }catch(e){
+        
+        return res.json({ });
+      }
       }
     async perfil  (req, res)  {
         const user = req.session.user
@@ -101,9 +108,11 @@ class AuthController{
     }  
     async updatePassword (req,res){
       try{
-        const {email,password} = req.body;
+        const {email,password,id} = req.body;
         let passwordHash = createHash(password)
+        console.log(email,'email')
         let userEmail = await Service.findOnebyEmail(email);
+        console.log(userEmail,'se encontro el usuario')
         let passwordDb = userEmail.password;
         let valid = isValidPassword(password,passwordDb)
         if(valid){

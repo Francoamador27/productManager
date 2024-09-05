@@ -18,7 +18,7 @@ export function isUser(req,res,next){
 } 
 export function ckeckUserPassword(req,res,next){
   try{
-    const user = new UserDTO(req.session.user)
+    const user = req.session.user
     console.log(user);
     if(user.role === 'admin'){
         return next()
