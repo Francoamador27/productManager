@@ -12,7 +12,7 @@ export const validateRecaptcha = async (req, res, next) => {
     console.log(data, 'response captcha');
 
     if (!data.success) {
-      return res.status(400).json({ message: 'ReCAPTCHA validation failed.' });
+      return res.status(400).json({ message: 'RECAPTCHA validation failed.' });
     }
 
     // Si la validación es exitosa, continúa con la solicitud
