@@ -7,7 +7,7 @@ let Users = new UserService
 export function isUser(req,res,next){
   try{
     if(req?.session?.user.email){
-      console.log("is user")
+      console.log(req.session.user);
       return next()
         }
   }catch(e){
@@ -16,12 +16,30 @@ export function isUser(req,res,next){
   }
     
 } 
+export function ckeckUserPassword(req,res,next){
+  try{
+    const user = req.session.user
+    console.log(user);
+    if(user.role === 'admin'){
+        return next()
+    }else{
+      if(user.email === req.body.email && user.id === req.body.id){
+        return next()
+      }else{
+        return res.status(500).json("error",{error:"No puedes actualizar tu contraseña"})
+      }
+    }
+    
+    
+  }catch(e){
+    return res.status(500).json({ status: "Declined" })
+  }
+    
+} 
 export async function isCart(req,res,next){
   try{
-    console.log(req.session.user,"req.session.user");
     let user = await Users.findOnebyEmail(req.session.user.email)
      user = new UserDTO(user)
-    console.log("user",user)
     const userChecked = await Users.checkCart(user)
     if(userChecked){
     return next() 
@@ -43,6 +61,7 @@ export async function isCart(req,res,next){
     return res.status(500).render("error",{error:"No es Admin"})
 } 
   export function iAdminoPremium(req,res,next){
+    console.log(req.session);
     const user = new UserDTO(req.session.user)
     if(user.role === 'admin'){
         return next()
@@ -61,11 +80,13 @@ export async function checkOwner(req,res,next){
       return next();
     }
     let checkProduct = await Products.checkOwner(_id,owner)
-  if(checkProduct){
+  if(checkProduct[0]){
     return next();
+  }else{
+    res.status(500).json({ status: "Declined" });
   }
-  }catch(e){
-    res.status(500).render("error", { error: "Error interno del servidor." });
+}catch(e){
+    res.status(500).json({ status: "Declined" });
   }
 } 
 export async function isNotOwner(req,res,next){
@@ -73,14 +94,11 @@ export async function isNotOwner(req,res,next){
     let owner = req.session.user.email;
     let userRole = req.session.user.role;
     const _id = req.params.pid;
-    console.log("id en el middelware",_id)
     if(userRole === "admin"){
       return next();
     }      
       const product = await Products.getById(_id);
-      console.log(product)
       if (product && product.owner === owner) {
-        // Si el usuario está intentando comprar su propio producto, responde con un error 400 (Solicitud incorrecta)
         return res.status(403).render("error", { error: "No puedes comprar tu propio producto." });
       }
       return next();

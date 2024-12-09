@@ -19,6 +19,14 @@ import { UserSchema } from "../schema/user.schema.js";
       throw new Error("validation error: please complete firstName, lastname and email.");
     }
   }
+  async findOnebyId(id){
+    try{
+      let user = await UserSchema.findOne({_id:id})
+      return user;
+    }catch{
+      throw new Error("validation error: please complete firstName, lastname and email.");
+    }
+  }
   async checkCart(email,cart){
     let user = await UserSchema.findOne({
       email: email,

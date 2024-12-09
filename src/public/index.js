@@ -78,8 +78,7 @@ async function getCart(cartId){
     method: 'GET',
     redirect: 'follow'
   };
-  console.log("cartId",cartId);
-  let response = await fetch('http://localhost:8080/api/carts/'+ cartId, requestOptions)
+    let response = await fetch('/api/carts/'+ cartId, requestOptions)
   let respJson = await response.json()
   let cart = respJson.data
     var cantidad = cart.length;
@@ -93,7 +92,7 @@ async function purchase(idCart, e){
         redirect: 'follow'
       };
       
-      fetch(`http://localhost:8080/api/carts/${idCart}/purchase/`, requestOptions2)
+      fetch(`/api/carts/${idCart}/purchase/`, requestOptions2)
         .then(response => response.json())
         .then(result => {
           Swal.fire({
@@ -139,7 +138,7 @@ document.getElementById('finalizar-compra-link').addEventListener('click', funct
       body: raw,
       redirect: 'follow'
     };
-    let response = await fetch('http://localhost:8080/api/carts/'+idCart+'/product/'+idProduct, requestOptions)
+    let response = await fetch('/api/carts/'+idCart+'/product/'+idProduct, requestOptions)
    console.log(response);
    if (response.status === 403){
     throw "No puedes agregar tu producto a tu carrito";
@@ -162,7 +161,7 @@ document.getElementById('finalizar-compra-link').addEventListener('click', funct
         method: 'DELETE',
         redirect: 'follow',
       };
-    let deletProduct = await  fetch('http://localhost:8080/api/carts/'+idCartid+'/product/'+idProduct, requestOptions)
+    let deletProduct = await  fetch('/api/carts/'+idCartid+'/product/'+idProduct, requestOptions)
     alert("producto eliminado")
       location.reload();
 

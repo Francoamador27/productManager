@@ -4,9 +4,12 @@
   "description": "",
   "main": "productManager.js",
   "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
-    "dev": "nodemon -e yaml,js src/app.js",
-    "start": "node ./src/app.js",
+    "dev": "node ./src/app.js --mode DEVELOPMENT ",
+    "start": "node ./src/app.js --mode PRODUCTION ",
     "test": "mocha test/test.supertest.js"
   },
   "author": "",
@@ -39,7 +42,8 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.0",
-    "winston": "^3.10.0"
+    "winston": "^3.10.0",
+    "xss": "^1.0.14"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

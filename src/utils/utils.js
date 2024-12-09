@@ -16,18 +16,18 @@ const storage = (folder) => {
     },
   });
 };
+export const uploadArray = multer({ storage: storage('products'), limits: { fileSize: 1024 * 1024 * 5 } });
 
 export const uploadDocument = multer({ storage: storage('documents') });
 export const uploadProfile = multer({ storage: storage('profiles') });
-
-// Middleware de Multer para archivos de producto
 export const uploadProduct = multer({ storage: storage('products') });
-
-// Middleware de Multer para archivos de documento
-
 export const optionalFileUpload = (req, res, next) => {
   uploadProduct.single('thumbnail')(req, res, (err) => {
-    // Ignorar errores y continuar incluso si no se proporciona un archivo
+    next();
+  });
+};
+export const optionalArrayUpload = (req, res, next) => {
+  uploadProduct.array('thumbnail')(req, res, (err) => {
     next();
   });
 };

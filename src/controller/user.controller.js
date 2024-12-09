@@ -45,23 +45,40 @@ class UserController{
       });
     }
   }
+  async getOnebyid (req, res)  {
+    try{
+    const id = req.params.id;
+    console.log(id)
+    let userFound = await Service.findOnebyId(id)
+    return res.status(201).json({
+      status: "success",
+      msg: "user found",
+      data: userFound,
+    });
+    }catch (e) {
+      return res.status(500).json({
+        status: "error",
+        msg: "something went wrong :(",
+        data: {},
+      });
+    }
+  }
 
   async deletOne (req, res){
     try{
     const _id = req.params.id;
-
     let userDelet = await Service.deletOne(_id)
     let email = userDelet.email;
-    transport.sendMail({
-      from:'Su usuario fue eliminado',
-      to: email,
-      subject:'Usuario Eliminado de Coderhouse proyect Franco',
-      html:`
-      <div>
-          <h1>Usuario Eliminado de Coderhouse proyect Franco </h1>
-          </div>
-      `
-   }) 
+  //   transport.sendMail({
+  //     from:'Su usuario fue eliminado',
+  //     to: email,
+  //     subject:'Usuario Eliminado de Coderhouse proyect Franco',
+  //     html:`
+  //     <div>
+  //         <h1>Usuario Eliminado de Coderhouse proyect Franco </h1>
+  //         </div>
+  //     `
+  //  }) 
     return res.status(201).json({
       status: "success",
       msg: "user deleted",
@@ -112,7 +129,6 @@ async updateOne (req, res) {
 }
 async updatePremium (req, res) {
   const id  = req.params.id;
-  console.log(id)
   try {
     let userUptaded = await Service.updatePremium(id)
     return res.status(201).json({

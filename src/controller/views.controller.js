@@ -115,9 +115,11 @@ class ViewsController{
           return res.status(201).render('my-products',{products, pagination,user,vfyUoA});
 
       } catch (e) {
-        console.log(e);
-        return res.status(501).render('error',{});
-
+       return res.status(500).json({
+          status: "error",
+          msg: "something went wrong :(",
+          data: {},
+            });
       }
   }
       async bePremium (req, res){
@@ -126,7 +128,6 @@ class ViewsController{
           if(req.session.user){
             let user = req.session.user
             let role = req.session.user.role
-            console.log(role);
             if (role === "admin" || role === "premium") {
               vfyUoA= true;
             }
@@ -134,8 +135,11 @@ class ViewsController{
 
           }
         } catch(e){
-          console.log(e)
-        }
+          return res.status(500).json({
+            status: "error",
+            msg: "something went wrong :(",
+            data: {},
+              });        }
 
       }
       async creatProduct (req, res){
@@ -164,8 +168,11 @@ class ViewsController{
           }         
           return res.status(201).render('creatProduct',{user,vfyUoA,vfyAdmin});
         }catch(e){
-          console.log(e)
-        }
+          return res.status(500).json({
+            status: "error",
+            msg: "something went wrong :(",
+            data: {},
+              });        }
      }
      async getCardbyId(req, res)  {
       try{
@@ -200,7 +207,6 @@ class ViewsController{
           let session = req.session.user.role;
         
         let Orderfound = await Orders.getAll(role,email)
-console.log(Orderfound);
           return res.status(201).render('orders',{user,vfyUoA,Orderfound});
           }catch(e){
             console.log(e)
