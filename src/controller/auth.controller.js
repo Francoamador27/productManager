@@ -89,7 +89,7 @@ class AuthController{
                 <div>
                   <img src="https://experienciascordoba.com.ar/logohorizontal.png" alt="Logo" style="width: 200px; height: auto;" />
                   <h1>¡Recupera tu contraseña!</h1>
-                  <p>Recupera tu contraseña haciendo <a href="${process.env.API_URL}/auth/recover-pass?code=${token}">Click Aquí</a></p>
+                  <p>Recupera tu contraseña haciendo <a href="https://experienciascordoba.com.ar/recuperar-password?code=${token}">Click Aquí</a></p>
                 </div>
               `,
           };
