@@ -60,16 +60,14 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
 export const isValidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword);
 
 export const transport = nodemailer.createTransport({
-service: 'gmail',
-tls: {
-  rejectUnauthorized: false
-},
-port:587,
-auth:{
-  user:'francohugoamador25@gmail.com',
-  pass:config.googlePass
-}
-})
+  host: 'smtp.hostinger.com', // Cambia según tu proveedor SMTP
+  port: 465, // 587 para TLS o 465 para SSL
+  secure: true, // true para SSL
+  auth: {
+    user: 'info@experienciascordoba.com.ar', // Usuario SMTP
+    pass: 'riverP23%$', // Contraseña o token de aplicación
+  },
+});
 
 import {faker} from "@faker-js/faker"
 export const generateProducts = () =>{
