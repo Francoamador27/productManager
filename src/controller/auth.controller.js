@@ -66,22 +66,35 @@ class AuthController{
       return res.render("recover-email",{})
       }    
   
-    async recoverSendEmail  (req, res) {
-      const {email} = req.body;
-      const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
-      transport.sendMail({
-        from:'Recuperar contraseña',
-        to: email,
-        subject:'Recover password',
-        html:`
-        <div>
-            <h1>¡Recupera tu contraseña ! </h1>
-           <p>recupera tu contraseña haciendo <a href="${process.env.API_URL}/auth/recover-pass?code=${token}" >Click Aqui</a></p>
-            </div>
-        `
-     }) 
-      return res.render("check-email",{})
-    }  
+      async recoverSendEmail(req, res) {
+        try {
+          const { email } = req.body;
+    
+          // Genera el token con vencimiento
+          const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
+    
+          const mailOptions = {
+            from: '"Recuperar contraseña" <info@experienciascordoba.com.ar>',
+            to: email,
+            subject: 'Recuperar contraseña',
+            html: `
+                <div>
+                  <img src="https://experienciascordoba.com.ar/logohorizontal.png" alt="Logo" style="width: 200px; height: auto;" />
+                  <h1>¡Recupera tu contraseña!</h1>
+                  <p>Recupera tu contraseña haciendo <a href="${process.env.API_URL}/auth/recover-pass?code=${token}">Click Aquí</a></p>
+                </div>
+              `,
+          };
+          await transport.sendMail(mailOptions);
+          return res.status(200).json({
+            status: 'enviado',
+            message: "Se ha enviado un correo electrónico para la recuperación de contraseña. Por favor, revisa tu bandeja de entrada.",
+          });
+        } catch (error) {
+          console.error('Error enviando correo:', error);
+          return res.status(500).send('Error enviando correo');
+        }
+      } 
     async recoverPass (req,res){
         const code = req.query.code;
         let vfy = true;
