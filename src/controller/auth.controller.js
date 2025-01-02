@@ -86,11 +86,29 @@ class AuthController{
             to: email,
             subject: 'Recuperar contraseña',
             html: `
-                <div>
-                  <img src="https://experienciascordoba.com.ar/logohorizontal.png" alt="Logo" style="width: 200px; height: auto;" />
-                  <h1>¡Recupera tu contraseña!</h1>
-                  <p>Recupera tu contraseña haciendo <a href="https://experienciascordoba.com.ar/recuperar-password?code=${token}">Click Aquí</a></p>
-                </div>
+                      <div style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333;">
+            <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+              <img src="https://experienciascordoba.com.ar/logohorizontal.png" alt="Logo de Experiencias Córdoba" style="width: 200px; height: auto; margin-bottom: 20px;" />
+              <h1 style="color: #008DD2; font-size: 24px; margin-bottom: 20px;">¡Recupera tu contraseña!</h1>
+              <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Hola, hemos recibido una solicitud para recuperar tu contraseña. Si no realizaste esta solicitud, por favor ignora este mensaje.
+              </p>
+              <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                Para restablecer tu contraseña, haz clic en el siguiente enlace:
+              </p>
+              <a href="https://experienciascordoba.com.ar/recuperar-password?code=${token}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #008DD2; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">
+                Restablecer contraseña
+              </a>
+              <p style="font-size: 14px; color: #666; margin-top: 20px;">
+                Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:<br />
+                <a href="https://experienciascordoba.com.ar/recuperar-password?code=${token}" style="color: #008DD2;">https://experienciascordoba.com.ar/recuperar-password?code=${token}</a>
+              </p>
+              <p style="font-size: 14px; color: #666; margin-top: 20px;">
+                Gracias,<br />
+                El equipo de Experiencias Córdoba
+              </p>
+            </div>
+          </div>
               `,
           };
           await transport.sendMail(mailOptions);
