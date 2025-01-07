@@ -88,7 +88,7 @@ class AuthController{
             html: `
                       <div style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333;">
             <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-              <img src="https://experienciascordoba.com.ar/logohorizontal.png" alt="Logo de Experiencias Córdoba" style="width: 200px; height: auto; margin-bottom: 20px;" />
+              <img src="https://experienciascordoba.com.ar/logo/experiencias_cordoba_logo_positivo.png" alt="Logo de Experiencias Córdoba" style="width: 200px; height: auto; margin-bottom: 20px;" />
               <h1 style="color: #008DD2; font-size: 24px; margin-bottom: 20px;">¡Recupera tu contraseña!</h1>
               <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
                 Hola, hemos recibido una solicitud para recuperar tu contraseña. Si no realizaste esta solicitud, por favor ignora este mensaje.
