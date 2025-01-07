@@ -57,7 +57,7 @@ export async function isUserRegistered(req,res,next){
     if(user){
     return next() 
     }
-    return res.status(400).render("error",{error:"No registrado"})
+    return res.status(400).json({status:'deneged' ,error:"No registrado"})
 
   }catch(e){
     console.log(e);
