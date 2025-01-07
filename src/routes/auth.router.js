@@ -1,6 +1,6 @@
 import  express  from "express";
  export const authRouter = express.Router();
-import { ckeckUserPassword, isUser } from "../middleware/auth.js";
+import { ckeckUserPassword, isUser, isUserRegistered } from "../middleware/auth.js";
 import passport from "passport";
 import { authController } from "../controller/auth.controller.js";
 import { validateRecaptcha } from "../middleware/recaptcha.js";
@@ -22,7 +22,7 @@ authRouter.get('/faillogin', authController.failLogin);
 authRouter.get("/register", authController.renderRegister);
 authRouter.get("/recover-email", authController.recoverEmail);
 
-authRouter.post("/recover-email", authController.recoverSendEmail);
+authRouter.post("/recover-email",isUserRegistered, authController.recoverSendEmail);
 authRouter.get("/recover-pass", authController.recoverPass);
 authRouter.post("/recover-pass", authController.recoverPassPost);
 authRouter.put("/update-password",isUser,ckeckUserPassword, authController.updatePassword);

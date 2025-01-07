@@ -50,7 +50,19 @@ export async function isCart(req,res,next){
     console.log(e);
   }
 } 
+export async function isUserRegistered(req,res,next){
+  try{
+    const { email } = req.body;
+    let user = await Users.findOnebyEmail(email)
+    if(user){
+    return next() 
+    }
+    return res.status(400).render("error",{error:"No registrado"})
 
+  }catch(e){
+    console.log(e);
+  }
+} 
   
   export function isAdmin(req,res,next){
     const user = new UserDTO(req.session.user)
