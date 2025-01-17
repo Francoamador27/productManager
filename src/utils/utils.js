@@ -5,7 +5,14 @@ import nodemailer from 'nodemailer'
 const storage = (folder) => {
   return multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null,(path.join(__dirname, `public/${folder}`)) );
+      const folderPath = path.join(__dirname, `public/${folder}`);
+
+      // Verifica si la carpeta existe, si no, la crea
+      if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+      }
+
+      cb(null, folderPath);
     },
     filename: (req, file, cb) => {
       const fieldName = file.fieldname; // Obtén el nombre del campo
