@@ -128,7 +128,7 @@ class ProductsController {
       newProduct.availability = JSON.parse(newProduct.availability);
       newProduct.ubicacion = JSON.parse(newProduct.ubicacion);
       // newProduct.description = JSON.parse(newProduct.description);
-      console.log("parseada",newProduct)
+      console.log("parseada cambiando algo",newProduct)
       newProduct.thumbnail = [];
       req.files.forEach(item => {
         newProduct.thumbnail.push(item.filename);
