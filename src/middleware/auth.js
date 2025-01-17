@@ -70,7 +70,7 @@ export async function isUserRegistered(req,res,next){
         return next()
     }
     
-    return res.status(500).render("error",{error:"No es Admin"})
+    return res.status(500).render("error",{error:"No es Admin requiere acceso"})
 } 
   export function iAdminoPremium(req,res,next){
     console.log(req.session);
