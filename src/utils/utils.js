@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 import nodemailer from 'nodemailer'
-
+import fs from "fs";
 const storage = (folder) => {
   return multer.diskStorage({
     destination: (req, file, cb) => {
